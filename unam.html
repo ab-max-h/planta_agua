@@ -1,9 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
-
-
   <title>UNAM: Universidad de la Nación</title>
   
   <!-- Hoja de estilos externa -->
@@ -12,21 +9,35 @@
   <!-- Meta y estilos adicionales -->
   <meta name="theme-color" content="#a51c30">
 
-  
   <!-- Iconos para la pestaña -->
   <link rel="icon" href="images.png" sizes="32x32" />
   <link rel="icon" href="images.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="images.png" />
+  
+  <style>
+    /* Ejemplo de estilos para el contenedor de imagen en la sección Hero */
+    .b-hero__img {
+      width: 100%;
+      height: 400px;           /* Ajusta la altura según necesites */
+      background-size: cover;  /* La imagen cubrirá todo el elemento */
+      background-position: center;
+    }
+  </style>
 </head>
 <body class="div">
-  </header>
   <!-- Contenedor principal -->
   <div class="s-sink t-sink l-sink">
-	
     
     <!-- Sección Hero -->
     <section class="c-block b-hero t-theme--light no-cta no-featured-story an-no-animate">
-      <img src="images.png" alt="Descripción de la imagen" width="300" height="200">
+      <!-- Se reemplaza la etiqueta <img> por un <div> con imagen de fondo local -->
+      <div class="b-hero__img c-image__image lazyload"
+           role="img"
+           data-expand="200"
+           data-sizes="(min-width: 1260px) 1260px, 100vw"
+           data-bgset="algo.png"
+           style="background-image: url('algo.png');">
+      </div>
       <div class="b-hero__container l-container">
         <div class="b-hero__media b-hero__media-overlay--medium">
         </div>
@@ -38,7 +49,6 @@
             <p class="c-block__underline b-hero__underline c-content-block__underline">
               pLANTA DE AWA DE LA ANYTIGUA UNION SOVIETICA
             </p>
-            
           </header>
         </div>
       </div>
@@ -61,8 +71,8 @@
         </div>
       </div>
     </section>
-    
-    <!-- Sección Triptico (Columns) -->
+
+    <!-- Sección Tríptico (Columns) -->
     <section class="c-block--remove-bottom-padding c-block b-columns">
       <div class="l-container b-columns__container">
         <header class="c-block__content-block c-block__header b-columns__header c-content-block c-content-block--layout-left">
@@ -78,49 +88,48 @@
         <div class="b-columns__list b-columns__row b-columns--count-3">
           <div class="b-columns__col">
             <div class="b-columns__col-content t-sink s-sink">
-				<h3>Área y capacidad de la planta:</h3>
-				<ul>
-				  <li>Área de construcción: 1239 m²</li>
-				  <li>Área de servicios: 450 m²</li>
-				  <li>Superficie total: 1689 m²</li>
-				  <li>Capacidad máxima de tratamiento: 7.5 litros por segundo (27 m³/h)</li>
-				</ul>
+              <h3>Área y capacidad de la planta:</h3>
+              <ul>
+                <li>Área de construcción: 1239 m²</li>
+                <li>Área de servicios: 450 m²</li>
+                <li>Superficie total: 1689 m²</li>
+                <li>Capacidad máxima de tratamiento: 7.5 litros por segundo (27 m³/h)</li>
+              </ul>
   
-				<h3>Aspectos Académicos:</h3>
-				<ul>
-				  <li>Impulsar líneas de investigación sobre tratamiento de aguas residuales.</li>
-				  <li>Visitas guiadas para alumnos de la facultad.</li>
-				  <li>Formación de recursos humanos.</li>
-				</ul>
+              <h3>Aspectos Académicos:</h3>
+              <ul>
+                <li>Impulsar líneas de investigación sobre tratamiento de aguas residuales.</li>
+                <li>Visitas guiadas para alumnos de la facultad.</li>
+                <li>Formación de recursos humanos.</li>
+              </ul>
             </div>
           </div>
           <div class="b-columns__col">
             <div class="b-columns__col-content t-sink s-sink">
-				<h3>Ventajas:</h3>
-				<ul>
-				  <li>Baja inversión.</li>
-				  <li>Bajos costos de operación y mantenimiento.</li>
-				  <li>Adaptable a altas y bajas cargas orgánicas.</li>
-				  <li>Resiste largos tiempos sin alimentación de sustrato.</li>
-				  <li>Baja producción de lodos, ya estabilizados y espesados.</li>
-				  <li>Remoción de materia orgánica entre 60 y 80% según el tipo de agua residual.</li>
-				  <li>Producción de energía a través del biogás.</li>
-				</ul>
+              <h3>Ventajas:</h3>
+              <ul>
+                <li>Baja inversión.</li>
+                <li>Bajos costos de operación y mantenimiento.</li>
+                <li>Adaptable a altas y bajas cargas orgánicas.</li>
+                <li>Resiste largos tiempos sin alimentación de sustrato.</li>
+                <li>Baja producción de lodos, ya estabilizados y espesados.</li>
+                <li>Remoción de materia orgánica entre 60 y 80% según el tipo de agua residual.</li>
+                <li>Producción de energía a través del biogás.</li>
+              </ul>
             </div>
           </div>
           <div class="b-columns__col">
             <div class="b-columns__col-content t-sink s-sink">
-            <!-- Contenido de la planta de tratamiento de agua -->
-			<h3>Impacto y beneficio social de la obra:</h3>
-			<ol>
-			  <li>Tratamiento de aguas residuales generadas por la comunidad interna y externa.</li>
-			  <li>Importante disminución de descarga de agua residual a la red municipal, con el fin de la conservación ambiental.</li>
-			  <li>Riego de áreas verdes con agua tratada, sustituyendo el agua potable.</li>
-			  <li>Aumento de la vegetación a través de los lodos fertilizantes producidos por la PTAR.</li>
-			  <li>Cumplir con los objetivos generales de la Universidad sustentable.</li>
-			  <li>Fortalecer el conocimiento sobre temas ambientales a nivel Licenciatura, Posgrado e Investigación.</li>
-			</ol>
-
+              <!-- Contenido de la planta de tratamiento de agua -->
+              <h3>Impacto y beneficio social de la obra:</h3>
+              <ol>
+                <li>Tratamiento de aguas residuales generadas por la comunidad interna y externa.</li>
+                <li>Importante disminución de descarga de agua residual a la red municipal, con el fin de la conservación ambiental.</li>
+                <li>Riego de áreas verdes con agua tratada, sustituyendo el agua potable.</li>
+                <li>Aumento de la vegetación a través de los lodos fertilizantes producidos por la PTAR.</li>
+                <li>Cumplir con los objetivos generales de la Universidad sustentable.</li>
+                <li>Fortalecer el conocimiento sobre temas ambientales a nivel Licenciatura, Posgrado e Investigación.</li>
+              </ol>
             </div>
           </div>
         </div>
@@ -131,12 +140,10 @@
     <section class="c-block--remove-top-padding c-block b-media-text c-block--layout-left c-block--width-grid c-block--is-video content-vertical">
       <div class="b-media-text__container l-container">
         <div class="b-media-text__media">
-					
           <!-- Video de PTAR -->
           <div class="c-video__block">
             <div class="c-video--lazy c-video c-video--trigger-bottom" data-js="c-video" data-embed-id="SEzmvImnuNE" data-embed-provider="YouTube" data-embed-title="Learn about the Mark I">
               <div class="c-video__wrapper">
-                
                 <div class="c-video__trigger-action">
                   <span class="c-video__trigger-icon icon-play" aria-hidden="true"></span>
                   <span id="v-67b766654fcbf-title" class="c-video__trigger-label">
@@ -203,7 +210,6 @@
       </div>
     </section>
    
-    
   </div><!-- .l-wrapper -->
 </body>
 </html>
