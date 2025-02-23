@@ -1,3 +1,3 @@
-# planta_agua
-Para el proyecto de DW. Sin el retrasado
-ayudaaaaaaaa
+# Planta de tratamiento de agua de la FES Acatlán
+
+Proyecto de Desarrollo Web.
