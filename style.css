@@ -15,6 +15,39 @@ hr{
     text-align: center;
   }
   
+/*Estilo para los videos*/
+
+.video_seccion{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.video_conte {
+  display: flex; /* Activa el diseño en fila */
+  align-items: center; /* Centra verticalmente */
+  gap: 250px; /* Espacio entre el texto y el video */
+  max-width: 1000px; /* Controla el ancho máximo */
+  margin: auto; /* Centra el contenido en la página */
+}
+
+.video_textI {
+  flex: 1; /* El texto ocupa el espacio disponible */
+  font-size: 22px;
+  color: black;
+}
+
+.video_cont {
+  flex: 1; /* El video ocupa el otro 50% del espacio */
+}
+
+.video_cont iframe {
+  width: 150%;
+  border: none;
+  border-radius: 20px;
+  aspect-ratio: 16/9;
+  display: flex;
+}
+
+  /*Estilo para la seccion de historia*/
   .historia {
     font-family: Arial, sans-serif;
     
