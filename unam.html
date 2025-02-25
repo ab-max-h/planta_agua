@@ -14,6 +14,7 @@
   <link rel="icon" href="images.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="images.png" />
   
+
   <style>
     /* Ejemplo de estilos para el contenedor de imagen en la sección Hero */
     .b-hero__img {
@@ -29,18 +30,19 @@
   <div class="s-sink t-sink l-sink">
     
     <!-- Sección Hero -->
+   
     <section class="c-block b-hero t-theme--light no-cta no-featured-story an-no-animate">
-      <!-- Se reemplaza la etiqueta <img> por un <div> con imagen de fondo local -->
-      <div class="b-hero__img c-image__image lazyload"
+      <!-- Imagen dentro del Hero -->
+      <div class="b-hero__img c-image__image"
            role="img"
            data-expand="200"
            data-sizes="(min-width: 1260px) 1260px, 100vw"
            data-bgset="algo.png"
-           style="background-image: url('algo.png');">
+           style="background-image: url('portada.jpg');">
       </div>
+    
       <div class="b-hero__container l-container">
-        <div class="b-hero__media b-hero__media-overlay--medium">
-        </div>
+        <div class="b-hero__media b-hero__media-overlay--medium"></div>
         <div class="b-hero__content">
           <header class="c-block__content-block c-block__header b-hero__content-container c-content-block c-content-block--layout-center">
             <h2 class="c-block__title b-hero__title b-hero__title--large c-content-block__title">
@@ -53,6 +55,8 @@
         </div>
       </div>
     </section>
+    
+    
     
     <!-- Sección List-with-image -->
     <section class="c-block--remove-top-padding c-block b-list-with-image t-theme--light">
