@@ -210,16 +210,7 @@ html {
     line-height: 0;
   }
   
-  /* 
-    Animación para imágenes lazyloaded:
-    - Cuando una imagen tiene la clase .lazyloaded, se aplica la animación 'an-fade-in'
-      con duración de 1 segundo y una curva de animación personalizada.
-  */
-  img.lazyloaded {
-    animation: an-fade-in 1s cubic-bezier(0.4, 0, 0.2, 1);
-    animation-duration: 1s;
-  }
-  
+
   
   /* ==================================================================
       COMPONENTES DE COLUMNAS Y LISTAS DE CONTENIDO
@@ -427,81 +418,42 @@ html {
       width: 33.33%;
     }
   }
-  
-  
-  /* ==================================================================
-      COMPONENTES VARIOS: HEADER Y HERO
-     ================================================================== */
-  
-  /* 
-    Sección Hero (.b-hero):
-    - Se utiliza display: flex para organizar el contenido.
-    - Alinea los elementos al inicio (flex-start).
-    - Fondo gris claro y sin márgenes.
-    - Overflow oculto para evitar contenido desbordado.
-    - Padding vertical de 200px y posición relativa.
-    - z-index 1 para posicionamiento en el stack.
-  */
-  .b-hero {
-    align-items: flex-start;
-    background: #f3f4f4;
-    display: flex;
-    margin: 0;
-    overflow: hidden;
-    padding: 200px 0;
-    position: relative;
-    z-index: 1;
-  }
-  
-  /* 
-    Variantes de la sección Hero:
-    - Cuando se tiene la clase .has-featured-story o .no-featured-story (sin .no-caption),
-      se ajusta el padding inferior a 32px.
-  */
-  .b-hero.has-featured-story,
-  .b-hero.no-featured-story:not(.no-caption) {
-    padding-bottom: 32px;
-  }
-  
- 
-  
-  /* 
-    Pseudo-elemento :before en .b-hero:
-    - Se crea una línea vertical central (border-left de 1px sólido, color #bac5c6).
-    - Posicionado en el centro horizontal (left: 50% y transform: translateX(-50%)).
-    - Con una animación 'heroTopLine' de 1s.
-    - Inicialmente con height 0 y width 1px, z-index 1.
-  */
-  .b-hero:before {
-    animation: heroTopLine 1s linear forwards;
-    border-left: 1px solid #bac5c6;
-    height: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    z-index: 1;
-  }
-  
-  /* 
-    Pseudo-elemento :after en .b-hero:
-    - Aplica un degradado lineal de 180° que va de transparente a gris claro (#f3f4f4).
-    - Cubre el 100% del ancho y alto del contenedor.
-  */
-  .b-hero:after {
-    background: linear-gradient(180deg, hsla(0,0%,88%,0) 29.9%, #f3f4f4);
-    height: 100%;
-    left: 0;
-    width: 100%;
-  }
-  
-  /* 
-    Tema light en la sección Hero:
-    - Con la clase .t-theme--light, el fondo se cambia a un color oscuro (#0e0e0e).
-  */
-  .b-hero.t-theme--light {
-    background: #0e0e0e;
-  }
-  
+  /* ============================================================
+   ESTILOS PARA LAS IMÁGENES DENTRO DEL HERO
+   ============================================================ */
+
+/* Imagen principal dentro del Hero */
+.b-hero__img {
+  width: 100%; /* Asegura que la imagen ocupe todo el ancho */
+  height: auto; /* Mantiene la proporción */
+  object-fit: cover; /* Ajusta la imagen sin deformarla */
+  display: block; /* Evita espacios no deseados */
+  max-height: 600px; /* Opcional: limita la altura */
+}
+
+/* Imagen con la clase c-image__image (puede ser para variantes) */
+.c-image__image {
+  max-width: 100%; /* Que no sobrepase su contenedor */
+  height: auto;
+  border-radius: 8px; /* Bordes redondeados para un diseño más estético */
+}
+
+
+
+/* ============================================================
+ AJUSTES ESPECÍFICOS PARA DISTINTAS VARIANTES DEL HERO
+ ============================================================ */
+
+/* Si el Hero contiene una imagen con bordes más personalizados */
+.b-hero.has-featured-story .b-hero__img {
+  border-radius: 12px; /* Más redondeado en versiones con featured story */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una leve sombra */
+}
+
+/* Si el Hero es de un tema oscuro */
+.b-hero.t-theme--light .b-hero__img {
+  filter: brightness(0.8) contrast(1.2); /* Ajusta la imagen en modo oscuro */
+}
 
   
   /* ==================================================================
@@ -684,5 +636,29 @@ html {
       width: 100%;
     }
   }
+  /******************Portada del Hero*************************/
   
+
   
+  .b-hero__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1; /* La coloca detrás del texto */
+  }
+  
+  .b-hero__content {
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 20px;
+    z-index: 2;
+    position: relative;
+  }
+ 
+ 
