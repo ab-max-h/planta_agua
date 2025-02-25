@@ -1,0 +1,65 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.16 Chrome/132.0.6834.196 Electron/34.2.0 Safari/537.36" version="26.0.16">
+  <diagram name="Página-1" id="bitfUOgMJDeiRCM0nbjo">
+    <mxGraphModel dx="714" dy="1004" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7j2VJpPnWPuqQdi9L0jC-1" target="7j2VJpPnWPuqQdi9L0jC-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-13" value="data_in" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7j2VJpPnWPuqQdi9L0jC-5">
+          <mxGeometry x="0.0667" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7j2VJpPnWPuqQdi9L0jC-1" target="7j2VJpPnWPuqQdi9L0jC-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-16" value="Informes&lt;div&gt;CSV&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7j2VJpPnWPuqQdi9L0jC-7">
+          <mxGeometry x="-0.44" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="7j2VJpPnWPuqQdi9L0jC-1" target="7j2VJpPnWPuqQdi9L0jC-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="368" y="560" />
+              <mxPoint x="380" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-1" value="SIC&lt;div&gt;PTAR&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="470" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="7j2VJpPnWPuqQdi9L0jC-2" target="7j2VJpPnWPuqQdi9L0jC-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-14" value="Videos/&lt;div&gt;Historia&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7j2VJpPnWPuqQdi9L0jC-9">
+          <mxGeometry x="-0.3109" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-2" value="Informacion&amp;nbsp;&lt;div&gt;PTAR&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="7j2VJpPnWPuqQdi9L0jC-3" target="7j2VJpPnWPuqQdi9L0jC-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-15" value="Consultas&amp;nbsp;&lt;div&gt;BD&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="7j2VJpPnWPuqQdi9L0jC-8">
+          <mxGeometry x="0.0172" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-3" value="Monitoreo" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="7j2VJpPnWPuqQdi9L0jC-4" target="7j2VJpPnWPuqQdi9L0jC-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7j2VJpPnWPuqQdi9L0jC-4" value="Valor agregado" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="620" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

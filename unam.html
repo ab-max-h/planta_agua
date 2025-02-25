@@ -14,6 +14,7 @@
   <link rel="icon" href="images.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="images.png" />
   
+
   <style>
     /* Ejemplo de estilos para el contenedor de imagen en la sección Hero */
     .b-hero__img {
@@ -29,30 +30,33 @@
   <div class="s-sink t-sink l-sink">
     
     <!-- Sección Hero -->
+   
     <section class="c-block b-hero t-theme--light no-cta no-featured-story an-no-animate">
-      <!-- Se reemplaza la etiqueta <img> por un <div> con imagen de fondo local -->
-      <div class="b-hero__img c-image__image lazyload"
+      <!-- Imagen dentro del Hero -->
+      <div class="b-hero__img c-image__image"
            role="img"
            data-expand="200"
            data-sizes="(min-width: 1260px) 1260px, 100vw"
            data-bgset="algo.png"
-           style="background-image: url('algo.png');">
+           style="background-image: url('portada.jpg');">
       </div>
+    
       <div class="b-hero__container l-container">
-        <div class="b-hero__media b-hero__media-overlay--medium">
-        </div>
+        <div class="b-hero__media b-hero__media-overlay--medium"></div>
         <div class="b-hero__content">
           <header class="c-block__content-block c-block__header b-hero__content-container c-content-block c-content-block--layout-center">
             <h2 class="c-block__title b-hero__title b-hero__title--large c-content-block__title">
               UNAM
             </h2>
             <p class="c-block__underline b-hero__underline c-content-block__underline">
-              pLANTA DE AWA DE LA ANYTIGUA UNION SOVIETICA
+              Planta de Tratamiento de Aguas Residuales (PTAR)
             </p>
           </header>
         </div>
       </div>
     </section>
+    
+    
     
     <!-- Sección List-with-image -->
     <section class="c-block--remove-top-padding c-block b-list-with-image t-theme--light">
@@ -60,7 +64,7 @@
         <div class="b-list-with-image__loop">
           <div class="b-list-with-image__item">
             <div class="b-list-with-image__item__title t-sink s-sink">
-              <h2><a href="https://caliente.mx">Iniciar sesion</a></h2>
+              <h2><a href="https://sea.acatlan.unam.mx/login/index.php">Iniciar sesion</a></h2>
             </div>
             <div class="b-list-with-image__item__description t-sink s-sink">
             </div>
@@ -76,12 +80,10 @@
     <section class="c-block--remove-bottom-padding c-block b-columns">
       <div class="l-container b-columns__container">
         <header class="c-block__content-block c-block__header b-columns__header c-content-block c-content-block--layout-left">
-          <h2 class="c-block__title b-columns__title h3 c-content-block__title">
-            Sobre la planta triptico
-          </h2>
+            <h1>Datos sobre la Planta</h1>
           <div class="c-content-block__content-wrap">
             <div class="c-block__description b-columns__description t-sink s-sink c-content-block__content">
-              <p>Alexis perondoname.</p>
+              <p></p>
             </div>
           </div>
         </header>
@@ -135,80 +137,96 @@
         </div>
       </div>
     </section>
+<hr>
+
+<!---------Parte de historia de la planta------------------>
     
+    <section class="historia">
+      <div><h1>Historia de la planta</h1></div>
+      <div class="linea_tiempo">
+        <div class="texto_hi">
+            <div class="punto"></div>
+            <div class="caja_h">
+                <h2>2014</h2>
+                <p>Inicia las operaciones de la planta sin uso real para la Facultad.
+                  <p> El agua tratada se manda a la linea de agua municipal</p>
+                </i></p>
+            </div>
+        </div>
+
+        <div class="texto_hd">
+            <div class="punto"></div>
+            <div class="caja_h">
+                <h2>2018</h2>
+                <p>Se construye la red de riego en la Facultad</p>
+                <p> Entre Octubre/Noviembre se realiza el primer riego de las areas deportivas</p>
+            </div>
+        </div>
+
+        <div class="texto_hi">
+            <div class="punto"></div>
+            <div class="caja_h">
+                <h2>2020</h2>
+                <p>Durante la pandemia se cierra la planta, debido a la falta de descargas en la Facultad</p>
+            </div>
+        </div>
+
+    
+    <div class="texto_hd">
+      <div class="punto"></div>
+      <div class="caja_h">
+          <h2>???</h2>
+          <p>Despues de pandemia se manda a revisar que el material biologico no estuviera muerto</p>
+          <p>Al no haber estudiantes no habia descargas de agua residual siendo este el principal alimento del material biologico</p>
+          <p> El agua de la lluvia no servia al no contener microorganismos</p>
+      </div>
+</div>
+
+
+<div class="texto_hi">
+  <div class="punto"></div>
+  <div class="caja_h">
+      <h2>2022</h2>
+      <p>Se reactivan las funciones de la planta</p>
+      <p>Durante este año, se proponen 2 proyectos con prototipos del cual 1 gano un premio</p>
+  </div>
+</div>
+</div>
+</section>
+</div>
+
     <!-- Sección de Videos -->
-    <section class="c-block--remove-top-padding c-block b-media-text c-block--layout-left c-block--width-grid c-block--is-video content-vertical">
-      <div class="b-media-text__container l-container">
-        <div class="b-media-text__media">
-          <!-- Video de PTAR -->
-          <div class="c-video__block">
-            <div class="c-video--lazy c-video c-video--trigger-bottom" data-js="c-video" data-embed-id="SEzmvImnuNE" data-embed-provider="YouTube" data-embed-title="Learn about the Mark I">
-              <div class="c-video__wrapper">
-                <div class="c-video__trigger-action">
-                  <span class="c-video__trigger-icon icon-play" aria-hidden="true"></span>
-                  <span id="v-67b766654fcbf-title" class="c-video__trigger-label">
-                    Por fin un video
-                  </span>
-                </div>
-              </div>
-              <a id="v-67b766654fcbf-link" href="https://www.youtube.com/watch?v=SEzmvImnuNE" class="c-video__trigger" data-js="c-video-trigger" target="_blank" rel="noopener" aria-labelledby="v-67b766654fcbf-title" aria-describedby="v-67b766654fcbf-link">
-                Mira este video :D
-              </a>
-            </div>
+    
+    <section class="video_seccion">
+      <hr>
+      <h1>Videos Informativos</h1>
+      <div class="video">
+        <div class="video_conte">
+          <div class="video_cont">
+            <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" allowfullscreen></iframe>
           </div>
-        </div>
-        <div class="b-media-text__content">
-          <div class="c-block__content-block c-block__header b-media-text__content-container c-content-block c-content-block--layout-left">
-            <h2 class="c-block__title b-media-text__title h3 c-content-block__title">
-              Video de la planta de agua XD
-            </h2>
-            <div class="c-content-block__content-wrap">
-              <div class="c-block__description b-media-text__text t-sink s-sink c-content-block__content">
-                <p>SExoooo</p>
-              </div>
-            </div>
+          <div class="video_textI">
+            <h2>Planta de Tratamiento de Aguas Residuales Acatlán (PTAR)</h2>
+            <p>En este video se explica el proyecto para la construcción y funcionamiento de una planta de tratamiento de aguas residuales en la Facultad de Estudios Superiores Acatlán, construida con tecnología de punta nacida en la propia UNAM</p>
           </div>
         </div>
       </div>
     </section>
     
-    <hr class="b-header__border">
-    
-    <!-- Sección Video 2 -->
-    <section class="c-block--remove-top-padding c-block b-media-text c-block--layout-left c-block--width-grid c-block--is-video content-vertical">
-      <div class="b-media-text__container l-container">
-        <div class="b-media-text__media">
-          <div class="c-video__block">
-            <div class="c-video--lazy c-video c-video--trigger-bottom" data-js="c-video" data-embed-id="HyBgq4ChLxE" data-embed-provider="YouTube" data-embed-title="How are cellphones made and what happens when they are discarded">
-              <div class="c-video__wrapper">
-                <img class="c-video__thumbnail lazyload" src="https://caliente.mx" data-src="https://caliente.mx" role="presentation" alt="" />
-                <div class="c-video__trigger-action">
-                  <span class="c-video__trigger-icon icon-play" aria-hidden="true"></span>
-                  <span id="v-67b76665509f8-title" class="c-video__trigger-label">
-                    How are cellphones made and what happens when they are discarded
-                  </span>
-                </div>
-              </div>
-              <a id="v-67b76665509f8-link" href="https://www.youtube.com/watch?v=SEzmvImnuNE" class="c-video__trigger" data-js="c-video-trigger" target="_blank" rel="noopener" aria-labelledby="v-67b76665509f8-title" aria-describedby="v-67b76665509f8-link">
-                Click to sexoa arabe Video
-              </a>
-            </div>
+    <section class="video_seccion">
+      <div class="video">
+        <div class="video_conte">
+          <div class="video_textI">
+            <h2>Planta de tratamiento de agua FES Acatlan</h2>
+            <p>Ocupa un espacio de 40 por 40 metros cuadrados y su función es el tratamiento de aguas residuales sin emisión de malos olores.  Se trata de una planta que, con base en una tecnología desarrollada en el Instituto de Ingeniería, pone a la vanguardia a la FES Acatlán</p>
           </div>
-        </div>
-        <div class="b-media-text__content">
-          <div class="c-block__content-block c-block__header b-media-text__content-container c-content-block c-content-block--layout-left">
-            <h3 class="c-block__title b-media-text__title h3 c-content-block__title">
-              2do video
-            </h3>
-            <div class="c-content-block__content-wrap">
-              <div class="c-block__description b-media-text__text t-sink s-sink c-content-block__content">
-                <p>Pelicula</p>
-              </div>
-            </div>
+          <div class="video_cont">
+            <iframe src="https://www.youtube.com/watch?v=V1rAZFW-8H8" allowfullscreen></iframe>
           </div>
         </div>
       </div>
     </section>
+    
    
   </div><!-- .l-wrapper -->
 </body>
