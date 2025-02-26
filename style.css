@@ -2,6 +2,11 @@
     ESTILOS GLOBALES Y CONFIGURACIÓN BÁSICA
    ================================================================== */
 
+.redirigir{
+  text-align: center;
+  display:block;
+  margin:12px,auto;
+}
 hr{
   border: none;
   height: 6px;
@@ -13,6 +18,7 @@ hr{
     margin:12px auto;
     width:50%;
     text-align: center;
+    font-size: 44px;
   }
   
 /*Estilo para los videos*/
@@ -28,7 +34,10 @@ hr{
   max-width: 1000px; /* Controla el ancho máximo */
   margin: auto; /* Centra el contenido en la página */
 }
-
+.texto_tri{
+  font-family:'Times New Roman', Times, serif;
+  font-size: 16px;
+}
 .video_textI {
   flex: 1; /* El texto ocupa el espacio disponible */
   font-size: 22px;
