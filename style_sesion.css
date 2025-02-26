@@ -43,6 +43,12 @@ input:focus{
     background-color: lightblue;
 }
 
+.input_grande{
+    width:200px;
+    height: 50x;
+    font-size: 20px;
+}
+
 button{
     margin:auto;
     background-color: black;
