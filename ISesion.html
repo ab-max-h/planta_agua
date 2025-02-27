@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="style_sesion.css" media="all">
+<script src="login.js"></script>
 <html>
 
 <body class="body">
@@ -8,11 +9,11 @@
         <div class="cuadro">
         <div class="contenedor">
             <p> USUARIO</p>
-            <input class="input_grande" type="text", placeholder="Ingrese su usuario" name="Usuario" required>
+            <input class="input_grande" type="text", placeholder="Ingrese su usuario" id="username" name="Usuario" required>
             <p> CONTRASEÑA</p> 
-            <input class="input_grande" type="password" placeholder="Ingrese su contraseña" name="Contraseña" required>
+            <input class="input_grande" type="password" placeholder="Ingrese su contraseña"id="password" name="Contraseña" required>
         </div>
-        <button title="Iniciar Sesion" type="submit">¡Iniciar sesion!</button>
+        <button title="Iniciar Sesion" type="submit" onclick="login()">¡Iniciar sesion!</button>
     </div>
     </div>
 </body>
