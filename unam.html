@@ -5,7 +5,7 @@
   
   <!-- Hoja de estilos externa -->
   <link rel="stylesheet" href="style.css" media="all">
-  
+  <script src="login.js"></script>
   <!-- Meta y estilos adicionales -->
   <meta name="theme-color" content="#a51c30">
 
@@ -63,18 +63,25 @@
       <div class="b-list-with-image__container l-container">
         <div class="b-list-with-image__loop">
           <div class="b-list-with-image__item">
-            <div class="b-list-with-image__item__title t-sink s-sink">
-              <h2><a href="ISesion.html">Iniciar sesion</a></h2>
+            <div class="desplegar">
+              <button onclick="Desplegar()">Iniciar Sesión</button>
+              <div class="Dcontenido" id="loginForm" style="display: none;">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit" onclick="login()">Entrar</button>
+              </div>
             </div>
             <div class="b-list-with-image__item__description t-sink s-sink">
+              <!-- Descripción del ítem aquí, si es necesario -->
             </div>
             <figure class="c-image">
-              <img decoding="async" class="c-image__image" alt="" src="" />
+              <img decoding="async" class="c-image__image"  src="" />
             </figure>
           </div>
         </div>
       </div>
     </section>
+    
 
     <!-- Sección Tríptico (Columns) -->
     <section class="c-block--remove-bottom-padding c-block b-columns">
@@ -217,16 +224,15 @@
       <div class="video">
         <div class="video_conte">
           <div class="video_textI">
-            <h2>Planta de tratamiento de agua FES Acatlan</h2>
-            <p>Ocupa un espacio de 40 por 40 metros cuadrados y su función es el tratamiento de aguas residuales sin emisión de malos olores.  Se trata de una planta que, con base en una tecnología desarrollada en el Instituto de Ingeniería, pone a la vanguardia a la FES Acatlán</p>
+            <h2>Manejo sustentable del agua en Acatlán</h2>
+            <p>Con la operación de la PTAR hay una disminución considerable de contaminantes desalojados al drenaje municipal de Naucalpan, señala investigación realizada en la Facultad</p>
           </div>
           <div class="video_cont">
-            <iframe src="https://www.youtube.com/watch?v=V1rAZFW-8H8" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/GkdVabBzKfM" allowfullscreen></iframe>
           </div>
         </div>
       </div>
     </section>
-    
    
   </div><!-- .l-wrapper -->
 </body>
