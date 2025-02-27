@@ -5,7 +5,7 @@
   
   <!-- Hoja de estilos externa -->
   <link rel="stylesheet" href="style.css" media="all">
-  
+  <script src="login.js"></script>
   <!-- Meta y estilos adicionales -->
   <meta name="theme-color" content="#a51c30">
 
@@ -63,18 +63,25 @@
       <div class="b-list-with-image__container l-container">
         <div class="b-list-with-image__loop">
           <div class="b-list-with-image__item">
-            <div class="b-list-with-image__item__title t-sink s-sink">
-              <h2 class="redirigir"><a href="ISesion.html">Iniciar sesion</a></h2>
+            <div class="desplegar">
+              <button onclick="Desplegar()">Iniciar Sesión</button>
+              <div class="Dcontenido" id="loginForm" style="display: none;">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit" onclick="login()">Entrar</button>
+              </div>
             </div>
             <div class="b-list-with-image__item__description t-sink s-sink">
+              <!-- Descripción del ítem aquí, si es necesario -->
             </div>
             <figure class="c-image">
-              <img decoding="async" class="c-image__image" alt="" src="" />
+              <img decoding="async" class="c-image__image" alt="Descripción de la imagen" src="" />
             </figure>
           </div>
         </div>
       </div>
     </section>
+    
 
     <!-- Sección Tríptico (Columns) -->
      <section class="texto_tri">

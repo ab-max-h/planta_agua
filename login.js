@@ -17,3 +17,8 @@ async function login() {
         alert("Error: " + data.message);
     }
 }
+
+function Desplegar() {
+    let desplegar = document.getElementById("loginForm");
+    desplegar.style.display = (desplegar.style.display === "block") ? "none" : "block";
+}
