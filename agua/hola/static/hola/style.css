@@ -1,16 +1,58 @@
 /* ==================================================================
     ESTILOS GLOBALES Y CONFIGURACIÓN BÁSICA
    ================================================================== */
+   .desplegar {
+    position: relative;
+    display: inline-block;
+}
 
-.redirigir{
-  text-align: center;
-  display:block;
-  margin:12px,auto;
+.desplegar button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.Dcontenido {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 1000px;
+    padding: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.Dcontenido input {
+    width: 25%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.Dcontenido button {
+    width: 10%;
+    background-color: #28a745;
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Dcontenido button:hover {
+    background-color: #218838;
 }
 hr{
   border: none;
   height: 6px;
-  background-color: brown;
+  background-color:black;
   margin: 10px 0;
 }
    h1{
@@ -129,7 +171,6 @@ html {
     Nota: La propiedad font establece el peso (400), estilo (normal), tamaño (100% con line-height de 1.5) y la familia de fuente (GT America Standard Regular).
   */
   body,
-  button,
   form,
   input,
   select,
