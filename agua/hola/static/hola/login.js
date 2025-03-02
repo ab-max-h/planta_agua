@@ -21,7 +21,7 @@ async function login() {
 
     let csrfToken = getCSRFToken();  // Extrae el token CSRF
 
-    let response = await fetch("http://127.0.0.1:8000/admin/", {
+    let response = await fetch("http://127.0.0.1:8000/hola/datos", {
         method: "POST",
         headers: { 
             "Content-Type": "application/json",

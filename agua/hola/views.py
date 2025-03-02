@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from .models import Bitacora
 def index(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -20,7 +20,7 @@ def index(request):
         
         if user is not None:
             login(request, user)  # Si el usuario es autenticado, inicias sesión
-            return redirect('/admin/')  # Mostrar mensaje de bienvenida
+            return redirect('/hola/datos/')  # Mostrar mensaje de bienvenida
         else:
             # En caso de error, muestra un mensaje de error
             return render(request, "hola/unam.html", {"error": "Credenciales incorrectas"})  # Mostrar mensaje de error
@@ -29,6 +29,9 @@ def index(request):
     return render(request, "hola/unam.html")
 
 
+def datos(request):
+    bitacoras = Bitacora.objects.all()  # Obtener todas las bitácoras
+    return render(request, "hola/datos.html", {"bitacoras": bitacoras})
 
 def logout_view(request):
     logout(request)

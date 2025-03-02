@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora</title>
+</head>
+<body>
+    <h1>Registro de Bitácora</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Número de Muestra</th>
+                <th>Nivel (m)</th>
+                <th>pH</th>
+                <th>TOC (mg/L)</th>
+                <th>DQO (mg/L)</th>
+                <th>Temperatura (°C)</th>
+                <th>Supervisor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bitacora in bitacoras %}
+            <tr>
+                <td>{{ bitacora.fecha_hora }}</td>
+                <td>{{ bitacora.numero_muestra }}</td>
+                <td>{{ bitacora.nivel_agua }}</td>
+                <td>{{ bitacora.ph }}</td>
+                <td>{{ bitacora.toc }}</td>
+                <td>{{ bitacora.dqo }}</td>
+                <td>{{ bitacora.temperatura }}</td>
+                <td>{{ bitacora.supervisor }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No hay registros en la bitácora.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
