@@ -1,3 +1,4 @@
+<<<<<<< HEAD:agua/hola/templates/hola/unam.html
 {% load static %}
 <script src="{% static 'hola/login.js' %}"></script>
 
@@ -258,3 +259,244 @@
   </div><!-- .l-wrapper -->
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <title>UNAM: Universidad de la Nación</title>
+  
+  <!-- Hoja de estilos externa -->
+  <link rel="stylesheet" href="style.css" media="all">
+  <script src="login.js"></script>
+  <!-- Meta y estilos adicionales -->
+  <meta name="theme-color" content="#a51c30">
+
+  <!-- Iconos para la pestaña -->
+  <link rel="icon" href="imagenes/images.png" sizes="32x32" />
+  <link rel="icon" href="imagenes/images.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="imagenes/images.png" />
+  
+
+  <style>
+    /* Ejemplo de estilos para el contenedor de imagen en la sección Hero */
+    .b-hero__img {
+      width: 100%;
+      height: 400px;           /* Ajusta la altura según necesites */
+      background-size: cover;  /* La imagen cubrirá todo el elemento */
+      background-position: center;
+    }
+  </style>
+</head>
+<body class="div">
+  <!-- Contenedor principal -->
+  <div class="s-sink t-sink l-sink">
+    
+    <!-- Sección Hero -->
+   
+    <section class="c-block b-hero t-theme--light no-cta no-featured-story an-no-animate">
+      <!-- Imagen dentro del Hero -->
+      <div class="b-hero__img c-image__image"
+           role="img"
+           data-expand="200"
+           data-sizes="(min-width: 1260px) 1260px, 100vw"
+           data-bgset="imagenes/algo.png"
+           style="background-image: url('imagenes/portada.jpg');">
+      </div>
+    
+      <div class="b-hero__container l-container">
+        <div class="b-hero__media b-hero__media-overlay--medium"></div>
+        <div class="b-hero__content">
+          <header class="c-block__content-block c-block__header b-hero__content-container c-content-block c-content-block--layout-center">
+            <h2 class="c-block__title b-hero__title b-hero__title--large c-content-block__title">
+              UNAM
+            </h2>
+            <p class="c-block__underline b-hero__underline c-content-block__underline">
+              Planta de Tratamiento de Aguas Residuales (PTAR)
+            </p>
+          </header>
+        </div>
+      </div>
+    </section>
+    
+    
+    
+    <!-- Sección List-with-image -->
+    <section class="c-block--remove-top-padding c-block b-list-with-image t-theme--light">
+      <div class="b-list-with-image__container l-container">
+        <div class="b-list-with-image__loop">
+          <div class="b-list-with-image__item">
+            <div class="desplegar">
+              <button onclick="Desplegar()">Iniciar Sesión</button>
+              <div class="Dcontenido" id="loginForm" style="display: none;">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit" onclick="login()">Entrar</button>
+              </div>
+            </div>
+            <div class="b-list-with-image__item__description t-sink s-sink">
+              <!-- Descripción del ítem aquí, si es necesario -->
+            </div>
+            <figure class="c-image">
+              <img decoding="async" class="c-image__image"  src="" />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+
+    <!-- Sección Tríptico (Columns) -->
+    <section class="c-block--remove-bottom-padding c-block b-columns">
+      <div class="l-container b-columns__container">
+        <header class="c-block__content-block c-block__header b-columns__header c-content-block c-content-block--layout-left">
+            <h1>Datos sobre la Planta</h1>
+          <div class="c-content-block__content-wrap">
+            <div class="c-block__description b-columns__description t-sink s-sink c-content-block__content">
+              <p></p>
+            </div>
+          </div>
+        </header>
+        <div class="b-columns__list b-columns__row b-columns--count-3">
+          <div class="b-columns__col">
+            <div class="b-columns__col-content t-sink s-sink">
+              <h3>Área y capacidad de la planta:</h3>
+              <ul>
+                <li>Área de construcción: 1239 m²</li>
+                <li>Área de servicios: 450 m²</li>
+                <li>Superficie total: 1689 m²</li>
+                <li>Capacidad máxima de tratamiento: 7.5 litros por segundo (27 m³/h)</li>
+              </ul>
+  
+              <h3>Aspectos Académicos:</h3>
+              <ul>
+                <li>Impulsar líneas de investigación sobre tratamiento de aguas residuales.</li>
+                <li>Visitas guiadas para alumnos de la facultad.</li>
+                <li>Formación de recursos humanos.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="b-columns__col">
+            <div class="b-columns__col-content t-sink s-sink">
+              <h3>Ventajas:</h3>
+              <ul>
+                <li>Baja inversión.</li>
+                <li>Bajos costos de operación y mantenimiento.</li>
+                <li>Adaptable a altas y bajas cargas orgánicas.</li>
+                <li>Resiste largos tiempos sin alimentación de sustrato.</li>
+                <li>Baja producción de lodos, ya estabilizados y espesados.</li>
+                <li>Remoción de materia orgánica entre 60 y 80% según el tipo de agua residual.</li>
+                <li>Producción de energía a través del biogás.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="b-columns__col">
+            <div class="b-columns__col-content t-sink s-sink">
+              <!-- Contenido de la planta de tratamiento de agua -->
+              <h3>Impacto y beneficio social de la obra:</h3>
+              <ol>
+                <li>Tratamiento de aguas residuales generadas por la comunidad interna y externa.</li>
+                <li>Importante disminución de descarga de agua residual a la red municipal, con el fin de la conservación ambiental.</li>
+                <li>Riego de áreas verdes con agua tratada, sustituyendo el agua potable.</li>
+                <li>Aumento de la vegetación a través de los lodos fertilizantes producidos por la PTAR.</li>
+                <li>Cumplir con los objetivos generales de la Universidad sustentable.</li>
+                <li>Fortalecer el conocimiento sobre temas ambientales a nivel Licenciatura, Posgrado e Investigación.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+<hr>
+
+<!---------Parte de historia de la planta------------------>
+    
+    <section class="historia">
+      <div><h1>Historia de la planta</h1></div>
+      <div class="linea_tiempo">
+        <div class="texto_hi">
+            <div class="punto"></div>
+            <div class="caja_h">
+                <h2>2014</h2>
+                <p>Inicia las operaciones de la planta sin uso real para la Facultad.
+                  <p> El agua tratada se manda a la linea de agua municipal</p>
+                </i></p>
+            </div>
+        </div>
+
+        <div class="texto_hd">
+            <div class="punto"></div>
+            <div class="caja_h">
+                <h2>2018</h2>
+                <p>Se construye la red de riego en la Facultad</p>
+                <p> Entre Octubre/Noviembre se realiza el primer riego de las areas deportivas</p>
+            </div>
+        </div>
+
+        <div class="texto_hi">
+            <div class="punto"></div>
+            <div class="caja_h">
+                <h2>2020</h2>
+                <p>Durante la pandemia se cierra la planta, debido a la falta de descargas en la Facultad</p>
+            </div>
+        </div>
+
+    
+    <div class="texto_hd">
+      <div class="punto"></div>
+      <div class="caja_h">
+          <h2>???</h2>
+          <p>Despues de pandemia se manda a revisar que el material biologico no estuviera muerto</p>
+          <p>Al no haber estudiantes no habia descargas de agua residual siendo este el principal alimento del material biologico</p>
+          <p> El agua de la lluvia no servia al no contener microorganismos</p>
+      </div>
+</div>
+
+
+<div class="texto_hi">
+  <div class="punto"></div>
+  <div class="caja_h">
+      <h2>2022</h2>
+      <p>Se reactivan las funciones de la planta</p>
+      <p>Durante este año, se proponen 2 proyectos con prototipos del cual 1 gano un premio</p>
+  </div>
+</div>
+</div>
+</section>
+</div>
+
+    <!-- Sección de Videos -->
+    
+    <section class="video_seccion">
+      <hr>
+      <h1>Videos Informativos</h1>
+      <div class="video">
+        <div class="video_conte">
+          <div class="video_cont">
+            <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" allowfullscreen></iframe>
+          </div>
+          <div class="video_textI">
+            <h2>Planta de Tratamiento de Aguas Residuales Acatlán (PTAR)</h2>
+            <p>En este video se explica el proyecto para la construcción y funcionamiento de una planta de tratamiento de aguas residuales en la Facultad de Estudios Superiores Acatlán, construida con tecnología de punta nacida en la propia UNAM</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="video_seccion">
+      <div class="video">
+        <div class="video_conte">
+          <div class="video_textI">
+            <h2>Manejo sustentable del agua en Acatlán</h2>
+            <p>Con la operación de la PTAR hay una disminución considerable de contaminantes desalojados al drenaje municipal de Naucalpan, señala investigación realizada en la Facultad</p>
+          </div>
+          <div class="video_cont">
+            <iframe src="https://www.youtube.com/embed/GkdVabBzKfM" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+   
+  </div><!-- .l-wrapper -->
+</body>
+</html>
+>>>>>>> 2efb717ed4ddd272cbac928ac6e0d6314cddf8a8:unam.html

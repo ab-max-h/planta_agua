@@ -1,7 +1,11 @@
 /* ==================================================================
     ESTILOS GLOBALES Y CONFIGURACIÓN BÁSICA
    ================================================================== */
+<<<<<<< HEAD:agua/hola/static/hola/style.css
    .desplegar {
+=======
+.desplegar {
+>>>>>>> 2efb717ed4ddd272cbac928ac6e0d6314cddf8a8:style.css
     position: relative;
     display: inline-block;
 }
