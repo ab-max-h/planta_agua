@@ -20,7 +20,7 @@ def index(request):
         
         if user is not None:
             login(request, user)  # Si el usuario es autenticado, inicias sesión
-            return redirect('/hola/datos/')  # Mostrar mensaje de bienvenida
+            return redirect('/datos/')  # Mostrar mensaje de bienvenida
         else:
             # En caso de error, muestra un mensaje de error
             return render(request, "hola/unam.html", {"error": "Credenciales incorrectas"})  # Mostrar mensaje de error
