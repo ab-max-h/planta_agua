@@ -1,122 +1,77 @@
+/* Estilos generales para la tabla */
 table {
-    margin: 0 auto;  /* Centra la tabla horizontalmente */
-    border-collapse: collapse;  /* Para que las celdas no tengan espacio entre ellas */
-    width: 80%; /* Ajusta el tamaño de la tabla */
+  width: 100%;
+  table-layout: fixed;  /* Evita que las columnas se expandan más de lo necesario */
+  margin: 30px auto;    /* Centra la tabla en la página */
+  border-collapse: collapse;  /* Elimina los espacios entre las celdas */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Agrega sombra suave a la tabla */
+  border-radius: 8px;    /* Bordes redondeados */
 }
 
+/* Estilos para las celdas de la tabla */
 th, td {
-    padding: 10px;  /* Añade espacio dentro de las celdas */
-    text-align: center;  /* Centra el texto dentro de las celdas */
+  padding: 10px;           /* Espaciado interno de las celdas */
+  text-align: left;        /* Alinea el texto a la izquierda */
+  border: 1px solid #ddd; /* Borde ligero alrededor de las celdas */
+  overflow: hidden;        /* Oculta el contenido que se desborda */
+  text-overflow: ellipsis; /* Agrega "..." cuando el contenido es demasiado largo */
+  word-wrap: break-word;   /* Hace que el contenido largo se divida en varias líneas */
+  white-space: normal;     /* Permite que el contenido se ajuste automáticamente */
 }
 
-h1 {
-    text-align: center; /* Centra el encabezado */
+/* Estilos para el encabezado de la tabla */
+th {
+  background-color: #4CAF50; /* Fondo verde para el encabezado */
+  color: white;              /* Color del texto blanco */
+  font-weight: bold;         /* Hace el texto en negritas */
 }
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
-  line-height: 1.42em;
-  color:#A7A1AE;
-  background-color:#1F2739;
+/* Estilo para las filas alternas de la tabla */
+tr:nth-child(even) {
+  background-color: #f2f2f2;  /* Color de fondo gris claro para filas pares */
 }
 
-h1 {
-  font-size:3em; 
-  font-weight: 300;
-  line-height:1em;
-  text-align: center;
-  color: #4DC3FA;
+tr:nth-child(odd) {
+  background-color: #ffffff;  /* Color de fondo blanco para filas impares */
 }
 
-h2 {
-  font-size:1em; 
-  font-weight: 300;
-  text-align: center;
-  display: block;
-  line-height:1em;
-  padding-bottom: 2em;
-  color: #FB667A;
+/* Estilo cuando no hay registros en la tabla */
+td[colspan="8"] {
+  text-align: center;         /* Centra el texto */
+  font-style: italic;         /* Da un estilo en cursiva */
+  color: #888;                /* Color gris para el texto */
+  padding: 20px;              /* Agrega algo de espacio extra */
 }
 
-h2 a {
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #FB667A;
-  text-decoration: none;
+/* Estilo para los botones de la tabla */
+button {
+  background-color: #4CAF50; /* Fondo verde */
+  color: white;              /* Color del texto blanco */
+  border: none;              /* Sin borde */
+  padding: 10px 20px;        /* Espaciado interno del botón */
+  text-align: center;        /* Alinea el texto en el centro */
+  text-decoration: none;     /* Sin subrayado */
+  display: inline-block;     /* Se muestra en línea con otros elementos */
+  font-size: 16px;           /* Tamaño de fuente */
+  cursor: pointer;          /* Muestra el cursor como puntero cuando se pasa sobre el botón */
+  border-radius: 5px;        /* Bordes redondeados */
+  transition: background-color 0.3s; /* Transición suave para el cambio de color */
 }
 
-.blue { color: #185875; }
-.yellow { color: #FFF842; }
-
-.container th h1 {
-    font-weight: bold;
-    font-size: 1em;
-  text-align: left;
-  color: #185875;
+button:hover {
+  background-color: #45a049; /* Cambia el color cuando el cursor pasa sobre el botón */
 }
 
-.container td {
-    font-weight: normal;
-    font-size: 1em;
-  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
-     -moz-box-shadow: 0 2px 2px -2px #0E1119;
-          box-shadow: 0 2px 2px -2px #0E1119;
+/* Estilo para los inputs (botones de archivo) */
+input[type="file"] {
+  padding: 10px;            /* Espaciado interno */
+  font-size: 16px;          /* Tamaño de fuente */
+  border-radius: 5px;       /* Bordes redondeados */
+  border: 1px solid #ddd;   /* Borde ligero */
+  margin-top: 10px;         /* Espaciado superior */
 }
 
-.container {
-    text-align: left;
-    overflow: hidden;
-    width: 80%;
-    margin: 0 auto;
-  display: table;
-  padding: 0 0 8em 0;
-}
-
-.container td, .container th {
-    padding-bottom: 2%;
-    padding-top: 2%;
-  padding-left:2%;  
-}
-
-/* Background-color of the odd rows */
-.container tr:nth-child(odd) {
-    background-color: #323C50;
-}
-
-/* Background-color of the even rows */
-.container tr:nth-child(even) {
-    background-color: #2C3446;
-}
-
-.container th {
-    background-color: #1F2739;
-}
-
-.container td:first-child { color: #FB667A; }
-
-.container tr:hover {
-   background-color: #464A52;
--webkit-box-shadow: 0 6px 6px -6px #0E1119;
-     -moz-box-shadow: 0 6px 6px -6px #0E1119;
-          box-shadow: 0 6px 6px -6px #0E1119;
-}
-
-.container td:hover {
-  background-color: #FFF842;
-  color: #403E10;
-  font-weight: bold;
-  
-  box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
-  transform: translate3d(6px, -6px, 0);
-  
-  transition-delay: 0s;
-    transition-duration: 0.4s;
-    transition-property: all;
-  transition-timing-function: line;
-}
-
-@media (max-width: 800px) {
-.container td:nth-child(4),
-.container th:nth-child(4) { display: none; }
+input[type="file"]:hover {
+  background-color: #f9f9f9; /* Fondo gris claro cuando pasa el mouse */
 }

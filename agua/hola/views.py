@@ -1,15 +1,45 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse
-from django.urls import reverse
-from django.shortcuts import render
-import json
-from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib import messages
 from .models import Bitacora
+from import_export.formats.base_formats import XLSX
+from import_export.resources import ModelResource
+from tablib import Dataset
+
+
+
+
+class BitacoraResource(ModelResource):
+    class Meta:
+        model = Bitacora
+def exportar_bitacora_xlsx(request):
+    recurso = BitacoraResource()
+    dataset = recurso.export()
+    
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="bitacora.xlsx"'
+    
+    return response
+
+
+def importar_bitacora_xlsx(request):
+    if request.method == "POST":
+        archivo = request.FILES.get("archivo_excel")
+        if archivo:
+            dataset = Dataset()
+            dataset.xlsx = archivo.read()
+            recurso = BitacoraResource()
+            resultado = recurso.import_data(dataset, dry_run=True)  # Prueba antes de importar
+
+            if not resultado.has_errors():
+                recurso.import_data(dataset, dry_run=False)  # Importa datos reales
+                messages.success(request, "Datos importados correctamente.")
+            else:
+                messages.error(request, "Error al importar datos. Verifica el archivo.")
+    
+    return redirect("datos")
+
 def index(request):
     if request.method == "POST":
         username = request.POST.get("username")
