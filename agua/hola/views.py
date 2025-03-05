@@ -13,14 +13,14 @@ from tablib import Dataset
 class BitacoraResource(ModelResource):
     class Meta:
         model = Bitacora
-    def exportar_bitacora_xlsx(request):
-        recurso = BitacoraResource()
-        dataset = recurso.export()
+def exportar_bitacora_xlsx(request):
+    recurso = BitacoraResource()
+    dataset = recurso.export()
     
-        response = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename="bitacora.xlsx"'
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="bitacora.xlsx"'
     
-        return response
+    return response
 
 
 def importar_bitacora_xlsx(request):
