@@ -23,22 +23,22 @@ class BitacoraResource(ModelResource):
         return response
 
 
-    def importar_bitacora_xlsx(request):
-        if request.method == "POST":
-            archivo = request.FILES.get("archivo_excel")
-            if archivo:
-                dataset = Dataset()
-                dataset.xlsx = archivo.read()
-                recurso = BitacoraResource()
-                resultado = recurso.import_data(dataset, dry_run=True)  # Prueba antes de importar
+def importar_bitacora_xlsx(request):
+    if request.method == "POST":
+        archivo = request.FILES.get("archivo_excel")
+        if archivo:
+            dataset = Dataset()
+            dataset.xlsx = archivo.read()
+            recurso = BitacoraResource()
+            resultado = recurso.import_data(dataset, dry_run=True)  # Prueba antes de importar
 
-                if not resultado.has_errors():
-                    recurso.import_data(dataset, dry_run=False)  # Importa datos reales
-                    messages.success(request, "Datos importados correctamente.")
-                else:
-                    messages.error(request, "Error al importar datos. Verifica el archivo.")
+            if not resultado.has_errors():
+                recurso.import_data(dataset, dry_run=False)  # Importa datos reales
+                messages.success(request, "Datos importados correctamente.")
+            else:
+                messages.error(request, "Error al importar datos. Verifica el archivo.")
     
-        return redirect("datos")
+    return redirect("datos")
 
 def index(request):
     if request.method == "POST":
