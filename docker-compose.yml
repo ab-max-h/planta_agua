@@ -1,0 +1,68 @@
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mi_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: gatito  # Contraseña del usuario root
+      MYSQL_DATABASE: planta_agua  # Nombre de la base de datos
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql  # Persistencia de datos
+      - ./SQL/tablas.sql:/docker-entrypoint-initdb.d/tablas.sql  # Cargar script de inicialización
+    networks:
+      - mynetwork
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mi_mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mariapass
+      MYSQL_DATABASE: planta_agua
+      MYSQL_USER: mariauser
+      MYSQL_PASSWORD: mariapass
+    ports:
+      - "3307:3306"  # Cambia el puerto para evitar conflicto con MySQL
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+      - ./SQL/tablas.sql:/docker-entrypoint-initdb.d/tablas.sql
+    networks:
+      - mynetwork
+
+  mongo:
+    image: mongo:latest
+    container_name: mi_mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: mongopass
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - mynetwork
+
+  postgres:
+    image: postgres:latest
+    container_name: mi_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: planta_agua
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./SQL/tablas_postgres.sql:/docker-entrypoint-initdb.d/tablas_postgres.sql
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
