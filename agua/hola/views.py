@@ -7,6 +7,27 @@ from import_export.formats.base_formats import XLSX
 from import_export.resources import ModelResource
 from tablib import Dataset
 
+import os
+from django.conf import settings
+from django.shortcuts import render, redirect
+from .models import Bitacora
+from django.contrib import messages
+from tablib import Dataset
+
+def importar_excel(request):
+    if request.method == 'POST' and request.FILES.get('archivo_excel'):
+        archivo = request.FILES['archivo_excel']
+        ruta_archivo = os.path.join(settings.MEDIA_ROOT, archivo.name)
+
+        # Guardar el archivo en la carpeta media/
+        with open(ruta_archivo, 'wb+') as destino:
+            for chunk in archivo.chunks():
+                destino.write(chunk)
+
+        messages.success(request, "Archivo importado con éxito.")
+        return redirect('nombre_de_tu_vista')
+
+    return render(request, 'datos.html')
 
 
 
