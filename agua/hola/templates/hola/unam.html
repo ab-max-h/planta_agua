@@ -1,6 +1,6 @@
 {% load static %}
 <script src="{% static 'hola/login.js' %}"></script>
-
+<link rel="stylesheet" href="{% static 'hola/style1.css' %}" media="all">
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
@@ -99,7 +99,17 @@
 
 
 
-    
+<h1>Anuncios</h1>
+{% for announcement in announcements %}
+    <div class="announcement">
+        <h2>{{ announcement.title }}</h2>
+        <p>{{ announcement.content | safe }}</p>  {# Renderiza el HTML generado en Summernote #}
+        <small>Publicado el {{ announcement.created_at }}</small>
+    </div>
+{% empty %}
+    <p>No hay anuncios en este momento.</p>
+{% endfor %}
+
 
     <!-- Sección Tríptico (Columns) -->
      <section class="texto_tri">

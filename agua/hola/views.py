@@ -13,6 +13,16 @@ from django.shortcuts import render, redirect
 from .models import Bitacora
 from django.contrib import messages
 from tablib import Dataset
+from django.shortcuts import render
+from .models import Announcement
+# En lugar de Announcement
+
+
+
+def home(request):
+    announcements = Announcement.objects.order_by('-created_at')  # Últimos anuncios primero
+    return render(request, 'unam.html', {'announcements': announcements})  # Carga unam.html
+
 
 def importar_excel(request):
     if request.method == 'POST' and request.FILES.get('archivo_excel'):

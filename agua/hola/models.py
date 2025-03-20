@@ -1,6 +1,22 @@
 from django.db import models
+from django.db import models
+from django.db import models
 
-# Create your models here.
+class Announcement(models.Model):  # Asegúrate de que este modelo exista
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
+
 # Modelo para la bitácora de la planta de tratamiento de aguas residuales
 class Bitacora(models.Model):
     fecha_hora = models.DateTimeField(auto_now_add=True)
