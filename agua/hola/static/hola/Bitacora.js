@@ -81,3 +81,56 @@ $(document).ready(function () {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Solo ejecutar el código cuando se seleccione la opción "Graficación"
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            if (this.getAttribute("data-opcion") === "graficacion") {
+                cargarGrafica();
+            }
+        });
+    });
+});
+
+function cargarGrafica() {
+    // Verifica si la librería de ECharts ya está cargada
+    if (typeof echarts === "undefined") {
+        let script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js";
+        script.onload = inicializarGrafico;
+        document.body.appendChild(script);
+    } else {
+        inicializarGrafico();
+    }
+}
+
+function inicializarGrafico() {
+    fetch("/api/datos-bitacora/")  // Ruta Django que devuelve JSON
+        .then(response => response.json())
+        .then(datos => {
+            let fechas = datos.map(d => d.fecha_hora);
+            let niveles = datos.map(d => d.nivel_agua);
+            let temperaturas = datos.map(d => d.temperatura);
+
+            let grafico = echarts.init(document.getElementById("grafico"));
+
+            let opciones = {
+                title: { text: "Nivel del Agua y Temperatura" },
+                tooltip: { trigger: "axis" },
+                legend: { data: ["Nivel (m)", "Temperatura (°C)"] },
+                xAxis: { type: "category", data: fechas },
+                yAxis: [
+                    { type: "value", name: "Nivel (m)" },
+                    { type: "value", name: "Temperatura (°C)", position: "right" }
+                ],
+                series: [
+                    { name: "Nivel (m)", type: "line", data: niveles },
+                    { name: "Temperatura (°C)", type: "line", data: temperaturas, yAxisIndex: 1 }
+                ]
+            };
+
+            grafico.setOption(opciones);
+        })
+        .catch(error => console.error("Error cargando datos:", error));
+}

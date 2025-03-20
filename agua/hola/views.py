@@ -14,6 +14,14 @@ from .models import Bitacora
 from django.contrib import messages
 from tablib import Dataset
 
+from django.http import JsonResponse
+from .models import Bitacora
+
+def datos_bitacora(request):
+    datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
+    return JsonResponse(datos, safe=False)
+
+
 def importar_excel(request):
     if request.method == 'POST' and request.FILES.get('archivo_excel'):
         archivo = request.FILES['archivo_excel']
