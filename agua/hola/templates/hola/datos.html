@@ -14,16 +14,18 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <!-- Tu archivo CSS personalizado -->
     <link rel="stylesheet" href="{% static 'hola/style1.css' %}?v=2">
-    
-    <link rel="stylesheet" href="{% static 'hola/Bitacora.js' %}?v=2">
 </head>
 <body>
+    <!-- Botón para abrir/cerrar el menú -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
     <!-- Menú lateral -->
     <div class="menu-lateral" id="menuLateral">
-        <!--<button class="menu-btn" id="btnContraer">◄</button> -->
         <div class="menu-opciones">
             <button class="menu-btn" data-opcion="bitacora">📋 Bitácora</button>
             <button class="menu-btn" data-opcion="graficacion">📊 Graficación</button>
+            
+            <button class="menu-btn" data-opcion="servicio-social">👷‍♂️Servicio-Social</button>
             <button class="menu-btn" data-opcion="cerrar-sesion">🚪 Cerrar Sesión</button>
         </div>
     </div>
@@ -85,6 +87,11 @@
             <p>Aquí va el contenido de la graficación.</p>
         </div>
 
+        <div id="servicio-social" class="contenido-opcion">
+            <h1>Servicio Social</h1>
+            <p>Aquí va el contenido de la graficación.</p>
+        </div>
+
         <!-- Contenido de Cerrar Sesión -->
         <div id="cerrar-sesion" class="contenido-opcion">
             <h1>Cerrar Sesión</h1>
@@ -92,6 +99,7 @@
         </div>
     </div>
 
-    <!-- Script para manejar el menú y DataTables -->
+    <!-- Enlazar el archivo JavaScript -->
+    <script src="{% static 'hola/Bitacora.js' %}?v=2"></script>
 </body>
 </html>

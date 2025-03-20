@@ -1,51 +1,83 @@
+// Script para manejar el menú lateral, la navegación entre opciones y DataTables
 
-// Manejar el menú lateral
-document.addEventListener('DOMContentLoaded', function () {
-    const botonesMenu = document.querySelectorAll('.menu-btn');
-    const contenidos = document.querySelectorAll('.contenido-opcion');
-    const menuLateral = document.getElementById('menuLateral');
-    const btnContraer = document.getElementById('btnContraer');
-    const contenidoPrincipal = document.getElementById('contenidoPrincipal');
+// Función para abrir/cerrar el menú lateral
+document.getElementById('menuToggle').addEventListener('click', function () {
+    var menuLateral = document.getElementById('menuLateral');
+    var contenidoPrincipal = document.getElementById('contenidoPrincipal');
 
-// Mostrar/ocultar contenido al hacer clic en una opción del menú
-botonesMenu.forEach(boton => {
-    if (boton.getAttribute('data-opcion')) {
-        boton.addEventListener('click', function () {
-            // Ocultar todos los contenidos
-            contenidos.forEach(contenido => {
-                contenido.classList.remove('activo');
-            });
+    // Alternar la clase 'abierto' en el menú lateral
+    menuLateral.classList.toggle('abierto');
 
-            // Mostrar el contenido correspondiente
-            const opcion = this.getAttribute('data-opcion');
-            document.getElementById(opcion).classList.add('activo');
+    // Alternar la clase 'menu-abierto' en el contenido principal
+    contenidoPrincipal.classList.toggle('menu-abierto');
+});
+
+// Función para cambiar entre las opciones del menú
+document.querySelectorAll('.menu-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        // Obtener la opción seleccionada
+        var opcion = this.getAttribute('data-opcion');
+
+        // Ocultar todas las secciones de contenido
+        document.querySelectorAll('.contenido-opcion').forEach(function (seccion) {
+            seccion.classList.remove('activo');
         });
-    }
+
+        // Mostrar la sección correspondiente a la opción seleccionada
+        document.getElementById(opcion).classList.add('activo');
+    });
+});
+/*
+// Función para manejar el cierre de sesión (puedes personalizarla)
+document.querySelector('[data-opcion="cerrar-sesion"]').addEventListener('click', function () {
+    // Aquí puedes agregar la lógica para cerrar la sesión
+    alert('Cerrando sesión...');
+    // Redirigir a la página de inicio de sesión o realizar otras acciones
+    window.location.href = '/logout'; // Cambia la URL según tu aplicación
+});
+*/
+// Función para manejar la importación de Excel (puedes personalizarla)
+document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault(); // Evitar el envío del formulario por defecto
+
+    // Aquí puedes agregar la lógica para manejar la importación de Excel
+    var formData = new FormData(this);
+
+    fetch(this.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Archivo importado correctamente.');
+            location.reload(); // Recargar la página para mostrar los nuevos datos
+        } else {
+            alert('Error al importar el archivo: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Ocurrió un error al importar el archivo.');
+    });
 });
 
-// Contraer/desplegar el menú lateral
-btnContraer.addEventListener('click', function () {
-    menuLateral.classList.toggle('contraido');
-    contenidoPrincipal.classList.toggle('menu-contraido');
-});
-});
-
-// Inicializar DataTables
-$(document).ready(function() {
-    // Destruir la tabla si ya está inicializada
-    if ($.fn.DataTable.isDataTable('#tablaBitacoras')) {
-        $('#tablaBitacoras').DataTable().destroy();
-    }
-
-// Inicializar DataTables
-$('#tablaBitacoras').DataTable({
-    "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"  // Traducción al español
-    },
-    "paging": true,         // Habilitar paginación
-    "searching": true,      // Habilitar búsqueda
-    "ordering": true,       // Habilitar ordenamiento
-    "info": true,           // Mostrar información de la tabla
-    "autoWidth": false      // Deshabilitar ajuste automático de ancho
-});
+// Inicialización de DataTables
+$(document).ready(function () {
+    $('#tablaBitacoras').DataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por página",
+            "zeroRecords": "No se encontraron registros",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtrado de _MAX_ registros totales)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        }
+    });
 });

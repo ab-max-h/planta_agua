@@ -1,7 +1,7 @@
 /* Estilos generales para el cuerpo de la página */
 body {
     font-family: 'Times New Roman', Times, serif;
-    background-color: #940063;
+    background-color: rgb(223, 218, 218);
     margin: 0;
     padding: 0;
     position: relative;
@@ -131,40 +131,30 @@ form button:hover {
     color: #fff;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    transition: transform 0.3s ease;
     height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
+    z-index: 1000;
+    transform: translateX(-100%); /* Oculta el menú por defecto */
 }
 
-.menu-lateral.contraido {
-    width: 60px;
-}
-
-.menu-lateral.contraido .menu-opciones {
-    display: none;
-}
-
-.menu-lateral.contraido .menu-btn#btnContraer {
-    transform: rotate(180deg);
+.menu-lateral.abierto {
+    transform: translateX(0); /* Muestra el menú */
 }
 
 /* Botón del menú */
 .menu-btn {
     display: block;
     width: 100%;
-    padding: 50px;
+    padding: 15px;
     background-color: #34495e;
     color: #fff;
     border: none;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
-    margin-bottom: 50px;
+    margin-bottom: 15px;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
@@ -173,17 +163,36 @@ form button:hover {
     background-color: #1abc9c;
 }
 
+/* Botón de toggle */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #2c3e50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001; /* Asegura que esté por encima del menú */
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-toggle:hover {
+    background-color: #1abc9c;
+}
+
 /* Contenido principal */
 .contenido-principal {
     flex: 1;
     padding: 20px;
-    background-color: #4b003e;
-    margin-left: 250px;
+    background-color: white;
+    margin-left: 0;
     transition: margin-left 0.3s ease;
 }
 
-.contenido-principal.menu-contraido {
-    margin-left: 60px;
+.contenido-principal.menu-abierto {
+    margin-left: 250px; /* Desplaza el contenido al abrir el menú */
 }
 
 /* Ocultar contenido inicialmente */
