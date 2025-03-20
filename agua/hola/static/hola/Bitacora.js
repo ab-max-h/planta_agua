@@ -134,3 +134,89 @@ function inicializarGrafico() {
         })
         .catch(error => console.error("Error cargando datos:", error));
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            if (this.getAttribute("data-opcion") === "graficacion") {
+                cargarGraficas();
+            }
+        });
+    });
+});
+
+function cargarGraficas() {
+    if (typeof echarts === "undefined") {
+        let script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js";
+        script.onload = inicializarGraficas;
+        document.body.appendChild(script);
+    } else {
+        inicializarGraficas();
+    }
+}
+
+function inicializarGraficas() {
+    fetch("/api/datos-bitacora/") 
+        .then(response => response.json())
+        .then(datos => {
+            let fechas = datos.map(d => d.fecha_hora);
+            let niveles = datos.map(d => d.nivel_agua);
+            let temperaturas = datos.map(d => d.temperatura);
+            let ph = datos.map(d => d.ph);
+            let toc = datos.map(d => d.toc);
+            let dqo = datos.map(d => d.dqo);
+
+            // 📊 Nivel del Agua vs. Fecha
+            let graficoNivel = echarts.init(document.getElementById("grafico_nivel"));
+            graficoNivel.setOption({
+                title: { text: "Nivel del Agua a lo Largo del Tiempo" },
+                xAxis: { type: "category", data: fechas },
+                yAxis: { type: "value", name: "Nivel (m)" },
+                series: [{ name: "Nivel", type: "line", data: niveles }]
+            });
+
+            // 🌡 Temperatura vs. Fecha
+            let graficoTemp = echarts.init(document.getElementById("grafico_temperatura"));
+            graficoTemp.setOption({
+                title: { text: "Temperatura a lo Largo del Tiempo" },
+                xAxis: { type: "category", data: fechas },
+                yAxis: { type: "value", name: "Temperatura (°C)" },
+                series: [{ name: "Temperatura", type: "line", data: temperaturas }]
+            });
+
+            // ⚡ pH vs. Nivel de Agua (Dispersión)
+            let graficoPHvsNivel = echarts.init(document.getElementById("grafico_ph_vs_nivel"));
+            graficoPHvsNivel.setOption({
+                title: { text: "Relación entre pH y Nivel de Agua" },
+                xAxis: { type: "value", name: "Nivel (m)" },
+                yAxis: { type: "value", name: "pH" },
+                series: [{ name: "pH vs Nivel", type: "scatter", data: niveles.map((v, i) => [v, ph[i]]) }]
+            });
+
+            // 🧪 TOC vs. DQO (Dispersión)
+            let graficoTocVsDqo = echarts.init(document.getElementById("grafico_toc_vs_dqo"));
+            graficoTocVsDqo.setOption({
+                title: { text: "Relación entre TOC y DQO" },
+                xAxis: { type: "value", name: "TOC (mg/L)" },
+                yAxis: { type: "value", name: "DQO (mg/L)" },
+                series: [{ name: "TOC vs DQO", type: "scatter", data: toc.map((v, i) => [v, dqo[i]]) }]
+            });
+
+            // 📉 Histograma de pH
+            let conteoPH = {};
+            ph.forEach(valor => conteoPH[valor] = (conteoPH[valor] || 0) + 1);
+            let valoresPH = Object.keys(conteoPH);
+            let frecuenciasPH = Object.values(conteoPH);
+
+            let graficoPHHistograma = echarts.init(document.getElementById("grafico_ph_histograma"));
+            graficoPHHistograma.setOption({
+                title: { text: "Distribución del pH" },
+                xAxis: { type: "category", data: valoresPH, name: "pH" },
+                yAxis: { type: "value", name: "Frecuencia" },
+                series: [{ name: "Frecuencia", type: "bar", data: frecuenciasPH }]
+            });
+
+        })
+        .catch(error => console.error("Error cargando datos:", error));
+}
