@@ -31,10 +31,10 @@ body::before {
 
 /* Estilos para el contenedor principal */
 .container {
-    width: auto;
-    max-width: auto;
-    margin: auto;
-    padding: auto;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -176,8 +176,8 @@ form button:hover {
 /* Contenido principal */
 .contenido-principal {
     flex: 1;
-    padding: auto;
-    background-color: #470027;
+    padding: 20px;
+    background-color: #4b003e;
     margin-left: 250px;
     transition: margin-left 0.3s ease;
 }
