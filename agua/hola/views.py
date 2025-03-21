@@ -14,14 +14,16 @@ from .models import Bitacora
 from django.contrib import messages
 from tablib import Dataset
 from django.shortcuts import render
-from .models import Announcement
+from .models import Post
 # En lugar de Announcement
 
 
+from django.http import JsonResponse
+from .models import Bitacora
 
-def home(request):
-    announcements = Announcement.objects.order_by('-created_at')  # Últimos anuncios primero
-    return render(request, 'unam.html', {'announcements': announcements})  # Carga unam.html
+def datos_bitacora(request):
+    datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
+    return JsonResponse(datos, safe=False)
 
 
 def importar_excel(request):
@@ -71,23 +73,24 @@ def importar_bitacora_xlsx(request):
     
     return redirect("datos")
 
+# views.py (corregido)
 def index(request):
+    posts = Post.objects.all().order_by('-created_at')  # Obtener posts
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        
-        # Verifica las credenciales del usuario
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
-            login(request, user)  # Si el usuario es autenticado, inicias sesión
-            return redirect('/datos/')  # Mostrar mensaje de bienvenida
+            login(request, user)
+            return redirect('/datos/')
         else:
-            # En caso de error, muestra un mensaje de error
-            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas"})  # Mostrar mensaje de error
+            # Renderiza con posts incluso en error
+            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts})
     
-    # Si no es un POST, solo muestra la página de login
-    return render(request, "hola/unam.html")
+    # GET: Renderiza con posts
+    return render(request, "hola/unam.html", {"posts": posts})
 
 
 def datos(request):

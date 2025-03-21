@@ -5,12 +5,15 @@ from .models import Bitacora
 from . import  models
 from django_summernote.admin import SummernoteModelAdmin
 from .models import Post
+from .models import Announcement
 
 
+class PostAdmin(SummernoteModelAdmin):  
+    summernote_fields = ('content',)  # Campo donde se aplicará Summernote
 
-class SummerAdmin(SummernoteModelAdmin):
-    summernote_fields = '__all__'
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)
+
+
 
 
 # Definir el recurso para importar y exportar
