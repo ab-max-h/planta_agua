@@ -1,5 +1,6 @@
 /* Estilos generales para el cuerpo de la página */
 body {
+<<<<<<< HEAD
     font-family: 'Times New Roman', Times, serif;
     background-color: rgb(223, 218, 218);
     margin: 0;
@@ -115,17 +116,141 @@ form button:hover {
 #tablaBitacoras tr:hover {
     background-color: #f1f1f1;
     transition: background-color 0.3s ease;
+=======
+  font-family: 'Times New Roman', Times, serif;
+  background-color: rgb(223, 218, 218);
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  height: 100vh;
+}
+
+/* Animación de fondo */
+@keyframes backgroundAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #009fa5, #e0e0e0);
+  z-index: -1;
+  animation: backgroundAnimation 10s infinite alternate;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Estilos para el título de la tabla */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Estilos para el formulario de importación */
+form {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+form input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para la tabla */
+#tablaBitacoras {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+  animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+  0% { transform: translateY(50px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+#tablaBitacoras th, #tablaBitacoras td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#tablaBitacoras th {
+  background-color: #28a745; /* Verde para los encabezados */
+  color: black;
+  font-weight: bold;
+}
+
+#tablaBitacoras td {
+  color: #000; /* Negro para los nombres de las columnas */
+}
+
+#tablaBitacoras tr:hover {
+  background-color: #f1f1f1;
+  transition: background-color 0.3s ease;
+>>>>>>> post
 }
 
 /* Estilos para el mensaje cuando no hay registros */
 #tablaBitacoras tr td[colspan="8"] {
+<<<<<<< HEAD
     text-align: center;
     color: #777;
     padding: 20px;
+=======
+  text-align: center;
+  color: #777;
+  padding: 20px;
+>>>>>>> post
 }
 
 /* Menú lateral */
 .menu-lateral {
+<<<<<<< HEAD
     width: 250px;
     background-color: #2c3e50;
     color: #fff;
@@ -142,10 +267,29 @@ form button:hover {
 
 .menu-lateral.abierto {
     transform: translateX(0); /* Muestra el menú */
+=======
+  width: 250px;
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transform: translateX(-100%); /* Oculta el menú por defecto */
+}
+
+.menu-lateral.abierto {
+  transform: translateX(0); /* Muestra el menú */
+>>>>>>> post
 }
 
 /* Botón del menú */
 .menu-btn {
+<<<<<<< HEAD
     display: block;
     width: 100%;
     padding: 15px;
@@ -161,10 +305,28 @@ form button:hover {
 
 .menu-btn:hover {
     background-color: #1abc9c;
+=======
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background-color: #34495e;
+  color: #fff;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-btn:hover {
+  background-color: #1abc9c;
+>>>>>>> post
 }
 
 /* Botón de toggle */
 .menu-toggle {
+<<<<<<< HEAD
     position: fixed;
     top: 20px;
     left: 20px;
@@ -180,10 +342,28 @@ form button:hover {
 
 .menu-toggle:hover {
     background-color: #1abc9c;
+=======
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1001; /* Asegura que esté por encima del menú */
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-toggle:hover {
+  background-color: #1abc9c;
+>>>>>>> post
 }
 
 /* Contenido principal */
 .contenido-principal {
+<<<<<<< HEAD
     flex: 1;
     padding: 20px;
     background-color: white;
@@ -193,14 +373,33 @@ form button:hover {
 
 .contenido-principal.menu-abierto {
     margin-left: 250px; /* Desplaza el contenido al abrir el menú */
+=======
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.contenido-principal.menu-abierto {
+  margin-left: 250px; /* Desplaza el contenido al abrir el menú */
+>>>>>>> post
 }
 
 /* Ocultar contenido inicialmente */
 .contenido-opcion {
+<<<<<<< HEAD
     display: none;
+=======
+  display: none;
+>>>>>>> post
 }
 
 /* Mostrar contenido activo */
 .contenido-opcion.activo {
+<<<<<<< HEAD
     display: block;
+=======
+  display: block;
+>>>>>>> post
 }

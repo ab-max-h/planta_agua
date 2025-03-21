@@ -156,6 +156,112 @@ function cargarGraficas() {
     }
 }
 
+<<<<<<< HEAD
+=======
+// Añadir efecto hover al botón
+submitButton.addEventListener('mouseover', function() {
+    submitButton.style.backgroundColor = '#45a049'; // Cambia el fondo al pasar el ratón
+});
+submitButton.addEventListener('mouseout', function() {
+    submitButton.style.backgroundColor = '#4CAF50'; // Vuelve al color original cuando se quita el ratón
+});
+
+
+// Inicialización de DataTables
+$(document).ready(function () {
+    $('#tablaBitacoras').DataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por página",
+            "zeroRecords": "No se encontraron registros",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtrado de _MAX_ registros totales)",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Solo ejecutar el código cuando se seleccione la opción "Graficación"
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            if (this.getAttribute("data-opcion") === "graficacion") {
+                cargarGrafica();
+            }
+        });
+    });
+});
+
+function cargarGrafica() {
+    // Verifica si la librería de ECharts ya está cargada
+    if (typeof echarts === "undefined") {
+        let script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js";
+        script.onload = inicializarGrafico;
+        document.body.appendChild(script);
+    } else {
+        inicializarGrafico();
+    }
+}
+
+function inicializarGrafico() {
+    fetch("/api/datos-bitacora/")  // Ruta Django que devuelve JSON
+        .then(response => response.json())
+        .then(datos => {
+            let fechas = datos.map(d => d.fecha_hora);
+            let niveles = datos.map(d => d.nivel_agua);
+            let temperaturas = datos.map(d => d.temperatura);
+
+            let grafico = echarts.init(document.getElementById("grafico"));
+
+            let opciones = {
+                title: { text: "Nivel del Agua y Temperatura" },
+                tooltip: { trigger: "axis" },
+                legend: { data: ["Nivel (m)", "Temperatura (°C)"] },
+                xAxis: { type: "category", data: fechas },
+                yAxis: [
+                    { type: "value", name: "Nivel (m)" },
+                    { type: "value", name: "Temperatura (°C)", position: "right" }
+                ],
+                series: [
+                    { name: "Nivel (m)", type: "line", data: niveles },
+                    { name: "Temperatura (°C)", type: "line", data: temperaturas, yAxisIndex: 1 }
+                ]
+            };
+
+            grafico.setOption(opciones);
+        })
+        .catch(error => console.error("Error cargando datos:", error));
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            if (this.getAttribute("data-opcion") === "graficacion") {
+                cargarGraficas();
+            }
+        });
+    });
+});
+
+function cargarGraficas() {
+    if (typeof echarts === "undefined") {
+        let script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js";
+        script.onload = inicializarGraficas;
+        document.body.appendChild(script);
+    } else {
+        inicializarGraficas();
+    }
+}
+
+>>>>>>> post
 function inicializarGraficas() {
     fetch("/api/datos-bitacora/") 
         .then(response => response.json())
@@ -220,3 +326,33 @@ function inicializarGraficas() {
         })
         .catch(error => console.error("Error cargando datos:", error));
 }
+<<<<<<< HEAD
+=======
+// Función para abrir/cerrar el menú lateral
+document.getElementById('menuToggle').addEventListener('click', function () {
+    var menuLateral = document.getElementById('menuLateral');
+    var contenidoPrincipal = document.getElementById('contenidoPrincipal');
+
+    // Alternar la clase 'abierto' en el menú lateral
+    menuLateral.classList.toggle('abierto');
+
+    // Alternar la clase 'menu-abierto' en el contenido principal
+    contenidoPrincipal.classList.toggle('menu-abierto');
+});
+
+// Función para cambiar entre las opciones del menú
+document.querySelectorAll('.menu-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        // Obtener la opción seleccionada
+        var opcion = this.getAttribute('data-opcion');
+
+        // Ocultar todas las secciones de contenido
+        document.querySelectorAll('.contenido-opcion').forEach(function (seccion) {
+            seccion.classList.remove('activo');
+        });
+
+        // Mostrar la sección correspondiente a la opción seleccionada
+        document.getElementById(opcion).classList.add('activo');
+    });
+});
+>>>>>>> post

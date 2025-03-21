@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('hola.urls')),  # Asegúrate de que esto carga las URLs de la app
+    path('summernote/',include('django_summernote.urls')),
 ]
 
 # Agregar configuración para servir archivos subidos en desarrollo
