@@ -1,6 +1,5 @@
 {% load static %}
 <script src="{% static 'hola/login.js' %}"></script>
-
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
@@ -43,7 +42,7 @@
      data-expand="200"
      data-sizes="(min-width: 1260px) 1260px, 100vw"
      data-bgset="{% static 'hola/algo.png' %}"
-     style="background-image: url(&quot;{% static 'hola/algo.png' %}&quot;);">
+     style="background-image: url(&quot;{% static 'hola/portada.jpg' %}&quot;);">
 </div>
 
 
@@ -165,7 +164,28 @@
     </section>
      </section>
 <hr>
+   <!-- Sección de Publicaciones -->
+   <section >
+    <div class="l-container">
+        <header class="c-block__header">
+            <h1>AVISOS</h1>
+        </header>
+        
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post-item">
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.content|safe }}</p>
+                    <small>Publicado el: {{ post.created_at }}</small>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No hay publicaciones recientes.</p>
+        {% endif %}
+    </div>
+  </section>
 
+ <hr> 
 <!---------Parte de historia de la planta------------------>
     
     <section class="historia">
