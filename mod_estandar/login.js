@@ -1,35 +1,23 @@
-document.getElementById('loginButton').addEventListener('click', function(e) {
-    // Animación del efecto onda
-    let rect = this.getBoundingClientRect();
-    let wave = this.querySelector('.btn-wave');
-    wave.style.left = `${e.clientX - rect.left}px`;
-    wave.style.top = `${e.clientY - rect.top}px`;
-    
-    // Mantener la función original de despliegue
-    Desplegar();
-});
-
+// Espera a que el DOM se cargue completamente para asignar eventos
 document.addEventListener('DOMContentLoaded', function () {
-    // Evento para el botón de login (existente)
+    // Asigna evento de clic al botón de login para efecto ripple y despliegue del formulario
     document.getElementById('loginButton').addEventListener('click', function(e) {
         let rect = this.getBoundingClientRect();
         let wave = this.querySelector('.btn-wave');
-        
         if (!wave) {
             wave = document.createElement('span');
             wave.className = 'btn-wave';
             this.appendChild(wave);
         }
-        
         wave.style.left = `${e.clientX - rect.left}px`;
         wave.style.top = `${e.clientY - rect.top}px`;
         Desplegar();
     });
 
-    // Evento para el botón Entrar (existente)
+    // Evento para el botón "Entrar"
     document.getElementById("submitButton").addEventListener("click", login);
 
-    // Animación para elementos del tríptico
+    // Intersection Observer para animar la aparición de los elementos del tríptico
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -43,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Función para realizar el login mediante fetch
 async function login() {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -65,6 +54,7 @@ async function login() {
     }
 }
 
+// Función para alternar la visibilidad del formulario de login
 function Desplegar() {
     let desplegar = document.getElementById("loginForm");
     desplegar.style.display = desplegar.style.display === "block" ? "none" : "block";
