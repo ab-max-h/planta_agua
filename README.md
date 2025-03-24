@@ -1,2 +1,4 @@
 # Planta de agua
-Para el proyecto de DW.
+Proyecto para la PTAR de la FES Acatlán para la asignatura de Desarrollo Web.
+Utilizando HTML, CSS, JS, Django y Python3
+
