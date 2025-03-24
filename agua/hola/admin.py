@@ -2,6 +2,19 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 from .models import Bitacora
+from . import  models
+from django_summernote.admin import SummernoteModelAdmin
+from .models import Post
+from .models import Announcement
+
+
+class PostAdmin(SummernoteModelAdmin):  
+    summernote_fields = ('content',)  # Campo donde se aplicará Summernote
+
+admin.site.register(Post, PostAdmin)
+
+
+
 
 # Definir el recurso para importar y exportar
 class BitacoraResource(resources.ModelResource):
