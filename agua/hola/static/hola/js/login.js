@@ -1,23 +1,34 @@
-// Espera a que el DOM se cargue completamente para asignar eventos
+// Espera a que el DOM se cargue completamente
 document.addEventListener('DOMContentLoaded', function () {
-    // Asigna evento de clic al botón de login para efecto ripple y despliegue del formulario
-    document.getElementById('loginButton').addEventListener('click', function(e) {
-        let rect = this.getBoundingClientRect();
-        let wave = this.querySelector('.btn-wave');
-        if (!wave) {
-            wave = document.createElement('span');
-            wave.className = 'btn-wave';
-            this.appendChild(wave);
-        }
-        wave.style.left = `${e.clientX - rect.left}px`;
-        wave.style.top = `${e.clientY - rect.top}px`;
-        Desplegar();
-    });
+    // ========== EVENTO LOGIN CON EFECTO RIPPLE ========== //
+    const loginButton = document.getElementById('loginButton');
+    if (loginButton) {
+        loginButton.addEventListener('click', function(e) {
+            // Efecto wave
+            let rect = this.getBoundingClientRect();
+            let wave = this.querySelector('.btn-wave');
+            
+            if (!wave) {
+                wave = document.createElement('span');
+                wave.className = 'btn-wave';
+                this.appendChild(wave);
+            }
+            
+            wave.style.left = `${e.clientX - rect.left}px`;
+            wave.style.top = `${e.clientY - rect.top}px`;
+            
+            // Mostrar/ocultar formulario
+            Desplegar();
+        });
+    }
 
-    // Evento para el botón "Entrar"
-    document.getElementById("submitButton").addEventListener("click", login);
+    // ========== EVENTO SUBMIT LOGIN ========== //
+    const submitButton = document.getElementById("submitButton");
+    if (submitButton) {
+        submitButton.addEventListener("click", login);
+    }
 
-    // Intersection Observer para animar la aparición de los elementos del tríptico
+    // ========== OBSERVER PARA ANIMACIÓN TRÍPTICO ========== //
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -29,10 +40,61 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.triptico-item').forEach(item => {
         observer.observe(item);
     });
+
+    // ========== CONFIGURACIÓN POSTS HORIZONTALES ========== //
+    const postsContainer = document.querySelector('.posts-container');
+    if (postsContainer) {
+        // Estilos contenedor principal
+        Object.assign(postsContainer.style, {
+            display: 'flex',
+            overflowX: 'auto',
+            gap: '25px',
+            flexWrap: 'nowrap',
+            padding: '20px 10px',
+            scrollSnapType: 'x mandatory'
+        });
+
+        // Estilos para cada post
+        document.querySelectorAll('.post-item').forEach(post => {
+            Object.assign(post.style, {
+                flex: '0 0 300px',
+                marginBottom: '0',
+                scrollSnapAlign: 'start'
+            });
+        });
+
+        // Mejorar experiencia de scroll en móviles
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        postsContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - postsContainer.offsetLeft;
+            scrollLeft = postsContainer.scrollLeft;
+        });
+
+        postsContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        postsContainer.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        postsContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - postsContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            postsContainer.scrollLeft = scrollLeft - walk;
+        });
+    }
 });
 
-// Función para realizar el login mediante fetch
-async function login() {
+// ========== FUNCIÓN LOGIN ========== //
+async function login(e) {
+    e.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
@@ -46,16 +108,31 @@ async function login() {
         let data = await response.json();
         if (response.ok) {
             alert("Bienvenido, " + username);
+            Desplegar(); // Ocultar formulario
         } else {
-            alert("Error: " + data.message);
+            mostrarError(data.message || "Credenciales incorrectas");
         }
     } catch (error) {
-        alert("Error de conexión: " + error.message);
+        mostrarError("Error de conexión: " + error.message);
     }
 }
 
-// Función para alternar la visibilidad del formulario de login
+// ========== FUNCIONES AUXILIARES ========== //
 function Desplegar() {
-    let desplegar = document.getElementById("loginForm");
-    desplegar.style.display = desplegar.style.display === "block" ? "none" : "block";
+    const desplegar = document.getElementById("loginForm");
+    if (desplegar) {
+        desplegar.style.display = desplegar.style.display === "block" ? "none" : "block";
+    }
+}
+
+function mostrarError(mensaje) {
+    const errorContainer = document.querySelector('.error-message');
+    if (errorContainer) {
+        errorContainer.textContent = mensaje;
+        errorContainer.style.display = 'block';
+        
+        setTimeout(() => {
+            errorContainer.style.display = 'none';
+        }, 5000);
+    }
 }

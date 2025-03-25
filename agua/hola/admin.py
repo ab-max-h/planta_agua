@@ -6,6 +6,15 @@ from . import  models
 from django_summernote.admin import SummernoteModelAdmin
 from .models import Post
 from .models import Announcement
+from django.contrib import admin
+from .models import Evento
+
+@admin.register(Evento)
+class EventoAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'activo')  # Para ver qué eventos están activos
+    list_filter = ('activo',)
+
+
 
 
 class PostAdmin(SummernoteModelAdmin):  

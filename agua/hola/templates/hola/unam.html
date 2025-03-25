@@ -65,28 +65,28 @@
   <h1>Bienvenido a PTAR</h1>
   <p class="lead-text">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
 </main>
-
-<!-- Mejorar sección de avisos -->
 <section class="avisos">
-  <div class="l-container">
-      <h2 class="section-title">Avisos</h2>
-      {% if posts %}
-          {% for post in posts %}
-              <div class="post-item animate__animated animate__fadeInUp">
-                  <h3>{{ post.title }}</h3>
-                  <div class="post-content">
-                      {{ post.content|safe }}
-                  </div>
-                  <div class="post-meta">
-                      Publicado el: {{ post.created_at|date:"d M Y" }}
-                  </div>
-              </div>
-          {% endfor %}
-      {% else %}
-          <p class="no-posts">No hay publicaciones recientes.</p>
-      {% endif %}
-  </div>
-</section>
+    <div class="l-container">
+        <h2 class="section-title">Avisos</h2>
+        {% if posts %}
+            <div class="posts-container"> <!-- Contenedor flex para los posts -->
+                {% for post in posts %}
+                    <div class="post-item animate__animated animate__fadeInUp">
+                        <h3>{{ post.title }}</h3>
+                        <div class="post-content">
+                            {{ post.content|safe }}
+                        </div>
+                        <div class="post-meta">
+                            Publicado el: {{ post.created_at|date:"d M Y" }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-posts">No hay publicaciones recientes.</p>
+        {% endif %}
+    </div>
+  </section>
     <!-- Sección tríptico: Objetivo, Aspectos académicos, Impactos y beneficios -->
     <section class="triptico">
       <div class="triptico-item">
@@ -135,6 +135,48 @@
           <iframe src="https://www.youtube.com/embed/GkdVabBzKfM?start=5" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
   </section>   
+
+  <script>
+    // Fuerza el diseño horizontal de los posts
+    document.addEventListener('DOMContentLoaded', function() {
+        const postsContainer = document.querySelector('.posts-container');
+        
+        if (postsContainer) {
+            // Aplica estilos directamente
+            postsContainer.style.display = 'flex';
+            postsContainer.style.overflowX = 'auto';
+            postsContainer.style.gap = '25px';
+            postsContainer.style.flexWrap = 'nowrap';
+            
+            // Aplica estilos a cada post
+            document.querySelectorAll('.post-item').forEach(post => {
+                post.style.flex = '0 0 300px';
+                post.style.marginBottom = '0';
+            });
+        }
+    });
+    </script>
+
+{% if evento %}
+<div id="popup" style="display: none;">
+    <a href="{{ evento.enlace }}" target="_blank">
+        <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+    </a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"/>
+
+<script>
+    $(document).ready(function() {
+        $.fancybox.open({
+            src: '#popup',
+            type: 'inline'
+        });
+    });
+</script>
+{% endif %}
 
 
 
