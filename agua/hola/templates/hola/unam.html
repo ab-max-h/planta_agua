@@ -115,6 +115,124 @@
       </div>
   </section>
 
+  <!-- Seccion de galeria de fotos de la ptar-->
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+        <h2 class="gallery-title">Nuestra <span>Galería</span></h2>
+        <p class="gallery-subtitle">Desliza para explorar nuestros momentos especiales</p>
+    </div>
+
+    <div class="gallery-container">
+        <div class="gallery-track">
+            <!-- Ejemplo de imagen en la galería -->
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/2.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/3.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/4.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="image-container">
+                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3>Atardecer en la montaña</h3>
+                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="gallery-pagination">
+        <!-- Los puntos se generarán con JS -->
+    </div>
+</section>
+
+<!-- Modal para imagen ampliada -->
+<div class="modal" id="imageModal">
+    <span class="close-btn">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div class="modal-caption" id="modalCaption"></div>
+</div>
+<div class="gallery-controls bottom-controls">
+    <button id="prevBtn" class="control-btn"><i class="fas fa-chevron-left"></i></button>
+    <button id="nextBtn" class="control-btn"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+</section>
 
 
   <!-- Sección línea de tiempo (esqueleto) -->

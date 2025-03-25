@@ -715,6 +715,157 @@ main h1 {
         width: 100%;
     }
 }
+
+/*Seccion de galeria de fotos*/
+
+.gallery-section {
+    max-width: 1400px;
+    margin: 50px auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.gallery-title {
+    font-size: 2.8rem;
+    color: #2c3e50;
+}
+
+.gallery-title span {
+    color: #e74c3c;
+}
+
+.gallery-controls {
+    display: flex;
+}
+
+.bottom-controls {
+    position: relative;  /* Permite ajustar la posición sin afectar otros elementos */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Espaciado entre la galería y los botones */
+    gap: 15px; /* Espacio entre botones */
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #3498db;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+
+.gallery-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.gallery-track {
+    display: flex;
+    gap: 25px;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item {
+    flex: 0 0 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    color: white;
+}
+
+.view-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+}
+
+.gallery-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #bdc3c7;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+    display: block;
+    margin: 60px auto;
+    max-width: 80%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .gallery-title {
+        font-size: 2rem;
+    }
+    
+    .gallery-item {
+        flex: 0 0 280px;
+    }
+}
 /* ===================================================
    ANIMACIONES
    =================================================== */

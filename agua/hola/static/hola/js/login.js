@@ -165,3 +165,85 @@ document.addEventListener("click", () => {
             checkTimeline(); // Iniciar la animación al cargar
         });
         
+//fotos XD
+document.addEventListener('DOMContentLoaded', function() {
+    const galleryTrack = document.querySelector('.gallery-track');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pagination = document.querySelector('.gallery-pagination');
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const closeBtn = document.querySelector('.close-btn');
+    
+    let currentIndex = 0;
+    const itemWidth = galleryItems[0].offsetWidth + 25; // Ancho + gap
+    
+    // Crear puntos de paginación
+    galleryItems.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('pagination-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+        });
+        pagination.appendChild(dot);
+    });
+    
+    const dots = document.querySelectorAll('.pagination-dot');
+    
+    // Función para mover la galería
+    function goToSlide(index) {
+        currentIndex = index;
+        const offset = -currentIndex * itemWidth;
+        galleryTrack.style.transform = `translateX(${offset}px)`;
+        
+        // Actualizar clases activas
+        galleryItems.forEach((item, i) => {
+            item.classList.toggle('active', i === currentIndex);
+        });
+        
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
+    
+    // Botones de navegación
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : galleryItems.length - 1;
+        goToSlide(currentIndex);
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex < galleryItems.length - 1) ? currentIndex + 1 : 0;
+        goToSlide(currentIndex);
+    });
+    
+    // Abrir modal al hacer clic en botón "Ampliar"
+    document.querySelectorAll('.view-btn').forEach((btn, index) => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const imgSrc = galleryItems[index].querySelector('.gallery-image').src;
+            const title = galleryItems[index].querySelector('.image-overlay h3').textContent;
+            const desc = galleryItems[index].querySelector('.image-overlay p').textContent;
+            
+            modalImg.src = imgSrc;
+            modalCaption.innerHTML = `<h3>${title}</h3><p>${desc}</p>`;
+            modal.style.display = "block";
+        });
+    });
+    
+    // Cerrar modal
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = "none";
+    });
+    
+    // Cerrar al hacer clic fuera de la imagen
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
