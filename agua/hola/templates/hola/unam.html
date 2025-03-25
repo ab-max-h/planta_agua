@@ -115,11 +115,9 @@
       </div>
   </section>
 
-  <!-- Seccion de galeria de fotos de la ptar-->
-
   <section class="gallery-section">
     <div class="gallery-header">
-        <h2 class="gallery-title">Nuestra <span>Galería</span></h2>
+        <h2 class="gallery-title"><span>Galería</span></h2>
         <p class="gallery-subtitle">Desliza para explorar nuestros momentos especiales</p>
     </div>
 
@@ -132,8 +130,8 @@
                     <div class="image-overlay">
                         <h3>Atardecer en la montaña</h3>
                         <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                        <button class="view-btn pulse">Ampliar <i class="fas fa-expand"></i></button>
                     </div>
-                
                 </div>
             </div>
             <div class="gallery-item">
@@ -142,9 +140,8 @@
                     <div class="image-overlay">
                         <h3>Atardecer en la montaña</h3>
                         <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                        <button class="view-btn pulse">Ampliar <i class="fas fa-expand"></i></button>
                     </div>
-                
                 </div>
             </div>
             <div class="gallery-item">
@@ -153,9 +150,8 @@
                     <div class="image-overlay">
                         <h3>Atardecer en la montaña</h3>
                         <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                        <button class="view-btn pulse">Ampliar <i class="fas fa-expand"></i></button>
                     </div>
-                
                 </div>
             </div>
             <div class="gallery-item">
@@ -164,60 +160,21 @@
                     <div class="image-overlay">
                         <h3>Atardecer en la montaña</h3>
                         <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
+                        <button class="view-btn pulse">Ampliar <i class="fas fa-expand"></i></button>
                     </div>
-                
                 </div>
             </div>
-            <div class="gallery-item">
-                <div class="image-container">
-                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
-                    <div class="image-overlay">
-                        <h3>Atardecer en la montaña</h3>
-                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
-                    </div>
-                
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="image-container">
-                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
-                    <div class="image-overlay">
-                        <h3>Atardecer en la montaña</h3>
-                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
-                    </div>
-                
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="image-container">
-                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
-                    <div class="image-overlay">
-                        <h3>Atardecer en la montaña</h3>
-                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
-                    </div>
-                
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="image-container">
-                    <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
-                    <div class="image-overlay">
-                        <h3>Atardecer en la montaña</h3>
-                        <p>Un hermoso atardecer capturado durante nuestra expedición</p>
-                        <button class="view-btn">Ampliar <i class="fas fa-expand"></i></button>
-                    </div>
-                
-                </div>
-            </div>
+            <!-- Repetir los demás items de la galería de manera similar -->
         </div>
     </div>
-    
+
     <div class="gallery-pagination">
         <!-- Los puntos se generarán con JS -->
+    </div>
+
+    <div class="gallery-controls bottom-controls">
+        <button id="prevBtn" class="control-btn float"><i class="fas fa-chevron-left"></i></button>
+        <button id="nextBtn" class="control-btn float"><i class="fas fa-chevron-right"></i></button>
     </div>
 </section>
 
@@ -227,65 +184,58 @@
     <img class="modal-content" id="modalImage">
     <div class="modal-caption" id="modalCaption"></div>
 </div>
-<div class="gallery-controls bottom-controls">
-    <button id="prevBtn" class="control-btn"><i class="fas fa-chevron-left"></i></button>
-    <button id="nextBtn" class="control-btn"><i class="fas fa-chevron-right"></i></button>
-</div>
-
-</section>
 
 
-  <!-- Sección línea de tiempo (esqueleto) -->
-   <section>
-  <h2 class="timeline-title"><span>Línea de Tiempo</span></h2>
-  <p class="timeline-subtitle">Una representación visual de los eventos importantes</p>
+<!-- Sección línea de tiempo -->
+<section class="timeline-section-wrapper">
+    <h2 class="timeline-title"><span>Línea de Tiempo</span></h2>
+    <p class="timeline-subtitle">Una representación visual de los eventos importantes</p>
 
-  <div class="timeline-section">
-    
-    <div class="timeline">
-        <div class="timeline-line"></div>
+    <div class="timeline-section">
+        <div class="timeline">
+            <div class="timeline-line"></div>
 
-        <div class="timeline-item" data-year="2025">
-            <div class="timeline-dot" data-year="2025"></div>
-            <div class="timeline-content">
-                <h3>Evento 1</h3>
-                <p>Descripción del primer evento en la línea de tiempo.</p>
+            <div class="timeline-item" data-year="2025">
+                <div class="timeline-dot" data-year="2025"></div>
+                <div class="timeline-content">
+                    <h3>Evento 1</h3>
+                    <p>Descripción del primer evento en la línea de tiempo.</p>
+                </div>
             </div>
-        </div>
 
-        <div class="timeline-item" data-year="2026">
-            <div class="timeline-dot" data-year="2026"></div>
-            <div class="timeline-content">
-                <h3>Evento 2</h3>
-                <p>Descripción del segundo evento en la línea de tiempo.</p>
+            <div class="timeline-item" data-year="2026">
+                <div class="timeline-dot" data-year="2026"></div>
+                <div class="timeline-content">
+                    <h3>Evento 2</h3>
+                    <p>Descripción del segundo evento en la línea de tiempo.</p>
+                </div>
             </div>
-        </div>
 
-        <div class="timeline-item" data-year="2027">
-            <div class="timeline-dot" data-year="2027"></div>
-            <div class="timeline-content">
-                <h3>Evento 3</h3>
-                <p>Descripción del tercer evento en la línea de tiempo.</p>
+            <div class="timeline-item" data-year="2027">
+                <div class="timeline-dot" data-year="2027"></div>
+                <div class="timeline-content">
+                    <h3>Evento 3</h3>
+                    <p>Descripción del tercer evento en la línea de tiempo.</p>
+                </div>
             </div>
-        </div>
 
-        <div class="timeline-item" data-year="2028">
-            <div class="timeline-dot" data-year="2028"></div>
-            <div class="timeline-content">
-                <h3>Evento 4</h3>
-                <p>Descripción del cuarto evento en la línea de tiempo.</p>
+            <div class="timeline-item" data-year="2028">
+                <div class="timeline-dot" data-year="2028"></div>
+                <div class="timeline-content">
+                    <h3>Evento 4</h3>
+                    <p>Descripción del cuarto evento en la línea de tiempo.</p>
+                </div>
             </div>
-        </div>
 
-        <div class="timeline-item" data-year="2029">
-            <div class="timeline-dot" data-year="2029"></div>
-            <div class="timeline-content">
-                <h3>Evento 5</h3>
-                <p>Descripción del quinto evento en la línea de tiempo.</p>
+            <div class="timeline-item" data-year="2029">
+                <div class="timeline-dot" data-year="2029"></div>
+                <div class="timeline-content">
+                    <h3>Evento 5</h3>
+                    <p>Descripción del quinto evento en la línea de tiempo.</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 
   <!-- Sección final: Videos y texto descriptivo -->

@@ -145,27 +145,74 @@ document.addEventListener("click", () => {
     });
   }, { once: true });
 
-        // Animación al hacer scroll
-        document.addEventListener('DOMContentLoaded', function () {
-            const timelineItems = document.querySelectorAll('.timeline-item');
-        
-            function checkTimeline() {
-                const triggerPoint = window.innerWidth * 0.8; // Ajustar a la cantidad visible de la pantalla
-        
-                timelineItems.forEach(item => {
-                    const rect = item.getBoundingClientRect();
-                    if (rect.left < triggerPoint && rect.right > 0) {
-                        item.classList.add('animate');
-                    }
-                });
+  // Animación al hacer scroll
+document.addEventListener('DOMContentLoaded', function () {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const gallerySection = document.querySelector('.gallery-section');
+
+    // Animación para la galería al aparecer
+    const galleryObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                galleryObserver.unobserve(entry.target);
             }
-        
-            window.addEventListener('scroll', checkTimeline);
-            window.addEventListener('resize', checkTimeline);
-            checkTimeline(); // Iniciar la animación al cargar
         });
+    }, { threshold: 0.1 });
+
+    galleryObserver.observe(gallerySection);
+
+    // Ajustar la línea de tiempo al cargar y al redimensionar
+    function adjustTimeline() {
+        const timeline = document.querySelector('.timeline');
+        const timelineLine = document.querySelector('.timeline-line');
+        const timelineItems = document.querySelectorAll('.timeline-item');
         
-//fotos XD
+        if (timelineItems.length > 0) {
+            // Calcular el ancho total necesario
+            const firstItem = timelineItems[0];
+            const lastItem = timelineItems[timelineItems.length - 1];
+            const totalWidth = (lastItem.offsetLeft + lastItem.offsetWidth) - firstItem.offsetLeft;
+            
+            // Ajustar el ancho de la línea
+            timelineLine.style.width = `${totalWidth}px`;
+            
+            // Centrar la línea horizontalmente
+            const lineOffset = firstItem.offsetLeft + (firstItem.offsetWidth / 2);
+            timelineLine.style.left = `${lineOffset}px`;
+            
+            // Asegurar que el contenedor tenga suficiente espacio
+            timeline.style.minWidth = `${totalWidth + (lineOffset * 2)}px`;
+        }
+    }
+
+    // Animación para la línea de tiempo
+    function checkTimeline() {
+        const triggerPoint = window.innerHeight * 0.8;
+
+        timelineItems.forEach((item, index) => {
+            const rect = item.getBoundingClientRect();
+            if (rect.top < triggerPoint && rect.bottom > 0) {
+                // Añadir un retraso escalonado para cada elemento
+                setTimeout(() => {
+                    item.classList.add('animate');
+                }, index * 200);
+            }
+        });
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', checkTimeline);
+    window.addEventListener('resize', function() {
+        checkTimeline();
+        adjustTimeline();
+    });
+    
+    // Iniciar animaciones al cargar
+    checkTimeline();
+    adjustTimeline();
+});
+// Galería de fotos
 document.addEventListener('DOMContentLoaded', function() {
     const galleryTrack = document.querySelector('.gallery-track');
     const galleryItems = document.querySelectorAll('.gallery-item');
@@ -178,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.querySelector('.close-btn');
     
     let currentIndex = 0;
-    const itemWidth = galleryItems[0].offsetWidth + 25; // Ancho + gap
+    const itemWidth = galleryItems[0].offsetWidth + 30; // Ancho + gap
     
     // Crear puntos de paginación
     galleryItems.forEach((_, index) => {
@@ -193,31 +240,38 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const dots = document.querySelectorAll('.pagination-dot');
     
-    // Función para mover la galería
+    // Función para mover la galería con efecto de rebote
     function goToSlide(index) {
         currentIndex = index;
         const offset = -currentIndex * itemWidth;
+        
+        // Añadir clase de transición suave
+        galleryTrack.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
         galleryTrack.style.transform = `translateX(${offset}px)`;
         
         // Actualizar clases activas
-        galleryItems.forEach((item, i) => {
-            item.classList.toggle('active', i === currentIndex);
-        });
-        
         dots.forEach((dot, i) => {
             dot.classList.toggle('active', i === currentIndex);
+            if (i === currentIndex) {
+                dot.classList.add('pulse');
+                setTimeout(() => dot.classList.remove('pulse'), 1000);
+            }
         });
     }
     
-    // Botones de navegación
+    // Botones de navegación con efecto
     prevBtn.addEventListener('click', () => {
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : galleryItems.length - 1;
         goToSlide(currentIndex);
+        prevBtn.classList.add('pulse');
+        setTimeout(() => prevBtn.classList.remove('pulse'), 500);
     });
     
     nextBtn.addEventListener('click', () => {
         currentIndex = (currentIndex < galleryItems.length - 1) ? currentIndex + 1 : 0;
         goToSlide(currentIndex);
+        nextBtn.classList.add('pulse');
+        setTimeout(() => nextBtn.classList.remove('pulse'), 500);
     });
     
     // Abrir modal al hacer clic en botón "Ampliar"
@@ -231,19 +285,51 @@ document.addEventListener('DOMContentLoaded', function() {
             modalImg.src = imgSrc;
             modalCaption.innerHTML = `<h3>${title}</h3><p>${desc}</p>`;
             modal.style.display = "block";
+            document.body.style.overflow = "hidden"; // Deshabilitar scroll
         });
     });
     
     // Cerrar modal
     closeBtn.addEventListener('click', () => {
         modal.style.display = "none";
+        document.body.style.overflow = "auto"; // Habilitar scroll
     });
     
     // Cerrar al hacer clic fuera de la imagen
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = "none";
+            document.body.style.overflow = "auto"; // Habilitar scroll
         }
     });
-});
 
+    // Efecto de hover para los items de la galería
+    galleryItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.classList.add('float');
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.classList.remove('float');
+        });
+    });
+
+    // Auto-desplazamiento opcional (descomentar si se desea)
+    /*
+    let autoScroll = setInterval(() => {
+        currentIndex = (currentIndex < galleryItems.length - 1) ? currentIndex + 1 : 0;
+        goToSlide(currentIndex);
+    }, 5000);
+
+    galleryTrack.addEventListener('mouseenter', () => {
+        clearInterval(autoScroll);
+    });
+
+    galleryTrack.addEventListener('mouseleave', () => {
+        autoScroll = setInterval(() => {
+            currentIndex = (currentIndex < galleryItems.length - 1) ? currentIndex + 1 : 0;
+            goToSlide(currentIndex);
+        }, 5000);
+    });
+    */
+});
