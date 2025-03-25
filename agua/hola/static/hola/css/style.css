@@ -270,27 +270,451 @@ main h1 {
    SECCIÓN VIDEOS
    =================================================== */
 
+/* Estilos generales */
 .videos-texto {
-    padding: 60px 20px;
-    background: #f4f4f4;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f4f4f4 0%, #e0e0e0 100%);
 }
 
+.section-title {
+    text-align: center;
+    font-size: 3rem;  /* Aumentado para mayor impacto */
+    font-weight: bold;  /* Añadido para destacar el título */
+    margin-bottom: 60px;
+    color: #2c3e50;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;  /* Aumentado para mayor énfasis */
+    height: 6px;  /* Hizo el borde más grueso */
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+    border-radius: 3px;
+}
+
+/* Bloques de video */
 .video-block {
-    max-width: 800px;
-    margin: 0 auto 40px;
+    max-width: 1200px;  /* Aumentado el tamaño máximo para más espacio */
+    margin: 0 auto 60px;
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 35px;
+    border-radius: 16px;  /* Bordes más redondeados */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);  /* Sombra más fuerte */
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.video-block:hover {
+    transform: translateY(-8px);  /* Mayor desplazamiento al hacer hover */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.video-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1f1f1;
+    position: relative;
+}
+
+.video-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;  /* Ancho mayor para la barra de énfasis */
+    height: 3px;
+    background: #4ecdc4;
+}
+
+/* Contenido del video */
+.video-content {
+    display: flex;
+    gap: 40px;  /* Mayor espacio entre la descripción y el video */
+}
+
+.video-description {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.video-description p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.video-wrapper {
+    flex: 1;
+    min-width: 0;
 }
 
 .video-block iframe {
     width: 100%;
-    height: 400px;
+    height: 350px;  /* Aumentada la altura del video */
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;  /* Bordes más suaves */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
 }
 
+.video-block iframe:hover {
+    transform: scale(1.05);  /* Aumento el zoom al hacer hover */
+}
+
+/* Lista de características */
+.video-features {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+}
+
+.video-features li {
+    margin-bottom: 12px;
+    color: #666;
+    font-size: 1rem;  /* Aumenté el tamaño de fuente para mayor legibilidad */
+}
+
+.video-features i {
+    color: #4ecdc4;
+    width: 20px;
+    margin-right: 10px;
+}
+
+/* Botón */
+.watch-btn {
+    background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+    color: white;
+    border: none;
+    padding: 15px 30px;  /* Aumenté el tamaño del botón */
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
+}
+
+.watch-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(90deg, #ff8e8e, #ff6b6b);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .video-content {
+        flex-direction: column;
+    }
+    
+    .video-description {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .video-block iframe {
+        height: 250px;
+    }
+}
+
+
+/*------------------linea del tiempo----------------*/
+.timeline-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    position: relative;
+}
+
+.timeline-title {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    position: relative;
+}
+
+.timeline-title span {
+    color: #3498db;
+}
+
+.timeline-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 60px;
+    font-weight: 300;
+}
+
+/* Línea de tiempo */
+.timeline {
+    position: relative;
+    padding: 40px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #3498db, #9b59b6, #e74c3c);
+    transform: translateX(-50%);
+    z-index: 1;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los items de la línea de tiempo */
+.timeline-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 50%;
+    position: relative;
+    margin: 30px 0;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.8s ease;
+}
+
+.timeline-item:nth-child(even) {
+    justify-content: flex-start;
+    padding-left: 50%;
+    padding-right: 0;
+    transform: translateX(-100px);
+}
+
+.timeline-item.animate {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #3498db, #9b59b6);
+    border-radius: 50%;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.2);
+    transition: all 0.3s ease;
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+    left: auto;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.timeline-dot:hover {
+    transform: translateX(-50%) scale(1.2);
+    box-shadow: 0 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+.timeline-item:nth-child(even) .timeline-dot:hover {
+    transform: translateX(50%) scale(1.2);
+}
+
+.timeline-dot::before {
+    content: attr(data-year);
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: #3498db;
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+/* Estilo del contenido de la línea de tiempo */
+/* Contenedor de la línea de tiempo */
+.timeline-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 20px;
+    position: relative;
+    overflow-x: auto; /* Habilitar desplazamiento horizontal */
+}
+
+.timeline-title {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    position: relative;
+}
+
+.timeline-title span {
+    color: #3498db;
+}
+
+.timeline-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 60px;
+    font-weight: 300;
+}
+
+/* Línea de tiempo */
+.timeline {
+    display: flex;  /* Usar flexbox para disposición horizontal */
+    flex-wrap: nowrap;  /* Evitar que los elementos se muevan a una nueva línea */
+    padding: 40px 0;
+    position: relative;
+    justify-content: flex-start;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(to right, #3498db, #9b59b6, #e74c3c);
+    transform: translateY(-50%);
+    z-index: 1;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los items de la línea de tiempo */
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 60px;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.8s ease;
+}
+
+.timeline-item.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #3498db, #9b59b6);
+    border-radius: 50%;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.2);
+    transition: all 0.3s ease;
+}
+
+.timeline-dot::before {
+    content: attr(data-year);
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: #3498db;
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+/* Estilo del contenido de la línea de tiempo */
+.timeline-content {
+    width: 250px;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.timeline-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #3498db, #9b59b6);
+}
+
+.timeline-content h3 {
+    margin: 0 0 15px;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.timeline-content p {
+    margin: 0 0 20px;
+    color: #7f8c8d;
+}
+
+/* Estilo de la imagen dentro de cada item */
+.timeline-img {
+    height: 180px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.timeline-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.timeline-content:hover .timeline-img img {
+    transform: scale(1.05);
+}
+
+/* Estilo del contenedor de la línea de tiempo horizontal */
+.timeline-section {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.timeline-section::-webkit-scrollbar {
+    height: 8px;
+}
+
+.timeline-section::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 4px;
+}
+
+.timeline-section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timeline-item {
+        margin: 30px 20px;
+    }
+
+    .timeline-content {
+        width: 200px;
+    }
+
+    .timeline-line {
+        width: 100%;
+    }
+}
 /* ===================================================
    ANIMACIONES
    =================================================== */

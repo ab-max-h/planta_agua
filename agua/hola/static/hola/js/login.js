@@ -144,3 +144,24 @@ document.addEventListener("click", () => {
       console.log("Error al reproducir el audio:", error);
     });
   }, { once: true });
+
+        // Animación al hacer scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+        
+            function checkTimeline() {
+                const triggerPoint = window.innerWidth * 0.8; // Ajustar a la cantidad visible de la pantalla
+        
+                timelineItems.forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    if (rect.left < triggerPoint && rect.right > 0) {
+                        item.classList.add('animate');
+                    }
+                });
+            }
+        
+            window.addEventListener('scroll', checkTimeline);
+            window.addEventListener('resize', checkTimeline);
+            checkTimeline(); // Iniciar la animación al cargar
+        });
+        

@@ -26,7 +26,7 @@
   <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="32x32" />
   <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="192x192" />
   <link rel="apple-touch-icon" href="{% static 'hola/img/images.png' %}" />
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
@@ -118,29 +118,100 @@
 
 
   <!-- Sección línea de tiempo (esqueleto) -->
-  <section class="timeline">
-      <h2>Línea de Tiempo</h2>
-      <div class="timeline-container">
-          <!-- Esqueleto para la línea de tiempo sobre la planta de agua -->
-      </div>
-  </section>
+   <section>
+  <h2 class="timeline-title"><span>Línea de Tiempo</span></h2>
+  <p class="timeline-subtitle">Una representación visual de los eventos importantes</p>
+
+  <div class="timeline-section">
+    
+    <div class="timeline">
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item" data-year="2025">
+            <div class="timeline-dot" data-year="2025"></div>
+            <div class="timeline-content">
+                <h3>Evento 1</h3>
+                <p>Descripción del primer evento en la línea de tiempo.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item" data-year="2026">
+            <div class="timeline-dot" data-year="2026"></div>
+            <div class="timeline-content">
+                <h3>Evento 2</h3>
+                <p>Descripción del segundo evento en la línea de tiempo.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item" data-year="2027">
+            <div class="timeline-dot" data-year="2027"></div>
+            <div class="timeline-content">
+                <h3>Evento 3</h3>
+                <p>Descripción del tercer evento en la línea de tiempo.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item" data-year="2028">
+            <div class="timeline-dot" data-year="2028"></div>
+            <div class="timeline-content">
+                <h3>Evento 4</h3>
+                <p>Descripción del cuarto evento en la línea de tiempo.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item" data-year="2029">
+            <div class="timeline-dot" data-year="2029"></div>
+            <div class="timeline-content">
+                <h3>Evento 5</h3>
+                <p>Descripción del quinto evento en la línea de tiempo.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
 
   <!-- Sección final: Videos y texto descriptivo -->
   <section class="videos-texto">
-      <h2>Galería de Videos</h2>
-      <!-- Video 1 -->
-      <div class="video-block">
-          <h3>Título del video uno</h3>
-          <p>Descripción del video.</p>
-          <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <!-- Video 2 -->
-      <div class="video-block">
-          <h3>Título del video dos</h3>
-          <p>Descripción del video.</p>
-          <iframe src="https://www.youtube.com/embed/GkdVabBzKfM?start=5" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-  </section>   
+    <h2 class="section-title">Galería de Videos</h2>
+    
+    <!-- Video 1 -->
+    <div class="video-block">
+        <h3 class="video-title">Título del Video Uno</h3>
+        <div class="video-content">
+            <div class="video-description">
+                <p>Explora el contenido detallado de este video y descubre lo que te espera. ¡No te lo puedes perder!</p>
+                <ul class="video-features">
+                    <li><i class="fas fa-clock"></i> Duración: 5:30 min</li>
+                    <li><i class="fas fa-calendar"></i> Publicado: 15/03/2023</li>
+                    <li><i class="fas fa-eye"></i> 1,250 vistas</li>
+                </ul>
+                <button class="watch-btn">Ver Más Videos</button>
+            </div>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Video 2 -->
+    <div class="video-block">
+        <h3 class="video-title">Título del Video Dos</h3>
+        <div class="video-content">
+            <div class="video-description">
+                <p>Conoce todos los detalles de este segundo video. Una experiencia única para aprender algo nuevo.</p>
+                <ul class="video-features">
+                    <li><i class="fas fa-clock"></i> Duración: 7:45 min</li>
+                    <li><i class="fas fa-calendar"></i> Publicado: 22/03/2023</li>
+                    <li><i class="fas fa-eye"></i> 2,100 vistas</li>
+                </ul>
+                <button class="watch-btn">Ver Más Videos</button>
+            </div>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/GkdVabBzKfM?start=5" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
 
   <script>
     // Fuerza el diseño horizontal de los posts
