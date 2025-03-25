@@ -136,3 +136,11 @@ function mostrarError(mensaje) {
         }, 5000);
     }
 }
+
+document.addEventListener("click", () => {
+    let audio = document.getElementById("audio");
+    audio.muted = false; // Asegura que el audio no esté en mute
+    audio.play().catch(error => {
+      console.log("Error al reproducir el audio:", error);
+    });
+  }, { once: true });
