@@ -315,11 +315,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Auto-desplazamiento opcional (descomentar si se desea)
-    /*
+    
     let autoScroll = setInterval(() => {
         currentIndex = (currentIndex < galleryItems.length - 1) ? currentIndex + 1 : 0;
         goToSlide(currentIndex);
-    }, 5000);
+    }, 1500);
 
     galleryTrack.addEventListener('mouseenter', () => {
         clearInterval(autoScroll);
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
         autoScroll = setInterval(() => {
             currentIndex = (currentIndex < galleryItems.length - 1) ? currentIndex + 1 : 0;
             goToSlide(currentIndex);
-        }, 5000);
+        }, 1500);
     });
-    */
+    
 });
