@@ -21,6 +21,7 @@ from .models import Post
 from django.http import JsonResponse
 from .models import Bitacora
 from .models import Evento  # Importa el modelo Evento
+from django.contrib.auth.decorators import login_required
 
 def datos_bitacora(request):
     datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
@@ -94,7 +95,7 @@ def index(request):
     # GET: Renderiza con posts
     return render(request, "hola/unam.html", {"posts": posts , "evento": evento})
 
-
+@login_required
 def datos(request):
     bitacoras = Bitacora.objects.all()  # Obtener todas las bitácoras
     return render(request, "hola/datos.html", {"bitacoras": bitacoras})

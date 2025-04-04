@@ -130,3 +130,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+AUTHENTICATION_BACKENDS=[
+    'django.contrib.auth.backends.ModelBackend',
+]
+LOGIN_URL = 'index'
+LOGIN_REDIRECT_URL = "hola/datos.html"
