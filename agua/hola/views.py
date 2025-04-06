@@ -22,7 +22,7 @@ from django.http import JsonResponse
 from .models import Bitacora
 from .models import Evento  # Importa el modelo Evento
 from django.contrib.auth.decorators import login_required
-
+from .models import Portada
 def datos_bitacora(request):
     datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
     return JsonResponse(datos, safe=False)
@@ -79,7 +79,7 @@ def importar_bitacora_xlsx(request):
 def index(request):
     posts = Post.objects.all().order_by('-created_at')  # Obtener posts
     evento = Evento.objects.filter(activo=True).first()  # Obtener evento activo
-
+    portada_activa = Portada.objects.filter(activa=True).last() 
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -90,10 +90,10 @@ def index(request):
             return redirect('/datos/')
         else:
             # Renderiza con posts incluso en error
-            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts , "evento": evento})
+            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts , "evento": evento, "portada_activa": portada_activa })
     
     # GET: Renderiza con posts
-    return render(request, "hola/unam.html", {"posts": posts , "evento": evento})
+    return render(request, "hola/unam.html", {"posts": posts , "evento": evento, "portada_activa": portada_activa})
 
 @login_required
 def datos(request):

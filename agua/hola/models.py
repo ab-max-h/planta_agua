@@ -43,3 +43,12 @@ class Bitacora(models.Model):
 
     def __str__(self):
         return f"Muestra {self.numero_muestra} - {self.fecha_hora}"
+
+# models.py (corrección)
+class Portada(models.Model):
+    imagen = models.ImageField(upload_to='portadas/')
+    activa = models.BooleanField(default=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)  # Nombre correcto
+
+    def __str__(self):
+        return f"Portada {self.fecha_creacion}"  # Usa fecha_creacion (con "n")

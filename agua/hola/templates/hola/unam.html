@@ -29,13 +29,19 @@
   <!-- Contenedor principal -->
   <div class="s-sink t-sink l-sink">
     
-    <section class="b-hero__img" style="background-image: url(&quot;{% static 'hola/img/portada.jpg' %}&quot;);">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-          <h1 class="hero-title">Planta de Tratamiento de Aguas Residuales</h1>
-          <p class="hero-subtitle">Transformando aguas, preservando la naturaleza y la Vida</p>
-      </div>
-  </section>
+  <!-- Nueva versión dinámica -->
+<section class="b-hero__img">
+    {% if portada_activa %}
+    <img src="{{ portada_activa.imagen.url }}" class="hero-portada" alt="Portada dinámica">
+{% else %}
+    <img src="{% static 'hola/img/portada.jpg' %}" class="hero-portada" alt="Portada predeterminada">
+{% endif %}
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Planta de Tratamiento de Aguas Residuales</h1>
+        <p class="hero-subtitle">Transformando aguas, preservando la naturaleza y la Vida</p>
+    </div>
+</section> 
   
 </div>
 <!-- Header corregido -->

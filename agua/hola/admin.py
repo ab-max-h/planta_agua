@@ -8,6 +8,23 @@ from .models import Post
 from .models import Announcement
 from django.contrib import admin
 from .models import Evento
+from .models import Portada
+from django.utils.safestring import mark_safe
+from django.contrib import admin
+from django.utils.safestring import mark_safe  # ¡Importa esto!
+from .models import Portada
+
+@admin.register(Portada)
+class PortadaAdmin(admin.ModelAdmin):
+    list_display = ['imagen_previa', 'activa', 'fecha_creacion']  # Asegúrate de incluir los campos reales
+    readonly_fields = ['imagen_previa']
+
+    # Define el método para la vista previa
+    def imagen_previa(self, obj):
+        if obj.imagen:
+            return mark_safe(f'<img src="{obj.imagen.url}" width="150" />')  # Usa mark_safe
+        return "Sin imagen"
+    imagen_previa.short_description = "Vista previa"  # Nombre de la columna
 
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
