@@ -1,190 +1,451 @@
 {% load static %}
-<script src="{% static 'hola/js/login.js' %}"></script>
-
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM: Universidad de la Nación</title>
+    
+    <!-- CSRF Token -->
     <script>
         document.cookie = "csrftoken={{ csrf_token }}";
     </script>
+
+    <!-- Audio de fondo -->
+    <audio id="audio" autoplay>
+        <source src="{% static 'hola/sonido/zelda.mp3' %}" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     
-  <title>UNAM: Universidad de la Nación</title>
-  
-  <!-- Hoja de estilos externa -->
-  
- <link rel="stylesheet" href="{% static 'hola/css/style.css' %}" media="all">
-
-
-
-  <!-- Iconos para la pestaña -->
-  <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="32x32" />
-  <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="192x192" />
-  <link rel="apple-touch-icon" href="{% static 'hola/img/images.png' %}" />
-  
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-
+    <!-- Iconos y estilos -->
+    <link rel="stylesheet" href="{% static 'hola/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="32x32">
+    <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{% static 'hola/img/images.png' %}">
 </head>
+
 <body class="div">
-  <!-- Contenedor principal -->
-  <div class="s-sink t-sink l-sink">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="{% static 'hola/img/logo.png' %}" alt="Logo Agua Viva" width="100" height="50">
+        </div>
+
+        <nav class="floating-nav">
+            <div class="nav-container">
+                <a href="#inicio" class="nav-item active" data-index="0">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="#triptico" class="nav-item" data-index="1">
+                    <i class="fas fa-th-large"></i>
+                    <span>Tríptico</span>
+                </a>
+                <a href="#avisos" class="nav-item" data-index="2">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Avisos</span>
+                </a>
+                <a href="#galeria" class="nav-item" data-index="3">
+                    <i class="fas fa-images"></i>
+                    <span>Galería</span>
+                </a>
+                <a href="#linea-tiempo" class="nav-item" data-index="4">
+                    <i class="fas fa-history"></i>
+                    <span>Línea de Tiempo</span>
+                </a>
+                <a href="#videos" class="nav-item" data-index="5">
+                    <i class="fas fa-video"></i>
+                    <span>Videos</span>
+                </a>
+            </div>
+        </nav>
+        <div class="desplegar">
+            <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
+            <div id="loginForm" class="Dcontenido">
+                <form method="POST" action="{% url 'index' %}">
+                    {% csrf_token %}
+                    <input type="text" id="username" name="username" placeholder="Usuario" required>
+                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                    <button type="submit">Entrar</button>
+                    {% if error %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </header>
+
     
-  <!-- Nueva versión dinámica -->
-<section class="b-hero__img">
-    {% if portada_activa %}
-    <img src="{{ portada_activa.imagen.url }}" class="hero-portada" alt="Portada dinámica">
-{% else %}
-    <img src="{% static 'hola/img/portada.jpg' %}" class="hero-portada" alt="Portada predeterminada">
-{% endif %}
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1 class="hero-title">Planta de Tratamiento de Aguas Residuales</h1>
-        <p class="hero-subtitle">Transformando aguas, preservando la naturaleza y la Vida</p>
-    </div>
-</section> 
-  
+<!-- Reemplazar la sección Hero original (línea ~90) -->
+<div class="s-sink t-sink l-sink">
+    <section id="inicio" class="b-hero__img">
+        {% if portada_activa %}
+            <img src="{{ portada_activa.imagen.url }}" class="hero-portada" alt="Portada dinámica">
+        {% else %}
+            <img src="{% static 'hola/img/portada.jpg' %}" class="hero-portada" alt="Portada predeterminada">
+        {% endif %}
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Planta de Tratamiento de Aguas Residuales</h1>
+            <p class="hero-subtitle">Transformando aguas, preservando la naturaleza y la Vida</p>
+        </div>
+    </section>
 </div>
-<!-- Header corregido -->
-<header>
-  <div class="logo">Agua Viva</div>
-  <div class="desplegar">
-      <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
-      <div id="loginForm" class="Dcontenido">
-          <form method="POST" action="{% url 'index' %}">
-              {% csrf_token %}
-              <input type="text" id="username" name="username" placeholder="Usuario" required>
-              <input type="password" id="password" name="password" placeholder="Contraseña" required>
-              <button type="submit">Entrar</button>
-              {% if error %}
-                  <p class="error-message">{{ error }}</p>
-              {% endif %}
-          </form>
-      </div>
-  </div>
-</header>
+    <!-- Contenido Principal -->
+    <main class="l-container">
+        <div class="hero-section">
+            <h1 class="hero-title animate-fadeIn">Bienvenido a <span class="highlight">PTAR</span></h1>
+            <p class="lead-text hero-subtitle animate-slideUp">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
+        </div>
+        
+        <!-- Sección Tríptico -->
+        <section id="triptico" class="triptico">
+            <div class="triptico-item animate-slideUp delay-1">
+                <div class="triptico-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h2>Objetivo</h2>
+                <p>Construir y operar la planta de tratamiento de aguas residuales para el riego de las áreas verdes de la FES Acatlán, minimizando el impacto ecológico y preservando el agua.</p>
+            </div>
+            
+            <div class="triptico-item animate-slideUp delay-2">
+                <div class="triptico-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2>Aspectos académicos</h2>
+                <ul>
+                    <li>Investigación en tratamiento de aguas residuales</li>
+                    <li>Visitas guiadas para estudiantes</li>
+                    <li>Prácticas profesionales y servicio social</li>
+                </ul>
+            </div>
+            
+            <div class="triptico-item animate-slideUp delay-3">
+                <div class="triptico-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h2>Impactos y beneficios</h2>
+                <p>Mejoras ambientales y sociales a través del uso eficiente del agua.</p>
+            </div>
+        </section>
+    </main>
 
-
-
-
-
-<main class="l-container">
-  <h1>Bienvenido a PTAR</h1>
-  <p class="lead-text">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
-</main>
-<section class="avisos">
-    <div class="l-container">
-        <h2 class="section-title">Avisos</h2>
-        {% if posts %}
-            <div class="posts-container"> <!-- Contenedor flex para los posts -->
-                {% for post in posts %}
-                    <div class="post-item animate__animated animate__fadeInUp">
-                        <h3>{{ post.title }}</h3>
-                        <div class="post-content">
-                            {{ post.content|safe }}
+    <!-- Sección Avisos -->
+    <section id="avisos" class="avisos">
+        <div class="l-container">
+            <h2 class="section-title">Avisos</h2>
+            {% if posts %}
+                <div class="posts-container">
+                    {% for post in posts %}
+                        <div class="post-item animate__animated animate__fadeInUp">
+                            <h3>{{ post.title }}</h3>
+                            <div class="post-content">
+                                {{ post.content|safe }}
+                            </div>
+                            <div class="post-meta">
+                                Publicado el: {{ post.created_at|date:"d M Y" }}
+                            </div>
                         </div>
-                        <div class="post-meta">
-                            Publicado el: {{ post.created_at|date:"d M Y" }}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-posts">No hay publicaciones recientes.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Galería de Imágenes -->
+    <section id="galeria" class="gallery-section">
+        <div class="gallery-header animate-fadeIn">
+            <h2 class="gallery-title"><span>Galería Visual</span></h2>
+            <p class="gallery-subtitle">Explora nuestros momentos especiales</p>
+            <div class="water-drops">
+                <div class="drop"></div>
+                <div class="drop delay-1"></div>
+                <div class="drop delay-2"></div>
+            </div>
+        </div>
+
+        <div class="gallery-container">
+            <div class="gallery-track">
+                <!-- Item de galería 1 -->
+                <div class="gallery-item animate-slideUp delay-1">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Atardecer en la montaña</h3>
+                                <div class="divider"></div>
+                                <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
+                
+                <!-- Item de galería 2 -->
+                <div class="gallery-item animate-slideUp delay-2">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/2.jpg' %}" alt="Imagen 2" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Investigación en campo</h3>
+                                <div class="divider"></div>
+                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item animate-slideUp delay-2">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/3.jpg' %}" alt="Imagen 2" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Investigación en campo</h3>
+                                <div class="divider"></div>
+                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item animate-slideUp delay-2">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/4.jpg' %}" alt="Imagen 2" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Investigación en campo</h3>
+                                <div class="divider"></div>
+                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
-        {% else %}
-            <p class="no-posts">No hay publicaciones recientes.</p>
-        {% endif %}
-    </div>
-  </section>
-    <!-- Sección tríptico: Objetivo, Aspectos académicos, Impactos y beneficios -->
-    <section class="triptico">
-      <div class="triptico-item">
-          <h2>Objetivo</h2>
-          <p>
-              Construir y poner en marcha la operación de la planta de tratamiento de aguas residuales para el riesgo de las áreas verdes de la FES Acatlán, a fin de minimizar el impacto ecológico, así como coadyuvar con la preservación del vital líquido suministrado por el pozo.
-          </p>
-      </div>
-      <div class="triptico-item">
-          <h2>Aspectos académicos</h2>
-          <ol>
-              <li>Impulsar líneas de investigación sobre tratamiento de aguas residuales</li>
-              <li>Visitas guiadas para alumnos de la Facultad y externos</li>
-              <li>Generación de recursos humanos: servicios sociales, prácticas profesionales y residencias profesionales</li>
-          </ol>
-      </div>
-      <div class="triptico-item">
-          <h2>Impactos y beneficios</h2>
-          <p>Resultados positivos en el medio ambiente y la sociedad.</p>
-      </div>
-  </section>
+        </div>
 
-
-
-  <!-- Sección línea de tiempo (esqueleto) -->
-  <section class="timeline">
-      <h2>Línea de Tiempo</h2>
-      <div class="timeline-container">
-          <!-- Esqueleto para la línea de tiempo sobre la planta de agua -->
-      </div>
-  </section>
-
-  <!-- Sección final: Videos y texto descriptivo -->
-  <section class="videos-texto">
-      <h2>Galería de Videos</h2>
-      <!-- Video 1 -->
-      <div class="video-block">
-          <h3>Título del video uno</h3>
-          <p>Descripción del video.</p>
-          <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <!-- Video 2 -->
-      <div class="video-block">
-          <h3>Título del video dos</h3>
-          <p>Descripción del video.</p>
-          <iframe src="https://www.youtube.com/embed/GkdVabBzKfM?start=5" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-  </section>   
-
-  <script>
-    // Fuerza el diseño horizontal de los posts
-    document.addEventListener('DOMContentLoaded', function() {
-        const postsContainer = document.querySelector('.posts-container');
         
-        if (postsContainer) {
-            // Aplica estilos directamente
-            postsContainer.style.display = 'flex';
-            postsContainer.style.overflowX = 'auto';
-            postsContainer.style.gap = '25px';
-            postsContainer.style.flexWrap = 'nowrap';
-            
-            // Aplica estilos a cada post
-            document.querySelectorAll('.post-item').forEach(post => {
-                post.style.flex = '0 0 300px';
-                post.style.marginBottom = '0';
-            });
-        }
-    });
-    </script>
-
-{% if evento %}
-<div id="popup" style="display: none;">
-    <a href="{{ evento.enlace }}" target="_blank">
-        <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
-    </a>
+    </div>
 </div>
+        <div class="gallery-pagination">
+            <!-- Los puntos se generarán con JS -->
+        </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"/>
+        <div class="gallery-controls">
+            <button id="prevBtn" class="control-btn float">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextBtn" class="control-btn float">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
 
-<script>
-    $(document).ready(function() {
-        $.fancybox.open({
-            src: '#popup',
-            type: 'inline'
+    <!-- Modal para imágenes ampliadas -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modalImage" class="modal-image">
+            <div id="modalCaption" class="modal-caption"></div>
+        </div>
+    </div>
+
+    <!-- Línea de Tiempo -->
+    <section id="linea-tiempo" class="timeline-section-wrapper">
+        <div class="timeline-header animate-fadeIn">
+            <h2 class="timeline-title"><span>Línea de Tiempo</span></h2>
+            <p class="timeline-subtitle">Descubre nuestro recorrido histórico</p>
+            <div class="timeline-water-drops">
+                <div class="drop"></div>
+                <div class="drop delay-1"></div>
+                <div class="drop delay-2"></div>
+            </div>
+        </div>
+
+        <div class="timeline-section">
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-progress"></div>
+
+                <!-- Evento 2025 -->
+                <div class="timeline-item" data-year="2025">
+                    <div class="timeline-dot" data-year="2025"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Inicio del Proyecto</h3>
+                        <p>Lanzamiento oficial de la iniciativa con el equipo fundador.</p>
+                        <div class="timeline-decoration"></div>
+                    </div>
+                </div>
+
+                <!-- Evento 2026 -->
+                <div class="timeline-item" data-year="2026">
+                    <div class="timeline-dot" data-year="2026"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Primeros Resultados</h3>
+                        <p>Publicación de los primeros hallazgos científicos relevantes.</p>
+                        <div class="timeline-decoration"></div>
+                    </div>
+                </div>
+
+                <!-- Evento 2027 -->
+                <div class="timeline-item" data-year="2027">
+                    <div class="timeline-dot" data-year="2027"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>Reconocimiento Internacional</h3>
+                        <p>Premio a la innovación tecnológica en sostenibilidad.</p>
+                        <div class="timeline-decoration"></div>
+                    </div>
+                </div>
+
+                <!-- Evento 2028 -->
+                <div class="timeline-item" data-year="2028">
+                    <div class="timeline-dot" data-year="2028"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                        <h3>Expansión Global</h3>
+                        <p>Implementación del proyecto en 3 continentes.</p>
+                        <div class="timeline-decoration"></div>
+                    </div>
+                </div>
+
+                <!-- Evento 2029 -->
+                <div class="timeline-item" data-year="2029">
+                    <div class="timeline-dot" data-year="2029"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3>Impacto Global</h3>
+                        <p>Reconocido como modelo de sostenibilidad por la ONU.</p>
+                        <div class="timeline-decoration"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de Videos -->
+    <section id="videos" class="videos-texto">
+        <h2 class="section-title">Galería de Videos</h2>
+        
+        <!-- Video 1 -->
+        <div class="video-block">
+            <h3 class="video-title">Título del Video Uno</h3>
+            <div class="video-content">
+                <div class="video-description">
+                    <p>Explora el contenido detallado de este video y descubre lo que te espera. ¡No te lo puedes perder!</p>
+                    <ul class="video-features">
+                        <li><i class="fas fa-clock"></i> Duración: 5:30 min</li>
+                        <li><i class="fas fa-calendar"></i> Publicado: 15/03/2023</li>
+                        <li><i class="fas fa-eye"></i> 1,250 vistas</li>
+                    </ul>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Video 2 -->
+        <div class="video-block">
+            <h3 class="video-title">Título del Video Dos</h3>
+            <div class="video-content">
+                <div class="video-description">
+                    <p>Conoce todos los detalles de este segundo video. Una experiencia única para aprender algo nuevo.</p>
+                    <ul class="video-features">
+                        <li><i class="fas fa-clock"></i> Duración: 7:45 min</li>
+                        <li><i class="fas fa-calendar"></i> Publicado: 22/03/2023</li>
+                        <li><i class="fas fa-eye"></i> 2,100 vistas</li>
+                    </ul>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/GkdVabBzKfM?start=5" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="{% static 'hola/js/login.js' %}"></script>
+    
+    {% if evento %}
+    <div id="popup" style="display: none;">
+        <a href="{{ evento.enlace }}" target="_blank">
+            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+        </a>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"/>
+    
+    <script>
+        $(document).ready(function() {
+            $.fancybox.open({
+                src: '#popup',
+                type: 'inline'
+            });
         });
-    });
-</script>
-{% endif %}
-
-
-
+    </script>
+    {% endif %}
+    
+    <!-- Script para posts horizontales -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const postsContainer = document.querySelector('.posts-container');
+            
+            if (postsContainer) {
+                postsContainer.style.display = 'flex';
+                postsContainer.style.overflowX = 'auto';
+                postsContainer.style.gap = '25px';
+                postsContainer.style.flexWrap = 'nowrap';
+                
+                document.querySelectorAll('.post-item').forEach(post => {
+                    post.style.flex = '0 0 300px';
+                    post.style.marginBottom = '0';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
