@@ -338,21 +338,37 @@ function initAudioEvent() {
 }
 
 function initNavEvents() {
-    document.querySelectorAll('a.nav-item').forEach(anchor => {
+    const nav = document.querySelector('.floating-nav');
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    // Eventos para cada ítem del menú
+    navItems.forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth' });
             }
+            
+            // Marcar como activo
+            navItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
         });
     });
 
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            navItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-        });
+    // Mantener el menú visible mientras el cursor esté sobre él
+    nav.addEventListener('mouseenter', () => {
+        nav.style.left = '0';
+        nav.style.opacity = '1';
+        nav.style.width = '200px';
+    });
+
+    nav.addEventListener('mouseleave', () => {
+        nav.style.left = '-50px';
+        nav.style.opacity = '0.7';
+        nav.style.width = '70px';
     });
 }
+
+// Inicializar eventos
+document.addEventListener('DOMContentLoaded', initNavEvents);
