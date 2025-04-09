@@ -1,54 +1,232 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar todos los módulos
     initLoginEvents();
-    initTripticoObserver();
+    initTripticoEffects();
+    initButtonEffects();
     initHorizontalPosts();
     initTimeline();
     initGallery();
     initAudioEvent();
     initNavEvents();
+    initHeroEffects();
 });
+
+/* ========== MÓDULO DE LOGIN ========== */
 function initLoginEvents() {
     const loginButton = document.getElementById('loginButton');
-    if (loginButton) {
-        loginButton.addEventListener('click', function(e) {
-            createRippleEffect(e, this);
-            toggleLoginForm();
-        });
-    }
+    const loginForm = document.getElementById('loginForm');
+    
+    if (!loginButton || !loginForm) return;
 
-    // Efecto hover persistente en botón
-    loginButton.addEventListener('mousemove', (e) => {
-        const rect = loginButton.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        loginButton.style.setProperty('--mouse-x', `${x}px`);
-        loginButton.style.setProperty('--mouse-y', `${y}px`);
+    // Eventos del botón de login
+    loginButton.addEventListener('click', function(e) {
+        createRippleEffect(e, this);
+        toggleElement(loginForm, 'show', 'none', 300);
     });
 
-    // Mejorar interacción con inputs
-    const inputs = document.querySelectorAll('#loginForm input');
-    inputs.forEach(input => {
-        input.addEventListener('focus', () => {
-            input.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%) scale(1.2)';
+    loginButton.addEventListener('mousemove', (e) => {
+        const rect = loginButton.getBoundingClientRect();
+        loginButton.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        loginButton.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+    });
+
+    // Eventos de los inputs
+    document.querySelectorAll('#loginForm input').forEach(input => {
+        const icon = input.parentElement.querySelector('.input-icon');
+        if (!icon) return;
+
+        input.addEventListener('focus', () => icon.style.transform = 'translateY(-50%) scale(1.2)');
+        input.addEventListener('blur', () => icon.style.transform = 'translateY(-50%)');
+    });
+
+    // Evento de submit del formulario
+    loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = this.querySelector('.submit-btn');
+        
+        // Efecto de carga
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch("http://localhost:3000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username: this.username.value,
+                    password: this.password.value
+                }),
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                // Efecto de éxito
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Bienvenido';
+                setTimeout(() => {
+                    toggleElement(loginForm, 'show', 'none', 300);
+                    submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
+                    submitBtn.disabled = false;
+                }, 1500);
+            } else {
+                showError(data.message || "Credenciales incorrectas");
+                resetSubmitBtn(submitBtn);
+            }
+        } catch (error) {
+            showError("Error de conexión: " + error.message);
+            resetSubmitBtn(submitBtn);
+        }
+    });
+}
+
+function showError(message) {
+    const errorContainer = document.querySelector('.error-message');
+    if (!errorContainer) return;
+    
+    errorContainer.textContent = message;
+    errorContainer.style.display = 'block';
+    setTimeout(() => errorContainer.style.display = 'none', 5000);
+}
+
+function resetSubmitBtn(btn) {
+    btn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
+    btn.disabled = false;
+}
+
+/* ========== MÓDULO DE TRÍPTICO ========== */
+function initTripticoEffects() {
+    initTripticoObserver();
+    initTripticoHoverEffects();
+}
+
+function initTripticoObserver() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                animateTripticoElements(entry.target);
+                observer.unobserve(entry.target);
+            }
         });
-        input.addEventListener('blur', () => {
-            input.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%)';
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.triptico-item').forEach(el => {
+        prepareTripticoElements(el);
+        observer.observe(el);
+    });
+}
+
+function prepareTripticoElements(el) {
+    const elements = {
+        icon: el.querySelector('.triptico-icon'),
+        heading: el.querySelector('h2'),
+        content: el.querySelector('p, ul')
+    };
+
+    const animationStyle = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    
+    for (const [key, element] of Object.entries(elements)) {
+        if (!element) continue;
+        
+        element.style.transition = animationStyle;
+        element.style.opacity = '0';
+        element.style.transform = key === 'icon' ? 'scale(0.5)' : 'translateY(20px)';
+    }
+}
+
+function animateTripticoElements(el) {
+    const elements = {
+        icon: el.querySelector('.triptico-icon'),
+        heading: el.querySelector('h2'),
+        content: el.querySelector('p, ul')
+    };
+
+    const delays = { icon: 200, heading: 400, content: 600 };
+    
+    for (const [key, element] of Object.entries(elements)) {
+        if (!element) continue;
+        
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = key === 'icon' ? 'scale(1)' : 'translateY(0)';
+        }, delays[key]);
+    }
+}
+
+function initTripticoHoverEffects() {
+    document.querySelectorAll('.triptico-item').forEach(item => {
+        item.addEventListener('mousemove', (e) => {
+            const centerX = item.offsetWidth / 2;
+            const centerY = item.offsetHeight / 2;
+            item.style.transform = `
+                rotateX(${(e.offsetY - centerY) / 20}deg) 
+                rotateY(${(centerX - e.offsetX) / 20}deg) 
+                translateY(-8px) 
+                scale(1.02)
+            `;
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = 'translateY(-8px) scale(1.02) rotateX(1deg)';
+        });
+        
+        item.addEventListener('mouseenter', () => {
+            const particles = item.querySelector('.particles') || document.createElement('div');
+            particles.className = 'particles';
+            item.appendChild(particles);
+            particles.innerHTML = '';
+            
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                Object.assign(particle.style, {
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    width: `${5 + Math.random() * 10}px`,
+                    height: `${5 + Math.random() * 10}px`,
+                    animationDelay: `${Math.random() * 5}s`,
+                    animationDuration: `${5 + Math.random() * 10}s`
+                });
+                particles.appendChild(particle);
+            }
+        });
+    });
+}
+
+/* ========== MÓDULO DE BOTONES ========== */
+function initButtonEffects() {
+    document.querySelectorAll('.btn, .cta-button').forEach(button => {
+        // Efecto de posición del ratón
+        button.addEventListener('mousemove', (e) => {
+            button.style.setProperty('--x', `${e.offsetX}px`);
+            button.style.setProperty('--y', `${e.offsetY}px`);
+        });
+        
+        // Efecto de onda al hacer clic
+        button.addEventListener('click', (e) => {
+            const ripple = document.createElement('span');
+            ripple.className = button.classList.contains('cta-button') ? 'ripple' : 'btn-wave';
+            
+            if (button.classList.contains('cta-button')) {
+                ripple.style.left = `${e.offsetX}px`;
+                ripple.style.top = `${e.offsetY}px`;
+                button.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1000);
+            } else {
+                createRippleEffect(e, button);
+            }
         });
     });
 }
 
 function createRippleEffect(e, button) {
-    let wave = button.querySelector('.btn-wave');
-    
-    if (!wave) {
-        wave = document.createElement('div');
-        wave.className = 'btn-wave';
-        button.appendChild(wave);
-    }
+    let wave = button.querySelector('.btn-wave') || document.createElement('div');
+    wave.className = 'btn-wave';
+    button.appendChild(wave);
     
     // Reset animation
     wave.style.animation = 'none';
-    wave.offsetHeight; // Trigger reflow
+    void wave.offsetHeight; // Trigger reflow
     wave.style.animation = null;
     
     // Position wave
@@ -60,118 +238,7 @@ function createRippleEffect(e, button) {
     wave.style.animation = 'wave 0.6s linear forwards';
 }
 
-async function login(e) {
-    e.preventDefault();
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    // Efecto de carga
-    const submitBtn = document.querySelector('.submit-btn');
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    submitBtn.disabled = true;
-
-    try {
-        let response = await fetch("http://localhost:3000/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-        });
-
-        let data = await response.json();
-        if (response.ok) {
-            // Efecto de éxito
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Bienvenido';
-            setTimeout(() => {
-                toggleLoginForm();
-                submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
-                submitBtn.disabled = false;
-            }, 1500);
-        } else {
-            showError(data.message || "Credenciales incorrectas");
-            submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
-            submitBtn.disabled = false;
-        }
-    } catch (error) {
-        showError("Error de conexión: " + error.message);
-        submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
-        submitBtn.disabled = false;
-    }
-}
-
-function toggleLoginForm() {
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        if (loginForm.classList.contains('show')) {
-            loginForm.classList.remove('show');
-            setTimeout(() => {
-                loginForm.style.display = "none";
-            }, 300);
-        } else {
-            loginForm.style.display = "block";
-            setTimeout(() => {
-                loginForm.classList.add('show');
-            }, 10);
-        }
-    }
-}
-
-function showError(message) {
-    const errorContainer = document.querySelector('.error-message');
-    if (errorContainer) {
-        errorContainer.textContent = message;
-        errorContainer.style.display = 'block';
-        setTimeout(() => {
-            errorContainer.style.display = 'none';
-        }, 5000);
-    }
-}
-
-// Inicializar
-document.addEventListener('DOMContentLoaded', () => {
-    initTripticoObserver();
-    initButtonEffects();
-    initParallaxEffect();
-  });
-  
-  function initTripticoObserver() {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          entry.target.style.opacity = 1;
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-  
-    document.querySelectorAll('.animate-slideUp').forEach(el => observer.observe(el));
-  }
-  
-  function initButtonEffects() {
-    document.querySelectorAll('.cta-button').forEach(button => {
-      button.addEventListener('mousemove', (e) => {
-        const x = e.offsetX;
-        const y = e.offsetY;
-        button.style.setProperty('--x', `${x}px`);
-        button.style.setProperty('--y', `${y}px`);
-      });
-    });
-  }
-  
-  function initParallaxEffect() {
-    const portada = document.querySelector('.hero-portada');
-    if (!portada) return;
-  
-    window.addEventListener('scroll', () => {
-      const scroll = window.scrollY;
-      portada.style.transform = `scale(1.05) translateY(${scroll * 0.2}px)`;
-    });
-  }
-  
-
+/* ========== MÓDULO DE POSTS HORIZONTALES ========== */
 function initHorizontalPosts() {
     const postsContainer = document.querySelector('.posts-container');
     if (!postsContainer) return;
@@ -209,6 +276,7 @@ function setupDragScroll(container) {
 
     container.addEventListener('mouseleave', () => isDown = false);
     container.addEventListener('mouseup', () => isDown = false);
+    
     container.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
@@ -218,6 +286,7 @@ function setupDragScroll(container) {
     });
 }
 
+/* ========== MÓDULO DE TIMELINE ========== */
 function initTimeline() {
     adjustTimeline();
     window.addEventListener('resize', adjustTimeline);
@@ -227,14 +296,15 @@ function initTimeline() {
 function adjustTimeline() {
     const timelineLine = document.querySelector('.timeline-line');
     const timelineItems = document.querySelectorAll('.timeline-item');
-    if (timelineItems.length === 0) return;
+    if (!timelineItems.length) return;
     
     const firstItem = timelineItems[0];
     const lastItem = timelineItems[timelineItems.length - 1];
     const totalWidth = (lastItem.offsetLeft + lastItem.offsetWidth) - firstItem.offsetLeft;
     
-    timelineLine.style.width = `${totalWidth}px`;
+    if (timelineLine) timelineLine.style.width = `${totalWidth}px`;
 }
+
 
 function checkTimelineVisibility() {
     document.querySelectorAll('.timeline-item').forEach((item, index) => {
@@ -243,88 +313,134 @@ function checkTimelineVisibility() {
         }
     });
 }
-function initGallery() {
-    const galleryTrack = document.querySelector('.gallery-track');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const paginationContainer = document.querySelector('.gallery-pagination');
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    const modalCaption = document.getElementById('modalCaption');
-    const closeBtn = document.querySelector('.close-btn');
 
-    if (!galleryTrack || !galleryItems.length || !prevBtn || !nextBtn || !paginationContainer || !modal) {
-        console.warn('Elementos de la galería no encontrados');
-        return;
-    }
+/* ========== MÓDULO DE GALERÍA ========== */
+function initGallery() {
+    const gallery = {
+        track: document.querySelector('.gallery-track'),
+        items: document.querySelectorAll('.gallery-item'),
+        prevBtn: document.getElementById('prevBtn'),
+        nextBtn: document.getElementById('nextBtn'),
+        pagination: document.querySelector('.gallery-pagination'),
+        modal: document.getElementById('imageModal'),
+        modalImage: document.getElementById('modalImage'),
+        modalCaption: document.getElementById('modalCaption'),
+        closeBtn: document.querySelector('.close-btn')
+    };
+
+    if (!gallery.track || !gallery.items.length) return;
 
     let currentIndex = 0;
     let autoScrollInterval;
-    let itemWidth = galleryItems[0].getBoundingClientRect().width + 40;
-    const visibleItems = Math.min(3, galleryItems.length);
-    const totalItems = galleryItems.length;
+    let itemWidth = gallery.items[0].getBoundingClientRect().width + 40;
+    const visibleItems = Math.min(3, gallery.items.length);
+    const totalItems = gallery.items.length;
 
-    function updateItemWidth() {
-        itemWidth = galleryItems[0].getBoundingClientRect().width + 40;
+    // Configurar eventos
+    if (gallery.prevBtn && gallery.nextBtn) {
+        gallery.prevBtn.addEventListener('click', () => navigateGallery(-1));
+        gallery.nextBtn.addEventListener('click', () => navigateGallery(1));
+    }
+
+    if (gallery.closeBtn && gallery.modal) {
+        gallery.closeBtn.addEventListener('click', closeModal);
+        gallery.modal.addEventListener('click', (e) => e.target === gallery.modal && closeModal());
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && gallery.modal.style.display === 'block') {
+            closeModal();
+        } else if (gallery.modal.style.display !== 'block') {
+            if (e.key === 'ArrowLeft') navigateGallery(-1);
+            if (e.key === 'ArrowRight') navigateGallery(1);
+        }
+    });
+
+    // Configurar eventos para cada ítem de la galería
+    gallery.items.forEach((item, index) => {
+        const img = item.querySelector('.gallery-image');
+        const title = item.querySelector('.overlay-content h3')?.textContent || '';
+        const desc = item.querySelector('.overlay-content p')?.textContent || '';
+        const btn = item.querySelector('.view-btn');
+
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openModal(img.src, title, desc);
+            });
+        }
+
+        if (img) {
+            img.addEventListener('click', () => openModal(img.src, title, desc));
+        }
+    });
+
+    // Efectos hover para controles
+    document.querySelectorAll('.control-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => btn.classList.add('float'));
+        btn.addEventListener('mouseleave', () => btn.classList.remove('float'));
+    });
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => btn.classList.add('pulse'));
+        btn.addEventListener('mouseleave', () => btn.classList.remove('pulse'));
+    });
+
+    // Funciones de la galería
+    function navigateGallery(direction) {
+        currentIndex = Math.max(0, Math.min(totalItems - visibleItems, currentIndex + direction));
         moveGallery();
+        resetAutoScroll();
+    }
+
+    function moveGallery() {
+        const maxOffset = (totalItems - visibleItems) * itemWidth;
+        let offset = -currentIndex * itemWidth;
+        
+        offset = Math.max(-maxOffset, Math.min(0, offset));
+        gallery.track.style.transform = `translateX(${offset}px)`;
+        updatePagination();
     }
 
     function createPagination() {
-        paginationContainer.innerHTML = '';
+        if (!gallery.pagination) return;
+        
+        gallery.pagination.innerHTML = '';
         const totalPages = Math.ceil(totalItems / visibleItems);
 
         for (let i = 0; i < totalPages; i++) {
             const dot = document.createElement('div');
             dot.classList.add('pagination-dot');
             if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToPage(i));
-            paginationContainer.appendChild(dot);
+            dot.addEventListener('click', () => {
+                currentIndex = i * visibleItems;
+                moveGallery();
+                resetAutoScroll();
+            });
+            gallery.pagination.appendChild(dot);
         }
     }
 
     function updatePagination() {
         const dots = document.querySelectorAll('.pagination-dot');
         const activePage = Math.floor(currentIndex / visibleItems);
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === activePage);
-        });
-    }
-
-    function moveGallery() {
-        const maxOffset = (totalItems - visibleItems) * itemWidth;
-        let offset = -currentIndex * itemWidth;
-
-        if (offset < -maxOffset) {
-            offset = -maxOffset;
-            currentIndex = totalItems - visibleItems;
-        } else if (offset > 0) {
-            offset = 0;
-            currentIndex = 0;
-        }
-
-        galleryTrack.style.transform = `translateX(${offset}px)`;
-        updatePagination();
-    }
-
-    function goToPage(pageIndex) {
-        const totalPages = Math.ceil(totalItems / visibleItems);
-        pageIndex = Math.max(0, Math.min(pageIndex, totalPages - 1));
-        currentIndex = pageIndex * visibleItems;
-        moveGallery();
-        resetAutoScroll();
+        dots.forEach((dot, index) => dot.classList.toggle('active', index === activePage));
     }
 
     function openModal(src, title, description) {
-        modalImage.src = src;
-        modalCaption.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
-        modal.style.display = 'block';
+        if (!gallery.modal || !gallery.modalImage || !gallery.modalCaption) return;
+        
+        gallery.modalImage.src = src;
+        gallery.modalCaption.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+        gallery.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
         clearInterval(autoScrollInterval);
     }
 
     function closeModal() {
-        modal.style.display = 'none';
+        if (!gallery.modal) return;
+        
+        gallery.modal.style.display = 'none';
         document.body.style.overflow = 'auto';
         startAutoScroll();
     }
@@ -342,72 +458,18 @@ function initGallery() {
         startAutoScroll();
     }
 
-    prevBtn.addEventListener('click', () => {
-        currentIndex = Math.max(0, currentIndex - 1);
-        moveGallery();
-        resetAutoScroll();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        currentIndex = Math.min(totalItems - visibleItems, currentIndex + 1);
-        moveGallery();
-        resetAutoScroll();
-    });
-
-    galleryItems.forEach((item, index) => {
-        const img = item.querySelector('.gallery-image');
-        const title = item.querySelector('.overlay-content h3').textContent;
-        const desc = item.querySelector('.overlay-content p').textContent;
-        const btn = item.querySelector('.view-btn');
-
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openModal(img.src, title, desc);
-        });
-
-        img.addEventListener('click', () => openModal(img.src, title, desc));
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => e.target === modal && closeModal());
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'block') {
-            closeModal();
-        }
-        if (modal.style.display !== 'block') {
-            if (e.key === 'ArrowLeft') {
-                currentIndex = Math.max(0, currentIndex - 1);
-                moveGallery();
-                resetAutoScroll();
-            }
-            if (e.key === 'ArrowRight') {
-                currentIndex = Math.min(totalItems - visibleItems, currentIndex + 1);
-                moveGallery();
-                resetAutoScroll();
-            }
-        }
-    });
-
-    document.querySelectorAll('.control-btn').forEach(btn => {
-        btn.addEventListener('mouseenter', () => btn.classList.add('float'));
-        btn.addEventListener('mouseleave', () => btn.classList.remove('float'));
-    });
-
-    document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.addEventListener('mouseenter', () => btn.classList.add('pulse'));
-        btn.addEventListener('mouseleave', () => btn.classList.remove('pulse'));
-    });
-
+    // Inicialización
     createPagination();
     moveGallery();
     startAutoScroll();
 
-    window.addEventListener('resize', updateItemWidth);
+    window.addEventListener('resize', () => {
+        itemWidth = gallery.items[0].getBoundingClientRect().width + 40;
+        moveGallery();
+    });
 }
 
-document.addEventListener('DOMContentLoaded', initGallery);
-
+/* ========== MÓDULO DE AUDIO ========== */
 function initAudioEvent() {
     document.addEventListener("click", () => {
         const audio = document.getElementById("audio");
@@ -418,26 +480,24 @@ function initAudioEvent() {
     }, { once: true });
 }
 
+/* ========== MÓDULO DE NAVEGACIÓN ========== */
 function initNavEvents() {
     const nav = document.querySelector('.floating-nav');
+    if (!nav) return;
+
     const navItems = document.querySelectorAll('.nav-item');
     
-    // Eventos para cada ítem del menú
     navItems.forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
             
-            // Marcar como activo
             navItems.forEach(i => i.classList.remove('active'));
             this.classList.add('active');
         });
     });
 
-    // Mantener el menú visible mientras el cursor esté sobre él
     nav.addEventListener('mouseenter', () => {
         nav.style.left = '0';
         nav.style.opacity = '1';
@@ -451,47 +511,107 @@ function initNavEvents() {
     });
 }
 
-// Inicializar eventos
-document.addEventListener('DOMContentLoaded', initNavEvents);
+/* ========== MÓDULO HERO ========== */
+function initHeroEffects() {
+    createParticles();
+    setupParallax();
+    typeWriterEffect();
+    setupScrollAnimations();
+    setupSmoothScroll();
 
-//hero
+    window.addEventListener('resize', () => {
+        document.querySelector('.particles')?.remove();
+        createParticles();
+    });
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Efecto de partículas dinámicas
-    function createParticles() {
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles';
-        document.querySelector('.hero-section').appendChild(particlesContainer);
+function createParticles(container = document.querySelector('.hero-section')) {
+    if (!container) return;
+
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'particles';
+    container.appendChild(particlesContainer);
+    
+    const particleCount = window.innerWidth > 768 ? 30 : 15;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
         
-        const particleCount = window.innerWidth > 768 ? 30 : 15;
+        const size = Math.random() * 4 + 2;
+        const opacity = Math.random() * 0.5 + 0.1;
         
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            // Configuración aleatoria para cada partícula
-            const size = Math.random() * 4 + 2;
-            const posX = Math.random() * 100;
-            const delay = Math.random() * 5;
-            const duration = Math.random() * 15 + 10;
-            const opacity = Math.random() * 0.5 + 0.1;
-            
-            Object.assign(particle.style, {
-                width: `${size}px`,
-                height: `${size}px`,
-                left: `${posX}%`,
-                bottom: `-10px`,
-                animation: `float ${duration}s linear infinite`,
-                animationDelay: `${delay}s`,
-                opacity: opacity,
-                backgroundColor: `rgba(255, 200, 87, ${opacity})`
+        Object.assign(particle.style, {
+            width: `${size}px`,
+            height: `${size}px`,
+            left: `${Math.random() * 100}%`,
+            bottom: `-10px`,
+            animation: `float ${Math.random() * 15 + 10}s linear infinite`,
+            animationDelay: `${Math.random() * 5}s`,
+            opacity: opacity,
+            backgroundColor: `rgba(255, 200, 87, ${opacity})`
+        });
+        
+        particlesContainer.appendChild(particle);
+    }
+}
+
+function setupParallax() {
+    const heroPortada = document.querySelector('.hero-portada');
+    if (!heroPortada) return;
+    
+    let lastScroll = 0;
+    let ticking = false;
+    
+    window.addEventListener('scroll', function() {
+        lastScroll = window.pageYOffset;
+        
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                heroPortada.style.transform = `translateY(${lastScroll * 0.3}px) scale(1.05)`;
+                ticking = false;
             });
             
-            particlesContainer.appendChild(particle);
+            ticking = true;
+        }
+    });
+}
+
+function typeWriterEffect() {
+    const title = document.querySelector('.hero-title');
+    if (!title || window.innerWidth <= 768) return;
+    
+    const originalText = title.textContent;
+    title.textContent = '';
+    let i = 0;
+    
+    function type() {
+        if (i < originalText.length) {
+            title.textContent += originalText.charAt(i);
+            i++;
+            setTimeout(type, Math.random() * 100 + 50);
         }
     }
+    
+    setTimeout(type, 1000);
+}
 
-    // 2. Scroll suave para enlaces
+function setupScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                setTimeout(() => observer.unobserve(entry.target), 1000);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
+}
+
+function setupSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -504,93 +624,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
                 
-                // Añadir clase de animación al target
                 if (targetElement.classList.contains('animate-on-scroll')) {
                     targetElement.classList.add('animate__animated', 'animate__fadeInUp');
                 }
             }
         });
     });
+}
 
-    // 3. Efecto parallax para la imagen de portada
-    function setupParallax() {
-        const heroImg = document.querySelector('.b-hero__img');
-        const heroPortada = document.querySelector('.hero-portada');
-        
-        if (heroImg && heroPortada) {
-            let lastScroll = 0;
-            let ticking = false;
-            
-            window.addEventListener('scroll', function() {
-                lastScroll = window.pageYOffset;
-                
-                if (!ticking) {
-                    window.requestAnimationFrame(function() {
-                        heroPortada.style.transform = `translateY(${lastScroll * 0.3}px) scale(1.05)`;
-                        ticking = false;
-                    });
-                    
-                    ticking = true;
-                }
-            });
-        }
+/* ========== FUNCIONES UTILITARIAS ========== */
+function toggleElement(element, toggleClass, displayType, timeout) {
+    if (!element) return;
+    
+    if (element.classList.contains(toggleClass)) {
+        element.classList.remove(toggleClass);
+        setTimeout(() => element.style.display = displayType, timeout);
+    } else {
+        element.style.display = 'block';
+        setTimeout(() => element.classList.add(toggleClass), 10);
     }
-
-    // 4. Animación de texto para el título principal (solo desktop)
-    function typeWriterEffect() {
-        const title = document.querySelector('.hero-title');
-        if (!title || window.innerWidth <= 768) return;
-        
-        const originalText = title.textContent;
-        title.textContent = '';
-        let i = 0;
-        
-        function type() {
-            if (i < originalText.length) {
-                title.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(type, Math.random() * 100 + 50);
-            }
-        }
-        
-        setTimeout(type, 1000);
-    }
-
-    // 5. Animaciones al hacer scroll
-    function setupScrollAnimations() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
-                    
-                    // Eliminar el observer después de la animación
-                    setTimeout(() => {
-                        observer.unobserve(entry.target);
-                    }, 1000);
-                }
-            });
-        }, { 
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        document.querySelectorAll('.animate-on-scroll').forEach(element => {
-            observer.observe(element);
-        });
-    }
-
-    // Inicializar todos los efectos
-    createParticles();
-    setupParallax();
-    typeWriterEffect();
-    setupScrollAnimations();
-
-    // 6. Re-iniciar partículas al cambiar tamaño de ventana
-    window.addEventListener('resize', function() {
-        const particles = document.querySelector('.particles');
-        if (particles) {
-            particles.remove();
-            createParticles();
-        }
-    });
-});
+}
