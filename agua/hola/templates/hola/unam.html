@@ -42,37 +42,55 @@
                 <a href="#inicio" class="nav-item active" data-index="0">
                     <i class="fas fa-home"></i>
                     <span>Inicio</span>
+                    <div class="nav-item-bg"></div>
                 </a>
                 <a href="#triptico" class="nav-item" data-index="1">
                     <i class="fas fa-th-large"></i>
                     <span>Tríptico</span>
+                    <div class="nav-item-bg"></div>
                 </a>
                 <a href="#avisos" class="nav-item" data-index="2">
                     <i class="fas fa-bullhorn"></i>
                     <span>Avisos</span>
+                    <div class="nav-item-bg"></div>
                 </a>
                 <a href="#galeria" class="nav-item" data-index="3">
                     <i class="fas fa-images"></i>
                     <span>Galería</span>
+                    <div class="nav-item-bg"></div>
                 </a>
                 <a href="#linea-tiempo" class="nav-item" data-index="4">
                     <i class="fas fa-history"></i>
                     <span>Línea de Tiempo</span>
+                    <div class="nav-item-bg"></div>
                 </a>
                 <a href="#videos" class="nav-item" data-index="5">
                     <i class="fas fa-video"></i>
                     <span>Videos</span>
+                    <div class="nav-item-bg"></div>
                 </a>
             </div>
         </nav>
         <div class="desplegar">
-            <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
+            <button id="loginButton" class="aqua-btn">
+                <span class="btn-text">Iniciar Sesión</span>
+                <div class="btn-wave"></div>
+            </button>
             <div id="loginForm" class="Dcontenido">
                 <form method="POST" action="{% url 'index' %}">
                     {% csrf_token %}
-                    <input type="text" id="username" name="username" placeholder="Usuario" required>
-                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                    <button type="submit">Entrar</button>
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" placeholder="Usuario" required>
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>Entrar</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                     {% if error %}
                         <p class="error-message">{{ error }}</p>
                     {% endif %}
@@ -80,11 +98,10 @@
             </div>
         </div>
     </header>
-
     
 <!-- Reemplazar la sección Hero original (línea ~90) -->
-<div class="s-sink t-sink l-sink">
-    <section id="inicio" class="b-hero__img">
+<section id="inicio" class="b-hero__img">
+        <!-- Dinámico con Django -->
         {% if portada_activa %}
             <img src="{{ portada_activa.imagen.url }}" class="hero-portada" alt="Portada dinámica">
         {% else %}
@@ -92,49 +109,46 @@
         {% endif %}
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title">Planta de Tratamiento de Aguas Residuales</h1>
-            <p class="hero-subtitle">Transformando aguas, preservando la naturaleza y la Vida</p>
+            <h1 class="hero-title animate__animated animate__fadeInDown">Planta de Tratamiento de Aguas Residuales</h1>
+            <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">Transformando aguas, preservando la naturaleza y la Vida</p>
         </div>
     </section>
-</div>
+
     <!-- Contenido Principal -->
-    <main class="l-container">
-        <div class="hero-section">
-            <h1 class="hero-title animate-fadeIn">Bienvenido a <span class="highlight">PTAR</span></h1>
-            <p class="lead-text hero-subtitle animate-slideUp">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
+    <div class="hero-section">
+        <div class="hero-content-inner">
+            <h1 class="hero-title animate-on-scroll">Bienvenido a <span class="highlight">PTAR</span></h1>
+            <p class="lead-text hero-subtitle animate-on-scroll" style="transition-delay: 0.2s">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
         </div>
+    </div>
         
         <!-- Sección Tríptico -->
         <section id="triptico" class="triptico">
             <div class="triptico-item animate-slideUp delay-1">
-                <div class="triptico-icon">
-                    <i class="fas fa-bullseye"></i>
-                </div>
-                <h2>Objetivo</h2>
-                <p>Construir y operar la planta de tratamiento de aguas residuales para el riego de las áreas verdes de la FES Acatlán, minimizando el impacto ecológico y preservando el agua.</p>
+              <div class="triptico-icon bounce"><i class="fas fa-bullseye"></i></div>
+              <h2>Objetivo</h2>
+              <p>Construir y operar la planta de tratamiento de aguas residuales para el riego de las áreas verdes de la FES Acatlán, minimizando el impacto ecológico y preservando el agua.</p>
+              <div class="triptico-wave"></div>
             </div>
-            
+        
             <div class="triptico-item animate-slideUp delay-2">
-                <div class="triptico-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <h2>Aspectos académicos</h2>
-                <ul>
-                    <li>Investigación en tratamiento de aguas residuales</li>
-                    <li>Visitas guiadas para estudiantes</li>
-                    <li>Prácticas profesionales y servicio social</li>
-                </ul>
+              <div class="triptico-icon bounce"><i class="fas fa-graduation-cap"></i></div>
+              <h2>Aspectos académicos</h2>
+              <ul>
+                <li><i class="fas fa-check-circle"></i> Investigación en tratamiento de aguas residuales</li>
+                <li><i class="fas fa-check-circle"></i> Visitas guiadas para estudiantes</li>
+                <li><i class="fas fa-check-circle"></i> Prácticas profesionales y servicio social</li>
+              </ul>
+              <div class="triptico-wave"></div>
             </div>
-            
+        
             <div class="triptico-item animate-slideUp delay-3">
-                <div class="triptico-icon">
-                    <i class="fas fa-leaf"></i>
-                </div>
-                <h2>Impactos y beneficios</h2>
-                <p>Mejoras ambientales y sociales a través del uso eficiente del agua.</p>
+              <div class="triptico-icon bounce"><i class="fas fa-leaf"></i></div>
+              <h2>Impactos y beneficios</h2>
+              <p>Mejoras ambientales y sociales a través del uso eficiente del agua.</p>
+              <div class="triptico-wave"></div>
             </div>
-        </section>
-    </main>
+          </section>
 
     <!-- Sección Avisos -->
     <section id="avisos" class="avisos">

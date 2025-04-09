@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initAudioEvent();
     initNavEvents();
 });
-
 function initLoginEvents() {
     const loginButton = document.getElementById('loginButton');
     if (loginButton) {
@@ -17,30 +16,59 @@ function initLoginEvents() {
         });
     }
 
-    const submitButton = document.getElementById("submitButton");
-    if (submitButton) {
-        submitButton.addEventListener("click", login);
-    }
+    // Efecto hover persistente en botón
+    loginButton.addEventListener('mousemove', (e) => {
+        const rect = loginButton.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        loginButton.style.setProperty('--mouse-x', `${x}px`);
+        loginButton.style.setProperty('--mouse-y', `${y}px`);
+    });
+
+    // Mejorar interacción con inputs
+    const inputs = document.querySelectorAll('#loginForm input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            input.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%) scale(1.2)';
+        });
+        input.addEventListener('blur', () => {
+            input.parentElement.querySelector('.input-icon').style.transform = 'translateY(-50%)';
+        });
+    });
 }
 
 function createRippleEffect(e, button) {
-    let rect = button.getBoundingClientRect();
     let wave = button.querySelector('.btn-wave');
     
     if (!wave) {
-        wave = document.createElement('span');
+        wave = document.createElement('div');
         wave.className = 'btn-wave';
         button.appendChild(wave);
     }
     
-    wave.style.left = `${e.clientX - rect.left}px`;
-    wave.style.top = `${e.clientY - rect.top}px`;
+    // Reset animation
+    wave.style.animation = 'none';
+    wave.offsetHeight; // Trigger reflow
+    wave.style.animation = null;
+    
+    // Position wave
+    const rect = button.getBoundingClientRect();
+    wave.style.left = `${e.clientX - rect.left - 50}px`;
+    wave.style.top = `${e.clientY - rect.top - 50}px`;
+    
+    // Start animation
+    wave.style.animation = 'wave 0.6s linear forwards';
 }
 
 async function login(e) {
     e.preventDefault();
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
+
+    // Efecto de carga
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    submitBtn.disabled = true;
 
     try {
         let response = await fetch("http://localhost:3000/login", {
@@ -51,20 +79,39 @@ async function login(e) {
 
         let data = await response.json();
         if (response.ok) {
-            alert("Bienvenido, " + username);
-            toggleLoginForm();
+            // Efecto de éxito
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> Bienvenido';
+            setTimeout(() => {
+                toggleLoginForm();
+                submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
+                submitBtn.disabled = false;
+            }, 1500);
         } else {
             showError(data.message || "Credenciales incorrectas");
+            submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
+            submitBtn.disabled = false;
         }
     } catch (error) {
         showError("Error de conexión: " + error.message);
+        submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
+        submitBtn.disabled = false;
     }
 }
 
 function toggleLoginForm() {
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
-        loginForm.style.display = loginForm.style.display === "block" ? "none" : "block";
+        if (loginForm.classList.contains('show')) {
+            loginForm.classList.remove('show');
+            setTimeout(() => {
+                loginForm.style.display = "none";
+            }, 300);
+        } else {
+            loginForm.style.display = "block";
+            setTimeout(() => {
+                loginForm.classList.add('show');
+            }, 10);
+        }
     }
 }
 
@@ -73,23 +120,57 @@ function showError(message) {
     if (errorContainer) {
         errorContainer.textContent = message;
         errorContainer.style.display = 'block';
-        setTimeout(() => errorContainer.style.display = 'none', 5000);
+        setTimeout(() => {
+            errorContainer.style.display = 'none';
+        }, 5000);
     }
 }
 
-function initTripticoObserver() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.triptico-item').forEach(item => {
-        observer.observe(item);
+// Inicializar
+document.addEventListener('DOMContentLoaded', () => {
+    initTripticoObserver();
+    initButtonEffects();
+    initParallaxEffect();
+  });
+  
+  function initTripticoObserver() {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.style.opacity = 1;
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
     });
-}
+  
+    document.querySelectorAll('.animate-slideUp').forEach(el => observer.observe(el));
+  }
+  
+  function initButtonEffects() {
+    document.querySelectorAll('.cta-button').forEach(button => {
+      button.addEventListener('mousemove', (e) => {
+        const x = e.offsetX;
+        const y = e.offsetY;
+        button.style.setProperty('--x', `${x}px`);
+        button.style.setProperty('--y', `${y}px`);
+      });
+    });
+  }
+  
+  function initParallaxEffect() {
+    const portada = document.querySelector('.hero-portada');
+    if (!portada) return;
+  
+    window.addEventListener('scroll', () => {
+      const scroll = window.scrollY;
+      portada.style.transform = `scale(1.05) translateY(${scroll * 0.2}px)`;
+    });
+  }
+  
 
 function initHorizontalPosts() {
     const postsContainer = document.querySelector('.posts-container');
@@ -372,3 +453,144 @@ function initNavEvents() {
 
 // Inicializar eventos
 document.addEventListener('DOMContentLoaded', initNavEvents);
+
+//hero
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Efecto de partículas dinámicas
+    function createParticles() {
+        const particlesContainer = document.createElement('div');
+        particlesContainer.className = 'particles';
+        document.querySelector('.hero-section').appendChild(particlesContainer);
+        
+        const particleCount = window.innerWidth > 768 ? 30 : 15;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Configuración aleatoria para cada partícula
+            const size = Math.random() * 4 + 2;
+            const posX = Math.random() * 100;
+            const delay = Math.random() * 5;
+            const duration = Math.random() * 15 + 10;
+            const opacity = Math.random() * 0.5 + 0.1;
+            
+            Object.assign(particle.style, {
+                width: `${size}px`,
+                height: `${size}px`,
+                left: `${posX}%`,
+                bottom: `-10px`,
+                animation: `float ${duration}s linear infinite`,
+                animationDelay: `${delay}s`,
+                opacity: opacity,
+                backgroundColor: `rgba(255, 200, 87, ${opacity})`
+            });
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // 2. Scroll suave para enlaces
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Añadir clase de animación al target
+                if (targetElement.classList.contains('animate-on-scroll')) {
+                    targetElement.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            }
+        });
+    });
+
+    // 3. Efecto parallax para la imagen de portada
+    function setupParallax() {
+        const heroImg = document.querySelector('.b-hero__img');
+        const heroPortada = document.querySelector('.hero-portada');
+        
+        if (heroImg && heroPortada) {
+            let lastScroll = 0;
+            let ticking = false;
+            
+            window.addEventListener('scroll', function() {
+                lastScroll = window.pageYOffset;
+                
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        heroPortada.style.transform = `translateY(${lastScroll * 0.3}px) scale(1.05)`;
+                        ticking = false;
+                    });
+                    
+                    ticking = true;
+                }
+            });
+        }
+    }
+
+    // 4. Animación de texto para el título principal (solo desktop)
+    function typeWriterEffect() {
+        const title = document.querySelector('.hero-title');
+        if (!title || window.innerWidth <= 768) return;
+        
+        const originalText = title.textContent;
+        title.textContent = '';
+        let i = 0;
+        
+        function type() {
+            if (i < originalText.length) {
+                title.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(type, Math.random() * 100 + 50);
+            }
+        }
+        
+        setTimeout(type, 1000);
+    }
+
+    // 5. Animaciones al hacer scroll
+    function setupScrollAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    
+                    // Eliminar el observer después de la animación
+                    setTimeout(() => {
+                        observer.unobserve(entry.target);
+                    }, 1000);
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+    }
+
+    // Inicializar todos los efectos
+    createParticles();
+    setupParallax();
+    typeWriterEffect();
+    setupScrollAnimations();
+
+    // 6. Re-iniciar partículas al cambiar tamaño de ventana
+    window.addEventListener('resize', function() {
+        const particles = document.querySelector('.particles');
+        if (particles) {
+            particles.remove();
+            createParticles();
+        }
+    });
+});
