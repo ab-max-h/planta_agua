@@ -71,33 +71,21 @@
                 </a>
             </div>
         </nav>
-        <div class="desplegar">
-            <button id="loginButton" class="aqua-btn">
-                <span class="btn-text">Iniciar Sesión</span>
-                <div class="btn-wave"></div>
-            </button>
-            <div id="loginForm" class="Dcontenido">
-                <form method="POST" action="{% url 'index' %}">
-                    {% csrf_token %}
-                    <div class="input-group">
+            <div class="desplegar">
+                <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
+                <div id="loginForm" class="Dcontenido">
+                    <form method="POST" action="{% url 'index' %}">
+                        {% csrf_token %}
                         <input type="text" id="username" name="username" placeholder="Usuario" required>
-                        <i class="fas fa-user input-icon"></i>
-                    </div>
-                    <div class="input-group">
                         <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                        <i class="fas fa-lock input-icon"></i>
-                    </div>
-                    <button type="submit" class="submit-btn">
-                        <span>Entrar</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                    {% if error %}
-                        <p class="error-message">{{ error }}</p>
-                    {% endif %}
-                </form>
+                        <button type="submit">Entrar</button>
+                        {% if error %}
+                            <p class="error-message">{{ error }}</p>
+                        {% endif %}
+                    </form>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
     
 <!-- Reemplazar la sección Hero original (línea ~90) -->
 <section id="inicio" class="b-hero__img">
