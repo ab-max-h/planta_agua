@@ -520,9 +520,9 @@
     <script src="{% static 'hola/js/login.js' %}"></script>
     
     {% if evento %}
-    <div id="popup" style="display: none;">
-        <a href="{{ evento.enlace }}" target="_blank">
-            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+    <div id="popup" style="padding: 0; margin: 0; width: 100%; max-width:35%; box-sizing: border-box;">
+        <a href="{{ evento.enlace }}" target="_blank" style="display: block; width: 100%;">
+            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" style="width: 100%; height: auto; display: block; max-width: 100%;">
         </a>
     </div>
     

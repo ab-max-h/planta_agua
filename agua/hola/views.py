@@ -23,6 +23,14 @@ from .models import Bitacora
 from .models import Evento  # Importa el modelo Evento
 from django.contrib.auth.decorators import login_required
 from .models import Portada
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('index')  # Redirige a tu página de inicio de sesión
+
 def datos_bitacora(request):
     datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
     return JsonResponse(datos, safe=False)
