@@ -235,13 +235,39 @@ header:hover {
   z-index: 1100;
 }
 
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
 #loginForm input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px 15px 12px 40px;
+  margin-bottom: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   font-size: 14px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+#loginForm input:focus {
+  border-color: #4CAFAA;
+  box-shadow: 0 0 0 3px rgba(76, 175, 170, 0.2);
+  background-color: white;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  transition: all 0.3s ease;
+}
+
+#loginForm input:focus + .input-icon {
+  color: #4CAFAA;
 }
 
 #loginForm button[type="submit"] {
