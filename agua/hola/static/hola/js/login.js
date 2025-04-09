@@ -291,6 +291,22 @@ function initTimeline() {
     adjustTimeline();
     window.addEventListener('resize', adjustTimeline);
     window.addEventListener('scroll', checkTimelineVisibility);
+    window.addEventListener('scroll', updateTimelineProgress);
+    
+    // Add hover effect for timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const dot = item.querySelector('.timeline-dot');
+            dot.style.transform = 'translateX(-50%) scale(1.3)';
+            dot.style.boxShadow = '0 0 0 15px rgba(102, 126, 234, 0.4)';
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            const dot = item.querySelector('.timeline-dot');
+            dot.style.transform = 'translateX(-50%) scale(1)';
+            dot.style.boxShadow = '0 0 0 10px rgba(102, 126, 234, 0.3)';
+        });
+    });
 }
 
 function adjustTimeline() {
@@ -305,15 +321,43 @@ function adjustTimeline() {
     if (timelineLine) timelineLine.style.width = `${totalWidth}px`;
 }
 
-
 function checkTimelineVisibility() {
     document.querySelectorAll('.timeline-item').forEach((item, index) => {
-        if (item.getBoundingClientRect().top < window.innerHeight * 0.8) {
-            setTimeout(() => item.classList.add('animate'), index * 200);
+        const rect = item.getBoundingClientRect();
+        const isVisible = (rect.top < window.innerHeight * 0.75) && 
+                         (rect.bottom > 0);
+        
+        if (isVisible) {
+            setTimeout(() => {
+                item.classList.add('animate');
+                
+                // Add sequential animation for content
+                const content = item.querySelector('.timeline-content');
+                if (content) {
+                    setTimeout(() => {
+                        content.style.transitionDelay = `${index * 0.1}s`;
+                    }, index * 200);
+                }
+            }, index * 200);
         }
     });
 }
 
+function updateTimelineProgress() {
+    const timelineSection = document.querySelector('.timeline-section');
+    const timelineProgress = document.querySelector('.timeline-progress');
+    
+    if (!timelineSection || !timelineProgress) return;
+    
+    const scrollLeft = timelineSection.scrollLeft;
+    const scrollWidth = timelineSection.scrollWidth - timelineSection.clientWidth;
+    const progress = scrollLeft / scrollWidth;
+    
+    timelineProgress.style.width = `${progress * 100}%`;
+}
+
+// Initialize timeline when DOM is loaded
+document.addEventListener('DOMContentLoaded', initTimeline);
 /* ========== MÓDULO DE GALERÍA ========== */
 function initGallery() {
     const gallery = {
@@ -631,6 +675,91 @@ function setupSmoothScroll() {
         });
     });
 }
+
+//videos
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación de contadores
+    const counters = document.querySelectorAll('.stat-count, .view-count');
+    const speed = 200;
+    
+    counters.forEach(counter => {
+        const target = +counter.getAttribute('data-count');
+        const count = +counter.innerText;
+        const increment = target / speed;
+        
+        if(count < target) {
+            const updateCount = () => {
+                const current = +counter.innerText;
+                if(current < target) {
+                    counter.innerText = Math.ceil(current + increment);
+                    setTimeout(updateCount, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        }
+    });
+    
+    // Lightbox para videos
+    const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+    const lightbox = document.querySelector('.video-lightbox');
+    const lightboxIframe = document.getElementById('lightbox-iframe');
+    const closeLightbox = document.querySelector('.close-lightbox');
+    
+    videoThumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            const videoSrc = this.getAttribute('data-src');
+            lightboxIframe.src = videoSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    closeLightbox.addEventListener('click', function() {
+        lightbox.classList.remove('active');
+        lightboxIframe.src = '';
+        document.body.style.overflow = 'auto';
+    });
+    
+    lightbox.addEventListener('click', function(e) {
+        if(e.target === lightbox) {
+            lightbox.classList.remove('active');
+            lightboxIframe.src = '';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Efecto hover para botones de ver
+    const watchButtons = document.querySelectorAll('.watch-btn');
+    
+    watchButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            const videoBlock = this.closest('.video-block');
+            const videoWrapper = videoBlock.querySelector('.video-wrapper');
+            videoWrapper.style.transform = 'scale(1.02)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            const videoBlock = this.closest('.video-block');
+            const videoWrapper = videoBlock.querySelector('.video-wrapper');
+            videoWrapper.style.transform = 'scale(1)';
+        });
+        
+        button.addEventListener('click', function() {
+            const videoBlock = this.closest('.video-block');
+            const thumbnail = videoBlock.querySelector('.video-thumbnail');
+            thumbnail.click();
+        });
+    });
+    
+    // Efecto parallax para la sección
+    window.addEventListener('scroll', function() {
+        const videosSection = document.querySelector('.videos-texto');
+        const scrollPosition = window.pageYOffset;
+        videosSection.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
+    });
+});
 
 /* ========== FUNCIONES UTILITARIAS ========== */
 function toggleElement(element, toggleClass, displayType, timeout) {
