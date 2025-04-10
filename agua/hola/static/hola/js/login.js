@@ -14,85 +14,72 @@ document.addEventListener('DOMContentLoaded', function() {
 /* ========== MÓDULO DE LOGIN ========== */
 function initLoginEvents() {
     const loginButton = document.getElementById('loginButton');
-    const loginForm = document.getElementById('loginForm');
+    if (loginButton) {
+        loginButton.addEventListener('click', function(e) {
+            createRippleEffect(e, this);
+            toggleLoginForm();
+        });
+    }
+
+    const submitButton = document.getElementById("submitButton");
+    if (submitButton) {
+        submitButton.addEventListener("click", login);
+    }
+}
+
+function createRippleEffect(e, button) {
+    let rect = button.getBoundingClientRect();
+    let wave = button.querySelector('.btn-wave');
     
-    if (!loginButton || !loginForm) return;
+    if (!wave) {
+        wave = document.createElement('span');
+        wave.className = 'btn-wave';
+        button.appendChild(wave);
+    }
+    
+    wave.style.left = `${e.clientX - rect.left}px`;
+    wave.style.top = `${e.clientY - rect.top}px`;
+}
 
-    // Eventos del botón de login
-    loginButton.addEventListener('click', function(e) {
-        createRippleEffect(e, this);
-        toggleElement(loginForm, 'show', 'none', 300);
-    });
+async function login(e) {
+    e.preventDefault();
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
 
-    loginButton.addEventListener('mousemove', (e) => {
-        const rect = loginButton.getBoundingClientRect();
-        loginButton.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        loginButton.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-    });
+    try {
+        let response = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        });
 
-    // Eventos de los inputs
-    document.querySelectorAll('#loginForm input').forEach(input => {
-        const icon = input.parentElement.querySelector('.input-icon');
-        if (!icon) return;
-
-        input.addEventListener('focus', () => icon.style.transform = 'translateY(-50%) scale(1.2)');
-        input.addEventListener('blur', () => icon.style.transform = 'translateY(-50%)');
-    });
-
-    // Evento de submit del formulario
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const submitBtn = this.querySelector('.submit-btn');
-        
-        // Efecto de carga
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        submitBtn.disabled = true;
-
-        try {
-            const response = await fetch("http://localhost:3000/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    username: this.username.value,
-                    password: this.password.value
-                }),
-            });
-
-            const data = await response.json();
-            
-            if (response.ok) {
-                // Efecto de éxito
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Bienvenido';
-                setTimeout(() => {
-                    toggleElement(loginForm, 'show', 'none', 300);
-                    submitBtn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
-                    submitBtn.disabled = false;
-                }, 1500);
-            } else {
-                showError(data.message || "Credenciales incorrectas");
-                resetSubmitBtn(submitBtn);
-            }
-        } catch (error) {
-            showError("Error de conexión: " + error.message);
-            resetSubmitBtn(submitBtn);
+        let data = await response.json();
+        if (response.ok) {
+            alert("Bienvenido, " + username);
+            toggleLoginForm();
+        } else {
+            showError(data.message || "Credenciales incorrectas");
         }
-    });
+    } catch (error) {
+        showError("Error de conexión: " + error.message);
+    }
+}
+
+function toggleLoginForm() {
+    const loginForm = document.getElementById("loginForm");
+    if (loginForm) {
+        loginForm.style.display = loginForm.style.display === "block" ? "none" : "block";
+    }
 }
 
 function showError(message) {
     const errorContainer = document.querySelector('.error-message');
-    if (!errorContainer) return;
-    
-    errorContainer.textContent = message;
-    errorContainer.style.display = 'block';
-    setTimeout(() => errorContainer.style.display = 'none', 5000);
+    if (errorContainer) {
+        errorContainer.textContent = message;
+        errorContainer.style.display = 'block';
+        setTimeout(() => errorContainer.style.display = 'none', 5000);
+    }
 }
-
-function resetSubmitBtn(btn) {
-    btn.innerHTML = '<span>Entrar</span><i class="fas fa-arrow-right"></i>';
-    btn.disabled = false;
-}
-
 /* ========== MÓDULO DE TRÍPTICO ========== */
 function initTripticoEffects() {
     initTripticoObserver();

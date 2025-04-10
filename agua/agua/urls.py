@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('hola.urls')),
     path('summernote/', include('django_summernote.urls')),
+    
 ]
 
 # Configuración para desarrollo

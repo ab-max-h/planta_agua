@@ -200,154 +200,109 @@ header:hover {
 }
 
 /* Botón de login */
-.aqua-btn {
-    position: relative;
-    background: linear-gradient(135deg, #4CAFAA 0%, #2196F3 100%);
-    border: none;
-    padding: 12px 35px;
-    border-radius: 30px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-    box-shadow: 0 4px 15px rgba(76, 175, 170, 0.3);
-    overflow: hidden;
+.desplegar {
+  position: relative;
+  margin-right: 20px;
 }
 
-.aqua-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(76, 175, 170, 0.5);
+#loginButton.aqua-btn {
+  background: linear-gradient(135deg, #4CAFAA 0%, #2196F3 100%);
+  border: none;
+  padding: 12px 35px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 170, 0.3);
 }
 
-.aqua-btn:active {
-    transform: translateY(1px);
+#loginButton.aqua-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 170, 0.4);
 }
 
-.btn-wave {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 50%;
-    transform: scale(0);
-    opacity: 1;
-    pointer-events: none;
-}
-
-@keyframes wave {
-    0% {
-        transform: scale(0);
-        opacity: 0.6;
-    }
-    100% {
-        transform: scale(3);
-        opacity: 0;
-    }
-}
-
-/* Formulario de login */
 #loginForm {
-    display: none;
-    position: absolute;
-    top: 120%;
-    right: -20px;
-    background: rgba(255, 255, 255, 0.98);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    width: 320px;
-    z-index: 1100;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
-}
-
-#loginForm.show {
-    opacity: 1;
-    transform: translateY(0);
+  display: none;
+  position: absolute;
+  top: 120%;
+  right: -20px;
+  background: rgba(255, 255, 255, 0.98);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  width: 300px;
+  z-index: 1100;
 }
 
 .input-group {
-    position: relative;
-    margin-bottom: 20px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 #loginForm input {
-    width: 100%;
-    padding: 12px 15px 12px 40px;
-    margin-bottom: 0;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
+  width: 100%;
+  padding: 12px 15px 12px 40px;
+  margin-bottom: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
 }
 
 #loginForm input:focus {
-    border-color: #4CAFAA;
-    box-shadow: 0 0 0 3px rgba(76, 175, 170, 0.2);
-    background-color: white;
+  border-color: #4CAFAA;
+  box-shadow: 0 0 0 3px rgba(76, 175, 170, 0.2);
+  background-color: white;
 }
 
 .input-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    transition: all 0.3s ease;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  transition: all 0.3s ease;
 }
 
 #loginForm input:focus + .input-icon {
-    color: #4CAFAA;
+  color: #4CAFAA;
 }
 
-.submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #4CAFAA 0%, #2196F3 100%);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+#loginForm button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #4CAFAA 0%, #2196F3 100%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
-.submit-btn i {
-    transition: transform 0.3s ease;
+#loginForm button[type="submit"]:hover {
+  background: linear-gradient(135deg, #45a097 0%, #1976D2 100%);
+  
+  transform: translateX(5px);
 }
-
-.submit-btn:hover {
-    background: linear-gradient(135deg, #45a097 0%, #1976D2 100%);
-    box-shadow: 0 5px 15px rgba(76, 175, 170, 0.4);
-}
-
-.submit-btn:hover i {
-    transform: translateX(5px);
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
 }
 
 .error-message {
-    color: #ff4757;
-    font-size: 0.9rem;
-    margin-top: 15px;
-    padding: 10px;
-    background: #ffecec;
-    border-radius: 8px;
-    border: 1px solid #ffcccc;
-    animation: shake 0.5s ease;
-    display: none;
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding: 8px;
+  background: #f8d7da;
+  border-radius: 4px;
+  border: 1px solid #f5c6cb;
 }
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
-}
   /* ===================================================
      SECCIÓN HERO
      =================================================== */
@@ -1003,7 +958,7 @@ header:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: 5px;
+  width: auto;
   height: 100%;
   background: linear-gradient(to bottom, #2196F3, #4CAF50);
   transition: all 0.4s ease;
