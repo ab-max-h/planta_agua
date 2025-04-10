@@ -27,9 +27,11 @@ from .models import Portada
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
-def cerrar_sesion(request):
-    logout(request)
-    return redirect('index')  # Redirige a tu página de inicio de sesión
+from django.contrib.auth import logout
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt  
+
 
 def datos_bitacora(request):
     datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
@@ -108,6 +110,16 @@ def datos(request):
     bitacoras = Bitacora.objects.all()  # Obtener todas las bitácoras
     return render(request, "hola/datos.html", {"bitacoras": bitacoras})
 
+@require_POST  # Asegura que solo se acepten peticiones POST
 def logout_view(request):
-    logout(request)
-    return JsonResponse({"message": "Logout exitoso"}, status=200)
+    if request.user.is_authenticated:
+        logout(request)  # Cierra la sesión
+        return JsonResponse(
+            {"success": True, "message": "Sesión cerrada con éxito"}, 
+            status=200
+        )
+    else:
+        return JsonResponse(
+            {"success": False, "message": "No hay sesión activa"}, 
+            status=400
+        )

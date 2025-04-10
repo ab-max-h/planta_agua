@@ -27,12 +27,37 @@
         </button>
         
         <div class="user-actions">
-            <button class="btn-admin" id="adminButton">
+            <button class="btn-admin" onclick="window.location.href='{% url 'admin:index' %}'">
                 <i class="fas fa-cog"></i> Admin
             </button>
-            <button class="btn-logout" onclick="window.location.href='{% url 'index' %}'">
+            <button id="logoutButton" class="btn-logout">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </button>
+            
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+            $(document).ready(function() {
+                $("#logoutButton").click(function() {
+                    $.ajax({
+                        url: "{% url 'logout' %}",
+                        type: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}"
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                window.location.href = "{% url 'index' %}";  // Redirige al inicio
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert("Error al cerrar sesión. Intenta nuevamente.");
+                        }
+                    });
+                });
+            });
+            </script>
         </div>
     </div>
 

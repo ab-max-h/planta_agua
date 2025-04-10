@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from hola import views  # Importamos las vistas de tu app "hola"
-from .views import datos_bitacora, cerrar_sesion
+from .views import datos_bitacora, logout_view  # ✅ Nombre correcto
 
 urlpatterns = [
     path("admin/", admin.site.urls),  
