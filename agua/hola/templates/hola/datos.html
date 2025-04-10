@@ -17,7 +17,7 @@
     <!-- ECharts para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     <!-- Tu archivo CSS personalizado -->
-    <link rel="stylesheet" href="{% static 'hola/css/style1.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'hola/css/style1.css' %}?v=4">
 </head>
 <body>
     <!-- Barra superior con botones de usuario -->
@@ -27,10 +27,10 @@
         </button>
         
         <div class="user-actions">
-            <button class="btn-admin" onclick="window.location.href='/admin/'">
+            <button class="btn-admin" id="adminButton">
                 <i class="fas fa-cog"></i> Admin
             </button>
-            <button class="btn-logout" onclick="window.location.href='{% url 'logout' %}'">
+            <button class="btn-logout" onclick="window.location.href='{% url 'index' %}'">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
             </button>
         </div>
@@ -75,10 +75,13 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="archivo_excel">
-                                    <i class="fas fa-file-excel"></i> Seleccionar archivo Excel
                                 </label>
-                                <input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx" class="file-input">
-                                <div class="file-info" id="fileInfo">No se ha seleccionado ningún archivo</div>
+                                <div class="file-upload-container" id="fileUploadContainer">
+                                    <i class="fas fa-file-excel"></i><input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx">
+                                    <div class="file-upload-area">
+                                        <p class="file-info" id="fileInfo">Formato soportado: .xlsx</p>
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="btn-submit">
                                 <i class="fas fa-upload"></i> Importar Datos
@@ -266,6 +269,6 @@
     </div>
 
     <!-- Enlazar el archivo JavaScript -->
-    <script src="{% static 'hola/js/Bitacora.js' %}?v=3"></script>
+    <script src="{% static 'hola/js/Bitacora.js' %}?v=4"></script>
 </body>
 </html>
