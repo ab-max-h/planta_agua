@@ -1198,7 +1198,7 @@ header:hover {
   }
   
   .video-block {
-      max-width: 1200px;
+      max-width: auto;
       margin: 0 auto 80px;
       background: #fff;
       padding: 40px;
