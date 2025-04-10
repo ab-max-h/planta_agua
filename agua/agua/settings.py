@@ -134,5 +134,5 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 AUTHENTICATION_BACKENDS=[
     'django.contrib.auth.backends.ModelBackend',
 ]
-LOGIN_URL = 'index'
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = "hola/datos.html"
