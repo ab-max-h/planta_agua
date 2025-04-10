@@ -1,280 +1,567 @@
 {% load static %}
-<script src="{% static 'hola/login.js' %}"></script>
 <!DOCTYPE html>
 <html lang="es-MX">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNAM: Universidad de la Nación</title>
+    
+    <!-- CSRF Token -->
     <script>
         document.cookie = "csrftoken={{ csrf_token }}";
     </script>
+
+    <!-- Audio de fondo -->
+    <audio id="audio" autoplay>
+        <source src="{% static 'hola/sonido/zelda.mp3' %}" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     
-  <title>UNAM: Universidad de la Nación</title>
-  
-  <!-- Hoja de estilos externa -->
-  
- <link rel="stylesheet" href="{% static 'hola/style.css' %}" media="all">
-
-  <!-- Meta y estilos adicionales -->
-  <meta name="theme-color" content="#a51c30">
-
-  <!-- Iconos para la pestaña -->
-  <link rel="icon" href="{% static 'hola/images.png' %}" sizes="32x32" />
-  <link rel="icon" href="{% static 'hola/images.png' %}" sizes="192x192" />
-  <link rel="apple-touch-icon" href="{% static 'hola/images.png' %}" />
-  
-
-  <style>
-    /* Ejemplo de estilos para el contenedor de imagen en la sección Hero */
-    .b-hero__img {
-      width: 100%;
-      height: 400px;           /* Ajusta la altura según necesites */
-      background-size: cover;  /* La imagen cubrirá todo el elemento */
-      background-position: center;
-    }
-  </style>
+    <!-- Iconos y estilos -->
+    <link rel="stylesheet" href="{% static 'hola/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="32x32">
+    <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{% static 'hola/img/images.png' %}">
 </head>
+
 <body class="div">
-  <!-- Contenedor principal -->
-  <div class="s-sink t-sink l-sink">
-    
-    <!-- Sección Hero -->
-    <div class="b-hero__img c-image__image"
-     role="img"
-     data-expand="200"
-     data-sizes="(min-width: 1260px) 1260px, 100vw"
-     data-bgset="{% static 'hola/algo.png' %}"
-     style="background-image: url(&quot;{% static 'hola/portada.jpg' %}&quot;);">
-</div>
-
-
-    
-      <div class="b-hero__container l-container">
-        <div class="b-hero__media b-hero__media-overlay--medium"></div>
-        <div class="b-hero__content">
-          <header class="c-block__content-block c-block__header b-hero__content-container c-content-block c-content-block--layout-center">
-            <h2 class="c-block__title b-hero__title b-hero__title--large c-content-block__title">
-              UNAM
-            </h2>
-            <p class="c-block__underline b-hero__underline c-content-block__underline">
-              Planta de Tratamiento de Aguas Residuales (PTAR)
-            </p>
-          </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="{% static 'hola/img/logo.png' %}" alt="Logo Agua Viva" width="100" height="50">
         </div>
-      </div>
-    </section>
-    
-    
-
-<!-- Sección List-with-image -->
-<section class="c-block--remove-top-padding c-block b-list-with-image t-theme--light">
-    <div class="b-list-with-image__container l-container">
-        <div class="b-list-with-image__loop">
-            <div class="b-list-with-image__item">
-                <div class="desplegar">
-                    <button onclick="Desplegar()">Iniciar Sesión</button>
-                    <div class="Dcontenido" id="loginForm" style="display: none;">
-                      <form method="POST" action="{% url 'index' %}">  <!-- Asegúrate de que envíe a la vista index -->
-                          {% csrf_token %}
-                          <input type="text" id="username" name="username" placeholder="Usuario" required>
-                          <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                          <button type="submit">Entrar</button>
-                  
-                          {% if error %}
-                              <p style="color: red;">{{ error }}</p>  <!-- Muestra el mensaje de error -->
-                          {% endif %}
-                      </form>
-                  </div>
-                  
-                </div>
-                <div class="b-list-with-image__item__description t-sink s-sink">
-                    <!-- Descripción del ítem aquí, si es necesario -->
-                </div>
-                <figure class="c-image">
-                    <img decoding="async" class="c-image__image"  src="" />
-                </figure>
+        <nav class="floating-nav">
+            <div class="nav-container">
+                <a href="#inicio" class="nav-item active" data-index="0">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                    <div class="nav-item-bg"></div>
+                </a>
+                <a href="#triptico" class="nav-item" data-index="1">
+                    <i class="fas fa-th-large"></i>
+                    <span>Tríptico</span>
+                    <div class="nav-item-bg"></div>
+                </a>
+                <a href="#avisos" class="nav-item" data-index="2">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Avisos</span>
+                    <div class="nav-item-bg"></div>
+                </a>
+                <a href="#galeria" class="nav-item" data-index="3">
+                    <i class="fas fa-images"></i>
+                    <span>Galería</span>
+                    <div class="nav-item-bg"></div>
+                </a>
+                <a href="#linea-tiempo" class="nav-item" data-index="4">
+                    <i class="fas fa-history"></i>
+                    <span>Línea de Tiempo</span>
+                    <div class="nav-item-bg"></div>
+                </a>
+                <a href="#videos" class="nav-item" data-index="5">
+                    <i class="fas fa-video"></i>
+                    <span>Videos</span>
+                    <div class="nav-item-bg"></div>
+                </a>
             </div>
-        </div>
-    </div>
-</section>
-
-
-
-    
-
-    <!-- Sección Tríptico (Columns) -->
-     <section class="texto_tri">
-    <section class="c-block--remove-bottom-padding c-block b-columns">
-      <div class="l-container b-columns__container">
-        <header class="c-block__content-block c-block__header b-columns__header c-content-block c-content-block--layout-left">
-            <h1>Datos sobre la Planta</h1>
-          <div class="c-content-block__content-wrap">
-            <div class="c-block__description b-columns__description t-sink s-sink c-content-block__content">
-              <p></p>
+        </nav>
+            <div class="desplegar">
+                <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
+                <div id="loginForm" class="Dcontenido">
+                    <form method="POST" action="{% url 'index' %}">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" id="username" name="username" placeholder="Usuario" required>
+                            <i class="fas fa-user input-icon"></i>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                            <i class="fas fa-lock input-icon"></i>
+                        </div>
+                        <button type="submit">Entrar <i class="fas fa-arrow-right"></i></button>
+                        {% if error %}
+                            <p class="error-message">{{ error }}</p>
+                        {% endif %}
+                    </form>
+                </div>
             </div>
-          </div>
         </header>
-        <div class="b-columns__list b-columns__row b-columns--count-3">
-          <div class="b-columns__col">
-            <div class="b-columns__col-content t-sink s-sink">
-              <h3>Área y capacidad de la planta:</h3>
-              <ul>
-                <li>Área de construcción: 1239 m²</li>
-                <li>Área de servicios: 450 m²</li>
-                <li>Superficie total: 1689 m²</li>
-                <li>Capacidad máxima de tratamiento: 7.5 litros por segundo (27 m³/h)</li>
-              </ul>
-  
-              <h3>Aspectos Académicos:</h3>
-              <ul>
-                <li>Impulsar líneas de investigación sobre tratamiento de aguas residuales.</li>
-                <li>Visitas guiadas para alumnos de la facultad.</li>
-                <li>Formación de recursos humanos.</li>
-              </ul>
-            </div>
-          </div>
-          <div class="b-columns__col">
-            <div class="b-columns__col-content t-sink s-sink">
-              <h3>Ventajas:</h3>
-              <ul>
-                <li>Baja inversión.</li>
-                <li>Bajos costos de operación y mantenimiento.</li>
-                <li>Adaptable a altas y bajas cargas orgánicas.</li>
-                <li>Resiste largos tiempos sin alimentación de sustrato.</li>
-                <li>Baja producción de lodos, ya estabilizados y espesados.</li>
-                <li>Remoción de materia orgánica entre 60 y 80% según el tipo de agua residual.</li>
-                <li>Producción de energía a través del biogás.</li>
-              </ul>
-            </div>
-          </div>
-          <div class="b-columns__col">
-            <div class="b-columns__col-content t-sink s-sink">
-              <!-- Contenido de la planta de tratamiento de agua -->
-              <h3>Impacto y beneficio social de la obra:</h3>
-              <ol>
-                <li>Tratamiento de aguas residuales generadas por la comunidad interna y externa.</li>
-                <li>Importante disminución de descarga de agua residual a la red municipal, con el fin de la conservación ambiental.</li>
-                <li>Riego de áreas verdes con agua tratada, sustituyendo el agua potable.</li>
-                <li>Aumento de la vegetación a través de los lodos fertilizantes producidos por la PTAR.</li>
-                <li>Cumplir con los objetivos generales de la Universidad sustentable.</li>
-                <li>Fortalecer el conocimiento sobre temas ambientales a nivel Licenciatura, Posgrado e Investigación.</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-     </section>
-<hr>
-   <!-- Sección de Publicaciones -->
-   <section >
-    <div class="l-container">
-        <header class="c-block__header">
-            <h1>AVISOS</h1>
-        </header>
-        
-        {% if posts %}
-            {% for post in posts %}
-                <div class="post-item">
-                    <h3>{{ post.title }}</h3>
-                    <p>{{ post.content|safe }}</p>
-                    <small>Publicado el: {{ post.created_at }}</small>
-                </div>
-            {% endfor %}
+    
+<!-- Reemplazar la sección Hero original (línea ~90) -->
+<section id="inicio" class="b-hero__img">
+        <!-- Dinámico con Django -->
+        {% if portada_activa %}
+            <img src="{{ portada_activa.imagen.url }}" class="hero-portada" alt="Portada dinámica">
         {% else %}
-            <p>No hay publicaciones recientes.</p>
+            <img src="{% static 'hola/img/portada.jpg' %}" class="hero-portada" alt="Portada predeterminada">
         {% endif %}
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title animate__animated animate__fadeInDown">Planta de Tratamiento de Aguas Residuales</h1>
+            <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">Transformando aguas, preservando la naturaleza y la Vida</p>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <div class="hero-section">
+        <div class="hero-content-inner">
+            <h1 class="hero-title animate-on-scroll">Bienvenido a <span class="highlight">PTAR</span></h1>
+            <p class="lead-text hero-subtitle animate-on-scroll" style="transition-delay: 0.2s">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
+        </div>
     </div>
-  </section>
+        
+        <!-- Sección Tríptico -->
+        <section id="triptico" class="triptico">
+            <div class="triptico-item animate-slideUp delay-1">
+              <div class="triptico-icon bounce">
+                <i class="fas fa-bullseye pulse"></i>
+              </div>
+              <h2>Objetivo</h2>
+              <p>Construir y operar la planta de tratamiento de aguas residuales para el riego de las áreas verdes de la FES Acatlán, minimizando el impacto ecológico y preservando el agua.</p>
+              <div class="particles"></div>
+              <div class="triptico-wave"></div>
+            </div>
+          
+            <div class="triptico-item animate-slideUp delay-2">
+              <div class="triptico-icon bounce">
+                <i class="fas fa-graduation-cap swing"></i>
+              </div>
+              <h2>Aspectos académicos</h2>
+              <ul>
+                <li><i class="fas fa-check-circle pop"></i> Investigación en tratamiento de aguas residuales</li>
+                <li><i class="fas fa-check-circle pop"></i> Visitas guiadas para estudiantes</li>
+                <li><i class="fas fa-check-circle pop"></i> Prácticas profesionales y servicio social</li>
+              </ul>
+              <div class="particles"></div>
+              <div class="triptico-wave"></div>
+            </div>
+          
+            <div class="triptico-item animate-slideUp delay-3">
+              <div class="triptico-icon bounce">
+                <i class="fas fa-leaf spin"></i>
+              </div>
+              <h2>Impactos y beneficios</h2>
+              <p>Mejoras ambientales y sociales a través del uso eficiente del agua.</p>
+              <div class="particles"></div>
+              <div class="triptico-wave"></div>
+            </div>
+            
+            <div class="triptico-decoration">
+              <div class="decoration-circle circle-1"></div>
+              <div class="decoration-circle circle-2"></div>
+              <div class="decoration-circle circle-3"></div>
+              <div class="decoration-bubble bubble-1"></div>
+              <div class="decoration-bubble bubble-2"></div>
+              <div class="decoration-bubble bubble-3"></div>
+            </div>
+          </section>
+          
+    <!-- Sección Avisos -->
+    <section id="avisos" class="avisos">
+        <div class="l-container">
+            <h2 class="section-title">Avisos</h2>
+            <div class="avisos-subtitle">Mantente informado con nuestras últimas actualizaciones</div>
+            
+            {% if posts %}
+                <div class="posts-container">
+                    {% for post in posts %}
+                        <div class="post-item">
+                            <div class="post-badge">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M7 20l10-10m0 0L7 10l10-10"></path>
+                                </svg>
+                            </div>
+                            <h3>{{ post.title }}</h3>
+                            <div class="post-content">
+                                {{ post.content|safe }}
+                            </div>
+                            <div class="post-meta">
+                                <span class="meta-icon">📅</span> Publicado el: {{ post.created_at|date:"d M Y" }}
+                            </div>
+                            <div class="post-decoration"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            {% else %}
+                <div class="no-posts-container">
+                    <p class="no-posts">
+                        <span class="no-posts-icon">📭</span>
+                        No hay publicaciones recientes
+                    </p>
+                    <div class="no-posts-decoration"></div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="avisos-decoration">
+            <div class="decoration-circle"></div>
+            <div class="decoration-wave"></div>
+        </div>
+    </section>
 
- <hr> 
-<!---------Parte de historia de la planta------------------>
+    <!-- Galería de Imágenes -->
+    <section id="galeria" class="gallery-section">
+        <div class="gallery-header animate-fadeIn">
+            <h2 class="gallery-title"><span>Galería Visual</span></h2>
+            <p class="gallery-subtitle">Explora nuestros momentos especiales</p>
+            <div class="water-drops">
+                <div class="drop"></div>
+                <div class="drop delay-1"></div>
+                <div class="drop delay-2"></div>
+            </div>
+        </div>
+
+        <div class="gallery-container">
+            <div class="gallery-track">
+                <!-- Item de galería 1 -->
+                <div class="gallery-item animate-slideUp delay-1">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Atardecer en la montaña</h3>
+                                <div class="divider"></div>
+                                <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Item de galería 2 -->
+                <div class="gallery-item animate-slideUp delay-2">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/2.jpg' %}" alt="Imagen 2" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Investigación en campo</h3>
+                                <div class="divider"></div>
+                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item animate-slideUp delay-2">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/3.jpg' %}" alt="Imagen 2" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Investigación en campo</h3>
+                                <div class="divider"></div>
+                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item animate-slideUp delay-2">
+                    <div class="image-container">
+                        <img src="{% static 'hola/img/imagenes/4.jpg' %}" alt="Imagen 2" class="gallery-image">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h3>Investigación en campo</h3>
+                                <div class="divider"></div>
+                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
+                                <button class="view-btn pulse">
+                                    <span>Ampliar</span>
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="corner-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+        <div class="gallery-pagination">
+            <!-- Los puntos se generarán con JS -->
+        </div>
+
+        <div class="gallery-controls">
+            <button id="prevBtn" class="control-btn float">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextBtn" class="control-btn float">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Modal para imágenes ampliadas -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modalImage" class="modal-image">
+            <div id="modalCaption" class="modal-caption"></div>
+        </div>
+    </div>
+
+    <!-- Línea de Tiempo -->
+    <section id="linea-tiempo" class="timeline-section-wrapper">
+        <div class="timeline-header animate-fadeIn">
+            <h2 class="timeline-title"><span>Línea de Tiempo</span></h2><br>
+            <p class="timeline-subtitle">Descubre nuestro recorrido histórico</p>
+            <div class="timeline-water-drops">
+                <div class="drop"></div>
+                <div class="drop delay-1"></div>
+                <div class="drop delay-2"></div>
+            </div>
+        </div>
     
-    <section class="historia">
-      <div><h1>Historia de la planta</h1></div>
-      <div class="linea_tiempo">
-        <div class="texto_hi">
-            <div class="punto"></div>
-            <div class="caja_h">
-                <h2>2014</h2>
-                <p>Inicia las operaciones de la planta sin uso real para la Facultad.
-                  <p> El agua tratada se manda a la linea de agua municipal</p>
-                </i></p>
-            </div>
-        </div>
-
-        <div class="texto_hd">
-            <div class="punto"></div>
-            <div class="caja_h">
-                <h2>2018</h2>
-                <p>Se construye la red de riego en la Facultad</p>
-                <p> Entre Octubre/Noviembre se realiza el primer riego de las areas deportivas</p>
-            </div>
-        </div>
-
-        <div class="texto_hi">
-            <div class="punto"></div>
-            <div class="caja_h">
-                <h2>2020</h2>
-                <p>Durante la pandemia se cierra la planta, debido a la falta de descargas en la Facultad</p>
-            </div>
-        </div>
-
+        <div class="timeline-section">
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-progress"></div>
     
-    <div class="texto_hd">
-      <div class="punto"></div>
-      <div class="caja_h">
-          <h2>???</h2>
-          <p>Despues de pandemia se manda a revisar que el material biologico no estuviera muerto</p>
-          <p>Al no haber estudiantes no habia descargas de agua residual siendo este el principal alimento del material biologico</p>
-          <p> El agua de la lluvia no servia al no contener microorganismos</p>
-      </div>
-</div>
+                <!-- Evento 2025 -->
+                <div class="timeline-item" data-year="2025">
+                    <div class="timeline-dot" data-year="2025"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Inicio del Proyecto</h3>
+                        <p>Lanzamiento oficial de la iniciativa con el equipo fundador.</p>
+                        <div class="timeline-decoration"></div>
+                        <!--- <div class="timeline-badge">Fase 1</div> --->
+                    </div>
+                </div>
+    
+                <!-- Evento 2026 -->
+                <div class="timeline-item" data-year="2026">
+                    <div class="timeline-dot" data-year="2026"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Primeros Resultados</h3>
+                        <p>Publicación de los primeros hallazgos científicos relevantes.</p>
+                        <div class="timeline-decoration"></div>
+                        <!--- <div class="timeline-badge">Fase 2</div> --->
+                    </div>
+                </div>
+    
+                <!-- Evento 2027 -->
+                <div class="timeline-item" data-year="2027">
+                    <div class="timeline-dot" data-year="2027"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>Reconocimiento Internacional</h3>
+                        <p>Premio a la innovación tecnológica en sostenibilidad.</p>
+                        <div class="timeline-decoration"></div>
+                        <!--- <div class="timeline-badge">Logro</div>--->
+                    </div>
+                </div>
+    
+                <!-- Evento 2028 -->
+                <div class="timeline-item" data-year="2028">
+                    <div class="timeline-dot" data-year="2028"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                        <h3>Expansión Global</h3>
+                        <p>Implementación del proyecto en 3 continentes.</p>
+                        <div class="timeline-decoration"></div>
+                        <!--- <div class="timeline-badge">Fase 3</div> --->
+                    </div>
+                </div>
+    
+                <!-- Evento 2029 -->
+                <div class="timeline-item" data-year="2029">
+                    <div class="timeline-dot" data-year="2029"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3>Impacto Global</h3>
+                        <p>Reconocido como modelo de sostenibilidad por la ONU.</p>
+                        <div class="timeline-decoration"></div>
+                        <div class="timeline-badge">Éxito</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="timeline-scroll-hint">
+            <i class="fas fa-arrow-left"></i>
+            <span>Desliza para ver más</span>
+            <i class="fas fa-arrow-right"></i>
+        </div>
+    </section>
 
 
-<div class="texto_hi">
-  <div class="punto"></div>
-  <div class="caja_h">
-      <h2>2022</h2>
-      <p>Se reactivan las funciones de la planta</p>
-      <p>Durante este año, se proponen 2 proyectos con prototipos del cual 1 gano un premio</p>
-  </div>
-</div>
-</div>
+    <!-- Galería de Videos -->
+    <section id="videos" class="videos-texto">
+    <h2 class="section-title">Galería de Videos</h2>
+    
+    <!-- Video 1 -->
+    <div class="video-block">
+        <div class="video-badge">Nuevo</div>
+        <h3 class="video-title">Planta de Tratamiento de Aguas Residuales Acatlán (PTAR)</h3>
+        <div class="video-content">
+            <div class="video-description">
+                <p>En este video se explica el proyecto para la construcción y 
+                    funcionamiento de una planta de tratamiento de aguas residuales en la Facultad de Estudios Superiores Acatlán, 
+                    construida con tecnología de punta nacida en la propia UNAM.
+                </p>
+                <div class="video-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <span class="stat-count" data-count="1250">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-comment"></i>
+                        <span class="stat-count" data-count="42">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-share"></i>
+                        <span class="stat-count" data-count="18">0</span>
+                    </div>
+                </div>
+                <ul class="video-features">
+                    <li><i class="fas fa-clock"></i> Duración: 10:30 min</li>
+                    <li><i class="fas fa-calendar"></i> Publicado: 13/06/2016</li>
+                    <li><i class="fas fa-eye"></i> <span class="view-count" data-count="16,917">16917</span> vistas</li>
+                </ul>
+                <button class="watch-btn">
+                    <i class="fas fa-play"></i> Ver ahora
+                </button>
+            </div>
+            <div class="video-wrapper">
+                <div class="video-thumbnail" data-src="https://www.youtube.com/embed/SEzmvImnuNE">
+                    <img src="https://img.youtube.com/vi/SEzmvImnuNE/maxresdefault.jpg" alt="Video thumbnail">
+                    <div class="play-overlay">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+                <iframe src="" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Video 2 -->
+    <div class="video-block">
+        <div class="video-badge popular">Popular</div>
+        <h3 class="video-title">Manejo sustentable del agua en Acatlán</h3>
+        <div class="video-content">
+            <div class="video-description">
+                <p>Con la operación de la PTAR hay una disminución considerable de contaminantes 
+                    desalojados al drenaje municipal de Naucalpan, señala investigación realizada en la 
+                    Facultad.</p>
+                <div class="video-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <span class="stat-count" data-count="2100">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-comment"></i>
+                        <span class="stat-count" data-count="78">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-share"></i>
+                        <span class="stat-count" data-count="35">0</span>
+                    </div>
+                </div>
+                <ul class="video-features">
+                    <li><i class="fas fa-clock"></i> Duración: 2:21 min</li>
+                    <li><i class="fas fa-calendar"></i> Publicado: 10/03/2022</li>
+                    <li><i class="fas fa-eye"></i> <span class="view-count" data-count="294">294</span> vistas</li>
+                </ul>
+                <button class="watch-btn">
+                    <i class="fas fa-play"></i> Ver ahora
+                </button>
+            </div>
+            <div class="video-wrapper">
+                <div class="video-thumbnail" data-src="https://www.youtube.com/embed/GkdVabBzKfM?start=5">
+                    <img src="https://img.youtube.com/vi/GkdVabBzKfM/maxresdefault.jpg" alt="Video thumbnail">
+                    <div class="play-overlay">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+                <iframe src="" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 </section>
-</div>
 
-    <!-- Sección de Videos -->
+<div class="video-lightbox">
+    <div class="lightbox-content">
+        <span class="close-lightbox">&times;</span>
+        <iframe id="lightbox-iframe" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+</div>
+    <!-- Scripts -->
+    <script src="{% static 'hola/js/login.js' %}"></script>
     
-    <section class="video_seccion">
-      <hr>
-      <h1>Videos Informativos</h1>
-      <div class="video">
-        <div class="video_conte">
-          <div class="video_cont">
-            <iframe src="https://www.youtube.com/embed/SEzmvImnuNE" allowfullscreen></iframe>
-          </div>
-          <div class="video_textI">
-            <h2>Planta de Tratamiento de Aguas Residuales Acatlán (PTAR)</h2>
-            <p>En este video se explica el proyecto para la construcción y funcionamiento de una planta de tratamiento de aguas residuales en la Facultad de Estudios Superiores Acatlán, construida con tecnología de punta nacida en la propia UNAM</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    {% if evento %}
+    <div id="popup" style="padding: 0; margin: 0; width: 100%; max-width:35%; box-sizing: border-box;">
+        <a href="{{ evento.enlace }}" target="_blank" style="display: block; width: 100%;">
+            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" style="width: 100%; height: auto; display: block; max-width: 100%;">
+        </a>
+    </div>
     
-    <section class="video_seccion">
-      <div class="video">
-        <div class="video_conte">
-          <div class="video_textI">
-            <h2>Manejo sustentable del agua en Acatlán</h2>
-            <p>Con la operación de la PTAR hay una disminución considerable de contaminantes desalojados al drenaje municipal de Naucalpan, señala investigación realizada en la Facultad</p>
-          </div>
-          <div class="video_cont">
-            <iframe src="https://www.youtube.com/embed/GkdVabBzKfM" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"/>
     
-   
-  </div><!-- .l-wrapper -->
+    <script>
+        $(document).ready(function() {
+            $.fancybox.open({
+                src: '#popup',
+                type: 'inline'
+            });
+        });
+    </script>
+    {% endif %}
+    
+    <!-- Script para posts horizontales -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const postsContainer = document.querySelector('.posts-container');
+            
+            if (postsContainer) {
+                postsContainer.style.display = 'flex';
+                postsContainer.style.overflowX = 'auto';
+                postsContainer.style.gap = '25px';
+                postsContainer.style.flexWrap = 'nowrap';
+                
+                document.querySelectorAll('.post-item').forEach(post => {
+                    post.style.flex = '0 0 300px';
+                    post.style.marginBottom = '0';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

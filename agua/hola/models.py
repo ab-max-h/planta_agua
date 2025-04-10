@@ -1,6 +1,14 @@
 from django.db import models
-from django.db import models
-from django.db import models
+
+class Evento(models.Model):
+    titulo = models.CharField(max_length=200)
+    imagen = models.ImageField(upload_to='imagenespopup/')
+    enlace = models.URLField(blank=True, null=True)
+    activo = models.BooleanField(default=True)  # Para activar/desactivar el popup
+
+    def __str__(self):
+        return self.titulo
+
 
 class Announcement(models.Model):  # Asegúrate de que este modelo exista
     title = models.CharField(max_length=200)
@@ -35,3 +43,12 @@ class Bitacora(models.Model):
 
     def __str__(self):
         return f"Muestra {self.numero_muestra} - {self.fecha_hora}"
+
+# models.py (corrección)
+class Portada(models.Model):
+    imagen = models.ImageField(upload_to='portadas/')
+    activa = models.BooleanField(default=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)  # Nombre correcto
+
+    def __str__(self):
+        return f"Portada {self.fecha_creacion}"  # Usa fecha_creacion (con "n")

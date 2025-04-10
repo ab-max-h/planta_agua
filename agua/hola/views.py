@@ -20,6 +20,18 @@ from .models import Post
 
 from django.http import JsonResponse
 from .models import Bitacora
+from .models import Evento  # Importa el modelo Evento
+from django.contrib.auth.decorators import login_required
+from .models import Portada
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+from django.contrib.auth import logout
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt  
+
 
 def datos_bitacora(request):
     datos = list(Bitacora.objects.values('fecha_hora', 'nivel_agua', 'temperatura'))
@@ -76,7 +88,8 @@ def importar_bitacora_xlsx(request):
 # views.py (corregido)
 def index(request):
     posts = Post.objects.all().order_by('-created_at')  # Obtener posts
-
+    evento = Evento.objects.filter(activo=True).first()  # Obtener evento activo
+    portada_activa = Portada.objects.filter(activa=True).last() 
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -87,16 +100,26 @@ def index(request):
             return redirect('/datos/')
         else:
             # Renderiza con posts incluso en error
-            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts})
+            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts , "evento": evento, "portada_activa": portada_activa })
     
     # GET: Renderiza con posts
-    return render(request, "hola/unam.html", {"posts": posts})
+    return render(request, "hola/unam.html", {"posts": posts , "evento": evento, "portada_activa": portada_activa})
 
-
+@login_required
 def datos(request):
     bitacoras = Bitacora.objects.all()  # Obtener todas las bitácoras
     return render(request, "hola/datos.html", {"bitacoras": bitacoras})
 
+@require_POST  # Asegura que solo se acepten peticiones POST
 def logout_view(request):
-    logout(request)
-    return JsonResponse({"message": "Logout exitoso"}, status=200)
+    if request.user.is_authenticated:
+        logout(request)  # Cierra la sesión
+        return JsonResponse(
+            {"success": True, "message": "Sesión cerrada con éxito"}, 
+            status=200
+        )
+    else:
+        return JsonResponse(
+            {"success": False, "message": "No hay sesión activa"}, 
+            status=400
+        )
