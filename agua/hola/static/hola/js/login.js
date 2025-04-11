@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initLoginEvents();
     initTripticoEffects();
     initButtonEffects();
-    initHorizontalPosts();
+    initHorizontalPosts(); // Módulo actualizado
     initTimeline();
     initGallery();
     initAudioEvent();
@@ -80,6 +80,7 @@ function showError(message) {
         setTimeout(() => errorContainer.style.display = 'none', 5000);
     }
 }
+
 /* ========== MÓDULO DE TRÍPTICO ========== */
 function initTripticoEffects() {
     initTripticoObserver();
@@ -183,13 +184,11 @@ function initTripticoHoverEffects() {
 /* ========== MÓDULO DE BOTONES ========== */
 function initButtonEffects() {
     document.querySelectorAll('.btn, .cta-button').forEach(button => {
-        // Efecto de posición del ratón
         button.addEventListener('mousemove', (e) => {
             button.style.setProperty('--x', `${e.offsetX}px`);
             button.style.setProperty('--y', `${e.offsetY}px`);
         });
         
-        // Efecto de onda al hacer clic
         button.addEventListener('click', (e) => {
             const ripple = document.createElement('span');
             ripple.className = button.classList.contains('cta-button') ? 'ripple' : 'btn-wave';
@@ -206,70 +205,157 @@ function initButtonEffects() {
     });
 }
 
-function createRippleEffect(e, button) {
-    let wave = button.querySelector('.btn-wave') || document.createElement('div');
-    wave.className = 'btn-wave';
-    button.appendChild(wave);
-    
-    // Reset animation
-    wave.style.animation = 'none';
-    void wave.offsetHeight; // Trigger reflow
-    wave.style.animation = null;
-    
-    // Position wave
-    const rect = button.getBoundingClientRect();
-    wave.style.left = `${e.clientX - rect.left - 50}px`;
-    wave.style.top = `${e.clientY - rect.top - 50}px`;
-    
-    // Start animation
-    wave.style.animation = 'wave 0.6s linear forwards';
-}
-
-/* ========== MÓDULO DE POSTS HORIZONTALES ========== */
+/* ========== MÓDULO DE POSTS HORIZONTALES (ACTUALIZADO) ========== */
 function initHorizontalPosts() {
     const postsContainer = document.querySelector('.posts-container');
     if (!postsContainer) return;
 
-    Object.assign(postsContainer.style, {
-        display: 'flex',
-        overflowX: 'auto',
-        gap: '25px',
-        flexWrap: 'nowrap',
-        padding: '20px 10px',
-        scrollSnapType: 'x mandatory'
-    });
-
-    document.querySelectorAll('.post-item').forEach(post => {
-        Object.assign(post.style, {
-            flex: '0 0 300px',
-            marginBottom: '0',
-            scrollSnapAlign: 'start'
-        });
-    });
-
-    setupDragScroll(postsContainer);
+    setupHorizontalScroll(postsContainer);
+    setupPostModals();
+    animatePostsOnLoad();
 }
 
-function setupDragScroll(container) {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+function setupHorizontalScroll(container) {
+    let isDragging = false;
+    let startPos = 0;
+    let currentScroll = 0;
+    let velocity = 0;
+    let animationId = null;
+    let lastTime = 0;
+    
+    // Eventos de ratón
+    container.addEventListener('mousedown', startDrag);
+    container.addEventListener('mousemove', drag);
+    container.addEventListener('mouseup', endDrag);
+    container.addEventListener('mouseleave', endDrag);
+    
+    // Eventos táctiles
+    container.addEventListener('touchstart', touchStart, {passive: true});
+    container.addEventListener('touchmove', touchMove, {passive: true});
+    container.addEventListener('touchend', touchEnd, {passive: true});
 
-    container.addEventListener('mousedown', (e) => {
-        isDown = true;
-        startX = e.pageX - container.offsetLeft;
-        scrollLeft = container.scrollLeft;
+    function startDrag(e) {
+        isDragging = true;
+        container.style.cursor = 'grabbing';
+        startPos = getClientX(e);
+        currentScroll = container.scrollLeft;
+        velocity = 0;
+        lastTime = performance.now();
+        
+        cancelAnimationFrame(animationId);
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        
+        const currentTime = performance.now();
+        const deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        
+        const x = getClientX(e);
+        const dragDistance = x - startPos;
+        const newScroll = currentScroll - dragDistance;
+        
+        if (deltaTime > 0) {
+            velocity = (container.scrollLeft - newScroll) / deltaTime * 15;
+        }
+        
+        container.scrollLeft = newScroll;
+    }
+
+    function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        container.style.cursor = 'grab';
+        
+        if (Math.abs(velocity) > 0.5) {
+            applyInertia();
+        }
+    }
+
+    function applyInertia() {
+        if (Math.abs(velocity) > 0.5) {
+            velocity *= 0.95;
+            container.scrollLeft += velocity;
+            
+            if (Math.abs(velocity) > 0.5) {
+                animationId = requestAnimationFrame(applyInertia);
+            } else {
+                velocity = 0;
+            }
+        }
+    }
+
+    function touchStart(e) {
+        startDrag(e.touches[0]);
+    }
+
+    function touchMove(e) {
+        drag(e.touches[0]);
+    }
+
+    function touchEnd() {
+        endDrag();
+    }
+
+    function getClientX(event) {
+        return event.clientX || event.touches[0].clientX;
+    }
+}
+
+function setupPostModals() {
+    const modal = document.getElementById('post-modal');
+    if (!modal) return;
+
+    const modalTitle = document.getElementById('modal-title');
+    const modalContent = document.getElementById('modal-content');
+    const modalDate = document.getElementById('modal-date');
+    const closeBtn = modal.querySelector('.close-modal');
+
+    // Delegación de eventos
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.read-more-btn');
+        if (btn) {
+            const post = btn.closest('.post-item');
+            const title = post.querySelector('h3').textContent;
+            const content = post.querySelector('.post-content').innerHTML;
+            const date = post.querySelector('.post-meta').textContent;
+            
+            openModal(title, content, date);
+        }
+        
+        if (e.target === modal || e.target === closeBtn) {
+            closeModal();
+        }
     });
 
-    container.addEventListener('mouseleave', () => isDown = false);
-    container.addEventListener('mouseup', () => isDown = false);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    function openModal(title, content, date) {
+        modalTitle.textContent = title;
+        modalContent.innerHTML = content;
+        modalDate.textContent = date;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+function animatePostsOnLoad() {
+    const posts = document.querySelectorAll('.post-item');
     
-    container.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 2;
-        container.scrollLeft = scrollLeft - walk;
+    posts.forEach((post, index) => {
+        post.style.transitionDelay = `${index * 0.1}s`;
+        post.classList.add('loaded');
     });
 }
 
@@ -280,7 +366,6 @@ function initTimeline() {
     window.addEventListener('scroll', checkTimelineVisibility);
     window.addEventListener('scroll', updateTimelineProgress);
     
-    // Add hover effect for timeline items
     document.querySelectorAll('.timeline-item').forEach(item => {
         item.addEventListener('mouseenter', () => {
             const dot = item.querySelector('.timeline-dot');
@@ -318,7 +403,6 @@ function checkTimelineVisibility() {
             setTimeout(() => {
                 item.classList.add('animate');
                 
-                // Add sequential animation for content
                 const content = item.querySelector('.timeline-content');
                 if (content) {
                     setTimeout(() => {
@@ -343,8 +427,6 @@ function updateTimelineProgress() {
     timelineProgress.style.width = `${progress * 100}%`;
 }
 
-// Initialize timeline when DOM is loaded
-document.addEventListener('DOMContentLoaded', initTimeline);
 /* ========== MÓDULO DE GALERÍA ========== */
 function initGallery() {
     const gallery = {
@@ -367,7 +449,6 @@ function initGallery() {
     const visibleItems = Math.min(3, gallery.items.length);
     const totalItems = gallery.items.length;
 
-    // Configurar eventos
     if (gallery.prevBtn && gallery.nextBtn) {
         gallery.prevBtn.addEventListener('click', () => navigateGallery(-1));
         gallery.nextBtn.addEventListener('click', () => navigateGallery(1));
@@ -387,7 +468,6 @@ function initGallery() {
         }
     });
 
-    // Configurar eventos para cada ítem de la galería
     gallery.items.forEach((item, index) => {
         const img = item.querySelector('.gallery-image');
         const title = item.querySelector('.overlay-content h3')?.textContent || '';
@@ -406,7 +486,6 @@ function initGallery() {
         }
     });
 
-    // Efectos hover para controles
     document.querySelectorAll('.control-btn').forEach(btn => {
         btn.addEventListener('mouseenter', () => btn.classList.add('float'));
         btn.addEventListener('mouseleave', () => btn.classList.remove('float'));
@@ -417,7 +496,6 @@ function initGallery() {
         btn.addEventListener('mouseleave', () => btn.classList.remove('pulse'));
     });
 
-    // Funciones de la galería
     function navigateGallery(direction) {
         currentIndex = Math.max(0, Math.min(totalItems - visibleItems, currentIndex + direction));
         moveGallery();
@@ -489,7 +567,6 @@ function initGallery() {
         startAutoScroll();
     }
 
-    // Inicialización
     createPagination();
     moveGallery();
     startAutoScroll();
@@ -663,7 +740,7 @@ function setupSmoothScroll() {
     });
 }
 
-//videos
+/* ========== MÓDULO DE VIDEOS ========== */
 document.addEventListener('DOMContentLoaded', function() {
     // Animación de contadores
     const counters = document.querySelectorAll('.stat-count, .view-count');

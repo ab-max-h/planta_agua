@@ -179,14 +179,27 @@
                             </div>
                             <h3>{{ post.title }}</h3>
                             <div class="post-content">
-                                {{ post.content|safe }}
+                                {{ post.content|safe|truncatewords:30 }}
                             </div>
+                            <button class="read-more-btn" data-post-id="{{ post.id }}">Leer más</button>
                             <div class="post-meta">
                                 <span class="meta-icon">📅</span> Publicado el: {{ post.created_at|date:"d M Y" }}
                             </div>
                             <div class="post-decoration"></div>
                         </div>
                     {% endfor %}
+                </div>
+                
+                <!-- Modal para leer más -->
+                <div id="post-modal" class="post-modal">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3 id="modal-title"></h3>
+                        <div id="modal-content" class="modal-body"></div>
+                        <div class="modal-meta">
+                            <span id="modal-date"></span>
+                        </div>
+                    </div>
                 </div>
                 
             {% else %}

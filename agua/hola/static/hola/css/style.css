@@ -876,67 +876,71 @@ header:hover {
   /* ===================================================
      SECCIÓN AVISOS
      =================================================== */
-     .avisos {
-      padding: 100px 20px;
-      background: radial-gradient(circle at top left, #fff8e1, #ffe0b2);
-      overflow: hidden;
-      position: relative;
-      border-radius: 0 0 30px 30px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  }
-  
-  .avisos::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #2196F3, #FFC107, #4CAF50, #9C27B0);
-      z-index: 1;
-      animation: rainbow 8s linear infinite;
-      background-size: 300% 100%;
-  }
-  .avisos-subtitle {
-    text-align: center;
-    color: #7f8c8d;
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    font-weight: 300;
-    animation: fadeIn 1s ease-out;
+     /* Estilos generales de la sección avisos */
+.avisos {
+  padding: 100px 20px;
+  background: radial-gradient(circle at top left, #fff8e1, #ffe0b2);
+  overflow: hidden;
+  position: relative;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
-  
-  .posts-container {
-    display: flex;
-    gap: 30px;
-    flex-wrap: nowrap;
-    padding: 30px 20px;
-    min-width: fit-content;
-    scroll-behavior: smooth;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    cursor: grab;
-    position: relative;
-    z-index: 2;
-    margin: 0 -20px;
+
+.avisos::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #2196F3, #FFC107, #4CAF50, #9C27B0);
+  z-index: 1;
+  animation: rainbow 8s linear infinite;
+  background-size: 300% 100%;
+}
+
+.avisos-subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  font-weight: 300;
+  animation: fadeIn 1s ease-out;
+}
+
+/* Contenedor de posts */
+.posts-container {
+  display: flex;
+  gap: 30px;
+  flex-wrap: nowrap;
+  padding: 30px 20px;
+  min-width: fit-content;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  position: relative;
+  z-index: 2;
+  margin: 0 -20px;
 }
 
 .posts-container::-webkit-scrollbar {
-    height: 8px;
+  height: 8px;
 }
 
 .posts-container::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.3);
-    border-radius: 10px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
 }
 
 .posts-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, #2196F3, #FFC107);
-    border-radius: 10px;
-    box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
+  background: linear-gradient(90deg, #2196F3, #FFC107);
+  border-radius: 10px;
+  box-shadow: inset 0 0 3px rgba(0,0,0,0.2);
 }
-  
+
+/* Items de post individuales */
 .post-item {
   background: linear-gradient(135deg, #ffffff, #f8f9fa);
   padding: 30px;
@@ -951,6 +955,13 @@ header:hover {
   backdrop-filter: blur(5px);
   transform-style: preserve-3d;
   perspective: 1000px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.post-item.loaded {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .post-item::before {
@@ -958,20 +969,25 @@ header:hover {
   position: absolute;
   top: 0;
   left: 0;
-  width: auto;
+  width: 0;
   height: 100%;
   background: linear-gradient(to bottom, #2196F3, #4CAF50);
   transition: all 0.4s ease;
+  z-index: -1;
 }
 
 .post-item:hover {
   transform: translateY(-8px) rotateX(5deg) rotateY(1deg) scale(1.02);
   box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+  z-index: 3;
 }
+
 .post-item:hover::before {
   width: 8px;
   background: linear-gradient(to bottom, #FFC107, #FF5722);
 }
+
+/* Badge de post */
 .post-badge {
   position: absolute;
   top: 15px;
@@ -996,6 +1012,7 @@ header:hover {
   animation: bounce 0.6s ease;
 }
 
+/* Estilos de contenido del post */
 .post-item h3 {
   color: #2c3e50;
   margin-bottom: 20px;
@@ -1030,12 +1047,26 @@ header:hover {
   line-height: 1.7;
   margin-bottom: 25px;
   transition: all 0.3s ease;
+  max-height: 120px;
+  overflow: hidden;
+  position: relative;
+}
+
+.post-content::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.9));
 }
 
 .post-item:hover .post-content {
   color: #333;
 }
 
+/* Meta información del post */
 .post-meta {
   font-size: 0.9rem;
   color: #7f8c8d;
@@ -1060,6 +1091,47 @@ header:hover {
   transform: scale(1.2);
 }
 
+/* Botón Leer más */
+.read-more-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(45deg, #2196F3, #21CBF3);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.read-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #FFC107, #FF9800);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.read-more-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+}
+
+.read-more-btn:hover::before {
+  opacity: 1;
+}
+
+/* Decoración del post */
 .post-decoration {
   position: absolute;
   bottom: -50px;
@@ -1077,6 +1149,7 @@ header:hover {
   background: radial-gradient(circle, rgba(255, 193, 7, 0.15), transparent 70%);
 }
 
+/* Estilos cuando no hay posts */
 .no-posts-container {
   position: relative;
   max-width: 600px;
@@ -1119,22 +1192,200 @@ header:hover {
   animation: rotate 20s linear infinite;
 }
 
-  @keyframes fadeInUp {
-      from {
-          opacity: 0;
-          transform: translateY(20px);
-      }
-      to {
-          opacity: 1;
-          transform: translateY(0);
-      }
+/* Estilos del modal */
+.post-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.post-modal.active {
+  display: block;
+  opacity: 1;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  animation: modalFadeIn 0.4s ease-out;
+  overflow-y: auto;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  color: #aaa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-modal:hover {
+  color: #ff5252;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  line-height: 1.8;
+  color: #333;
+  padding: 20px 0;
+}
+
+.modal-meta {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-style: italic;
+  text-align: right;
+  padding-top: 15px;
+  border-top: 1px dashed rgba(0,0,0,0.1);
+}
+
+/* Decoraciones adicionales */
+.avisos-decoration {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+}
+
+.decoration-circle {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,193,7,0.1), transparent 70%);
+  right: -50px;
+  bottom: -50px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.decoration-wave {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M20,20 Q30,0 40,20 T60,20 T80,20 T100,20" stroke="%23FFC107" fill="none" stroke-width="2" opacity="0.3"/></svg>') repeat;
+  right: -100px;
+  bottom: -100px;
+  animation: wave 15s linear infinite;
+}
+
+/* Animaciones */
+@keyframes rainbow {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes modalFadeIn {
+  from {
+      transform: translateY(30px);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes wave {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50px); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Efectos de carga */
+@keyframes shimmer {
+  0% { background-position: -468px 0 }
+  100% { background-position: 468px 0 }
+}
+
+.loading-post {
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #f6f7f8 8%, #e9e9e9 18%, #f6f7f8 33%);
+  background-size: 800px 104px;
+  position: relative;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .avisos {
+      padding: 60px 15px;
   }
   
-  @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+  .post-item {
+      flex: 0 0 280px;
+      padding: 20px;
   }
+  
+  .posts-container {
+      gap: 20px;
+      padding: 20px 15px;
+  }
+  
+  .modal-content {
+      width: 95%;
+      padding: 20px;
+  }
+}
   
   /* ===================================================
      SECCIÓN VIDEOS
