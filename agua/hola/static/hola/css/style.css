@@ -1943,12 +1943,11 @@ header:hover {
       top: 50%;
       left: 0;
       height: 8px;
-      width: 0;
+      width: auto;
       background: linear-gradient(to right, #4fd1c5, #38b2ac);
       transform: translateY(-50%);
       z-index: 2;
       border-radius: 10px;
-      transition: width 0.5s ease;
       box-shadow: 0 0 20px rgba(79, 209, 197, 0.6);
   }
   

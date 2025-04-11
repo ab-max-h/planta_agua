@@ -136,3 +136,5 @@ AUTHENTICATION_BACKENDS=[
 ]
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = "hola/datos.html"
+
+STATICFILES_STORAGE = 'manifest_staticfiles.storage.ManifestStaticFilesStorage'
