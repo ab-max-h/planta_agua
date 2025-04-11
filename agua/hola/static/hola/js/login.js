@@ -390,7 +390,7 @@ function adjustTimeline() {
     const lastItem = timelineItems[timelineItems.length - 1];
     const totalWidth = (lastItem.offsetLeft + lastItem.offsetWidth) - firstItem.offsetLeft;
     
-    if (timelineLine) timelineLine.style.width = `${totalWidth}px`;
+    if (timelineLine) timelineLine.style.width = `${100}%`;
 }
 
 function checkTimelineVisibility() {
@@ -423,8 +423,8 @@ function updateTimelineProgress() {
     const scrollLeft = timelineSection.scrollLeft;
     const scrollWidth = timelineSection.scrollWidth - timelineSection.clientWidth;
     const progress = scrollLeft / scrollWidth;
-    
-    timelineProgress.style.width = `${progress * 100}%`;
+    progress += 0.05;
+    timelineProgress.style.width = `${progress * 50000}%`;
 }
 
 /* ========== MÓDULO DE GALERÍA ========== */

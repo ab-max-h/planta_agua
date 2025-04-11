@@ -1,9 +1,18 @@
 // Función para abrir/cerrar el menú lateral
-document.getElementById('menuToggle').addEventListener('click', function () {
+document.getElementById('menuToggle').addEventListener('click', function() {
     const menuLateral = document.getElementById('menuLateral');
     const contenidoPrincipal = document.getElementById('contenidoPrincipal');
     
-    menuLateral.classList.toggle('abierto');
+    // Animación de rebote
+    if (!menuLateral.classList.contains('abierto')) {
+        menuLateral.style.transform = 'translateX(-20px)';
+        setTimeout(() => {
+            menuLateral.classList.add('abierto');
+        }, 100);
+    } else {
+        menuLateral.classList.remove('abierto');
+    }
+    
     contenidoPrincipal.classList.toggle('menu-abierto');
     
     // Guardar estado del menú en localStorage
@@ -11,40 +20,104 @@ document.getElementById('menuToggle').addEventListener('click', function () {
     localStorage.setItem('menuOpen', isOpen);
 });
 
-// Cambiar entre las opciones del menú
-document.querySelectorAll('.menu-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
+// Cambiar entre las opciones del menú con animación
+document.querySelectorAll('.menu-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        // Animación de click
+        this.style.transform = 'translateX(10px) scale(0.98)';
+        setTimeout(() => {
+            this.style.transform = 'translateX(10px)';
+        }, 200);
+        
         // Remover clase active de todos los botones
-        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.menu-btn').forEach(b => {
+            b.classList.remove('active');
+            b.querySelector('i').style.color = '';
+        });
         
         // Añadir clase active al botón clickeado
         this.classList.add('active');
+        this.querySelector('i').style.color = 'var(--secondary-color)';
         
         const opcion = this.getAttribute('data-opcion');
         
-        // Ocultar todas las secciones de contenido
-        document.querySelectorAll('.contenido-opcion').forEach(function (seccion) {
-            seccion.classList.remove('activo');
+        // Ocultar todas las secciones de contenido con fade out
+        document.querySelectorAll('.contenido-opcion').forEach(function(seccion) {
+            seccion.style.opacity = '0';
+            setTimeout(() => {
+                seccion.classList.remove('activo');
+            }, 300);
         });
         
-        // Mostrar la sección correspondiente
-        document.getElementById(opcion).classList.add('activo');
+        // Mostrar la sección correspondiente con fade in
+        setTimeout(() => {
+            const seccion = document.getElementById(opcion);
+            seccion.classList.add('activo');
+            setTimeout(() => {
+                seccion.style.opacity = '1';
+            }, 50);
+        }, 350);
         
         // Si es la sección de gráficos, cargarlos
         if (opcion === 'graficacion') {
-            cargarGraficas();
+            setTimeout(cargarGraficas, 400);
         }
     });
 });
 
-// Verificar estado del menú al cargar la página
+// Verificar estado del menú al cargar la página con animación
 document.addEventListener('DOMContentLoaded', function() {
     const menuOpen = localStorage.getItem('menuOpen') === 'true';
     if (menuOpen) {
-        document.getElementById('menuLateral').classList.add('abierto');
-        document.getElementById('contenidoPrincipal').classList.add('menu-abierto');
+        setTimeout(() => {
+            document.getElementById('menuLateral').classList.add('abierto');
+            document.getElementById('contenidoPrincipal').classList.add('menu-abierto');
+        }, 300);
     }
     
+    // Efecto de onda al hacer hover en los botones
+    document.querySelectorAll('.menu-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple-effect';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        });
+    });
+});
+
+// Añadir estilo para el efecto ripple dinámicamente
+const style = document.createElement('style');
+style.textContent = `
+    .ripple-effect {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        animation: ripple 0.6s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple {
+        to {
+            transform: translate(-50%, -50%) scale(10);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);    
     // Inicializar DataTables
     $('#tablaBitacoras').DataTable({
         "language": {
@@ -107,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...';
         cargarGraficas();
     });
-});
 
 // Función para mostrar notificación toast
 function showToast(message, type = 'success') {
