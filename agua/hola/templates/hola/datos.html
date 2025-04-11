@@ -23,7 +23,7 @@
     <!-- Barra superior con botones de usuario -->
     <div class="top-bar">
         <button class="menu-toggle" id="menuToggle">
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-bars"> MENU</i>
         </button>
         
         <div class="user-actions">
@@ -64,26 +64,40 @@
     <!-- Menú lateral -->
     <div class="menu-lateral" id="menuLateral">
         <div class="menu-header">
-            <img src="{% static 'hola/img/logo.png' %}" alt="Logo" class="logo">
+            <div class="logo-container">
+                <img src="{% static 'hola/img/logo.png' %}" alt="Logo" class="logo">
+                <div class="logo-glow"></div>
+            </div>
             <h3>Sistema de Monitoreo</h3>
+            <div class="header-decoration"></div>
         </div>
         <div class="menu-opciones">
             <button class="menu-btn active" data-opcion="bitacora">
-                <i class="fas fa-clipboard-list"></i> Bitácora
+                <i class="fas fa-clipboard-list"></i>
+                <span class="btn-text">Bitácora</span>
+                <div class="btn-hover-effect"></div>
             </button>
             <button class="menu-btn" data-opcion="graficacion">
-                <i class="fas fa-chart-line"></i> Graficación
+                <i class="fas fa-chart-line"></i>
+                <span class="btn-text">Graficación</span>
+                <div class="btn-hover-effect"></div>
             </button>
             <button class="menu-btn" data-opcion="servicio-social">
-                <i class="fas fa-hands-helping"></i> Servicio Social
+                <i class="fas fa-hands-helping"></i>
+                <span class="btn-text">Servicio Social</span>
+                <div class="btn-hover-effect"></div>
             </button>
             <button class="menu-btn" data-opcion="configuracion">
-                <i class="fas fa-user-cog"></i> Mi Perfil
+                <i class="fas fa-user-cog"></i>
+                <span class="btn-text">Mi Perfil</span>
+                <div class="btn-hover-effect"></div>
             </button>
         </div>
         <div class="menu-footer">
             <p>Versión 1.0.0</p>
+            <div class="footer-decoration"></div>
         </div>
+        <div class="menu-trail"></div>
     </div>
 
     <!-- Contenido principal -->
