@@ -428,6 +428,10 @@ function updateTimelineProgress() {
 }
 
 /* ========== MÓDULO DE GALERÍA ========== */
+document.addEventListener('DOMContentLoaded', function() {
+    initGallery();
+});
+
 function initGallery() {
     const gallery = {
         track: document.querySelector('.gallery-track'),
@@ -435,10 +439,11 @@ function initGallery() {
         prevBtn: document.getElementById('prevBtn'),
         nextBtn: document.getElementById('nextBtn'),
         pagination: document.querySelector('.gallery-pagination'),
-        modal: document.getElementById('imageModal'),
-        modalImage: document.getElementById('modalImage'),
+        modal: document.getElementById('contentModal'),
+        mediaContainer: document.getElementById('modalMediaContainer'),
         modalCaption: document.getElementById('modalCaption'),
-        closeBtn: document.querySelector('.close-btn')
+        closeBtn: document.querySelector('.close-btn'),
+        activeVideo: null
     };
 
     if (!gallery.track || !gallery.items.length) return;
@@ -449,53 +454,84 @@ function initGallery() {
     const visibleItems = Math.min(3, gallery.items.length);
     const totalItems = gallery.items.length;
 
-    if (gallery.prevBtn && gallery.nextBtn) {
-        gallery.prevBtn.addEventListener('click', () => navigateGallery(-1));
-        gallery.nextBtn.addEventListener('click', () => navigateGallery(1));
+    // Inicialización
+    function init() {
+        initEvents();
+        createPagination();
+        moveGallery();
+        startAutoScroll();
     }
 
-    if (gallery.closeBtn && gallery.modal) {
-        gallery.closeBtn.addEventListener('click', closeModal);
-        gallery.modal.addEventListener('click', (e) => e.target === gallery.modal && closeModal());
+    // Manejadores de eventos
+    function initEvents() {
+        // Navegación
+        if (gallery.prevBtn && gallery.nextBtn) {
+            gallery.prevBtn.addEventListener('click', () => navigateGallery(-1));
+            gallery.nextBtn.addEventListener('click', () => navigateGallery(1));
+        }
+
+        // Modal
+        if (gallery.closeBtn && gallery.modal) {
+            gallery.closeBtn.addEventListener('click', closeModal);
+            gallery.modal.addEventListener('click', (e) => e.target === gallery.modal && closeModal());
+        }
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && gallery.modal.style.display === 'block') {
+                closeModal();
+            } else if (gallery.modal.style.display !== 'block') {
+                if (e.key === 'ArrowLeft') navigateGallery(-1);
+                if (e.key === 'ArrowRight') navigateGallery(1);
+            }
+        });
+
+        // Items de la galería
+        gallery.items.forEach((item) => {
+            const isVideo = item.querySelector('video, .video-container') !== null;
+            const btn = item.querySelector('.view-btn');
+            const video = item.querySelector('video');
+            const iframe = item.querySelector('iframe');
+            
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openMediaModal(item, isVideo);
+                });
+            }
+
+            item.addEventListener('click', () => openMediaModal(item, isVideo));
+
+            // Para videos locales
+            if (video) {
+                video.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openMediaModal(item, true);
+                });
+            }
+
+            // Para iframes (videos externos)
+            if (iframe) {
+                iframe.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openMediaModal(item, true);
+                });
+            }
+        });
+
+        // Efectos hover
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => btn.classList.add('float'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('float'));
+        });
+
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => btn.classList.add('pulse'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('pulse'));
+        });
     }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && gallery.modal.style.display === 'block') {
-            closeModal();
-        } else if (gallery.modal.style.display !== 'block') {
-            if (e.key === 'ArrowLeft') navigateGallery(-1);
-            if (e.key === 'ArrowRight') navigateGallery(1);
-        }
-    });
-
-    gallery.items.forEach((item, index) => {
-        const img = item.querySelector('.gallery-image');
-        const title = item.querySelector('.overlay-content h3')?.textContent || '';
-        const desc = item.querySelector('.overlay-content p')?.textContent || '';
-        const btn = item.querySelector('.view-btn');
-
-        if (btn) {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openModal(img.src, title, desc);
-            });
-        }
-
-        if (img) {
-            img.addEventListener('click', () => openModal(img.src, title, desc));
-        }
-    });
-
-    document.querySelectorAll('.control-btn').forEach(btn => {
-        btn.addEventListener('mouseenter', () => btn.classList.add('float'));
-        btn.addEventListener('mouseleave', () => btn.classList.remove('float'));
-    });
-
-    document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.addEventListener('mouseenter', () => btn.classList.add('pulse'));
-        btn.addEventListener('mouseleave', () => btn.classList.remove('pulse'));
-    });
-
+    // Navegación de la galería
     function navigateGallery(direction) {
         currentIndex = Math.max(0, Math.min(totalItems - visibleItems, currentIndex + direction));
         moveGallery();
@@ -511,6 +547,7 @@ function initGallery() {
         updatePagination();
     }
 
+    // Paginación
     function createPagination() {
         if (!gallery.pagination) return;
         
@@ -536,11 +573,44 @@ function initGallery() {
         dots.forEach((dot, index) => dot.classList.toggle('active', index === activePage));
     }
 
-    function openModal(src, title, description) {
-        if (!gallery.modal || !gallery.modalImage || !gallery.modalCaption) return;
+    // Modal de medios
+    function openMediaModal(item, isVideo) {
+        if (!gallery.modal || !gallery.mediaContainer || !gallery.modalCaption) return;
         
-        gallery.modalImage.src = src;
-        gallery.modalCaption.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
+        const title = item.querySelector('h3')?.textContent || '';
+        const date = item.querySelector('.overlay-content p')?.textContent || '';
+        
+        gallery.mediaContainer.innerHTML = '';
+        
+        if (isVideo) {
+            const videoContainer = item.querySelector('.video-container');
+            if (videoContainer) {
+                // Video externo (iframe)
+                gallery.mediaContainer.innerHTML = `
+                    <div class="modal-video">
+                        ${videoContainer.innerHTML}
+                    </div>
+                `;
+            } else {
+                // Video local
+                const video = item.querySelector('video').cloneNode(true);
+                video.controls = true;
+                video.classList.add('modal-video');
+                gallery.mediaContainer.appendChild(video);
+                gallery.activeVideo = video;
+            }
+        } else {
+            // Imagen
+            const img = item.querySelector('img').cloneNode();
+            img.classList.add('modal-image');
+            gallery.mediaContainer.appendChild(img);
+        }
+        
+        gallery.modalCaption.innerHTML = `
+            <h3>${title}</h3>
+            <p>${date}</p>
+        `;
+        
         gallery.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
         clearInterval(autoScrollInterval);
@@ -549,11 +619,18 @@ function initGallery() {
     function closeModal() {
         if (!gallery.modal) return;
         
+        // Pausar video si está reproduciendo
+        if (gallery.activeVideo) {
+            gallery.activeVideo.pause();
+            gallery.activeVideo = null;
+        }
+        
         gallery.modal.style.display = 'none';
         document.body.style.overflow = 'auto';
         startAutoScroll();
     }
 
+    // Auto-scroll
     function startAutoScroll() {
         clearInterval(autoScrollInterval);
         autoScrollInterval = setInterval(() => {
@@ -567,16 +644,17 @@ function initGallery() {
         startAutoScroll();
     }
 
-    createPagination();
-    moveGallery();
-    startAutoScroll();
-
-    window.addEventListener('resize', () => {
+    // Responsive
+    function handleResize() {
         itemWidth = gallery.items[0].getBoundingClientRect().width + 40;
         moveGallery();
-    });
-}
+    }
 
+    window.addEventListener('resize', handleResize);
+
+    // Inicializar
+    init();
+}
 /* ========== MÓDULO DE AUDIO ========== */
 function initAudioEvent() {
     document.addEventListener("click", () => {
