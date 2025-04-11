@@ -14,6 +14,23 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe  # ¡Importa esto!
 from .models import Portada
 
+from django.contrib import admin
+from .models import Galeria
+from django.utils.safestring import mark_safe
+
+@admin.register(Galeria)
+class GaleriaAdmin(admin.ModelAdmin):
+    list_display = ['preview', 'titulo', 'tipo', 'activo']
+    list_editable = ['activo']
+    readonly_fields = ['preview']
+
+    def preview(self, obj):
+        if obj.tipo == 'imagen':
+            return mark_safe(f'<img src="{obj.contenido.url}" width="150" />')
+        else:
+            return "🎥 Video: " + obj.titulo
+    preview.short_description = "Vista Previa"
+
 @admin.register(Portada)
 class PortadaAdmin(admin.ModelAdmin):
     list_display = ['imagen_previa', 'activa', 'fecha_creacion']  # Asegúrate de incluir los campos reales

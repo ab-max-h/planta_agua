@@ -1,5 +1,26 @@
 from django.db import models
 
+
+class Galeria(models.Model):
+    TIPO_CONTENIDO = [
+        ('imagen', 'Imagen'),
+        ('video', 'Video'),
+    ]
+
+    titulo = models.CharField(max_length=200)
+    contenido = models.FileField(upload_to='galeria/')  # Archivos subidos (imágenes o videos)
+    tipo = models.CharField(max_length=10, choices=TIPO_CONTENIDO)
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    activo = models.BooleanField(default=True)
+    enlace_externo = models.URLField(blank=True, null=True)  # Para YouTube, Vimeo, etc.
+
+    def __str__(self):
+        return self.titulo
+
+    def es_video(self):
+        return self.tipo == 'video'
+
+
 class Evento(models.Model):
     titulo = models.CharField(max_length=200)
     imagen = models.ImageField(upload_to='imagenespopup/')

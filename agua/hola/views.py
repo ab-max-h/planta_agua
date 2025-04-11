@@ -31,6 +31,7 @@ from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt  
+from .models import Galeria
 
 
 def datos_bitacora(request):
@@ -90,6 +91,8 @@ def index(request):
     posts = Post.objects.all().order_by('-created_at')  # Obtener posts
     evento = Evento.objects.filter(activo=True).first()  # Obtener evento activo
     portada_activa = Portada.objects.filter(activa=True).last() 
+    galeria = Galeria.objects.filter(activo=True).order_by('-fecha_publicacion')[:12]  # <- Aquí está lo nuevo
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -100,10 +103,10 @@ def index(request):
             return redirect('/datos/')
         else:
             # Renderiza con posts incluso en error
-            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts , "evento": evento, "portada_activa": portada_activa })
+            return render(request, "hola/unam.html", {"error": "Credenciales incorrectas", "posts": posts , "evento": evento, "portada_activa": portada_activa,"galeria": galeria  })
     
     # GET: Renderiza con posts
-    return render(request, "hola/unam.html", {"posts": posts , "evento": evento, "portada_activa": portada_activa})
+    return render(request, "hola/unam.html", {"posts": posts , "evento": evento, "portada_activa": portada_activa,"galeria": galeria })
 
 @login_required
 def datos(request):

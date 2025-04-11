@@ -220,28 +220,42 @@
     </section>
 
     <!-- Galería de Imágenes -->
-    <section id="galeria" class="gallery-section">
-        <div class="gallery-header animate-fadeIn">
-            <h2 class="gallery-title"><span>Galería Visual</span></h2>
-            <p class="gallery-subtitle">Explora un poco del trabajo que hacemos aquí</p>
-            <div class="water-drops">
-                <div class="drop"></div>
-                <div class="drop delay-1"></div>
-                <div class="drop delay-2"></div>
-            </div>
+    <!-- Galería de Imágenes -->
+<section id="galeria" class="gallery-section">
+    <div class="gallery-header animate-fadeIn">
+        <h2 class="gallery-title"><span>Galería Visual</span></h2>
+        <p class="gallery-subtitle">Explora un poco del trabajo que hacemos aquí</p>
+        <div class="water-drops">
+            <div class="drop"></div>
+            <div class="drop delay-1"></div>
+            <div class="drop delay-2"></div>
         </div>
+    </div>
 
-        <div class="gallery-container">
-            <div class="gallery-track">
-                <!-- Item de galería 1 -->
-                <div class="gallery-item animate-slideUp delay-1">
+    <div class="gallery-container">
+        <div class="gallery-track">
+            {% for item in galeria %}
+                <div class="gallery-item animate-slideUp">
                     <div class="image-container">
-                        <img src="{% static 'hola/img/imagenes/1.jpg' %}" alt="Imagen 1" class="gallery-image">
+                        {% if item.es_video %}
+                            {% if item.enlace_externo %}
+                                <div class="video-container">
+                                    <iframe src="{{ item.enlace_externo }}" allowfullscreen></iframe>
+                                </div>
+                            {% else %}
+                                <video controls class="gallery-image">
+                                    <source src="{{ item.contenido.url }}" type="video/mp4">
+                                    Tu navegador no soporta video.
+                                </video>
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ item.contenido.url }}" alt="{{ item.titulo }}" class="gallery-image">
+                        {% endif %}
                         <div class="image-overlay">
                             <div class="overlay-content">
-                                <h3>Atardecer en la montaña</h3>
+                                <h3>{{ item.titulo }}</h3>
                                 <div class="divider"></div>
-                                <p>Un hermoso atardecer capturado durante nuestra expedición</p>
+                                <p>{{ item.fecha_publicacion|date:"d M Y" }}</p>
                                 <button class="view-btn pulse">
                                     <span>Ampliar</span>
                                     <i class="fas fa-expand"></i>
@@ -251,93 +265,34 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Item de galería 2 -->
-                <div class="gallery-item animate-slideUp delay-2">
-                    <div class="image-container">
-                        <img src="{% static 'hola/img/imagenes/2.jpg' %}" alt="Imagen 2" class="gallery-image">
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <h3>Investigación en campo</h3>
-                                <div class="divider"></div>
-                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
-                                <button class="view-btn pulse">
-                                    <span>Ampliar</span>
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
-                            <div class="corner-decoration"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="gallery-item animate-slideUp delay-2">
-                    <div class="image-container">
-                        <img src="{% static 'hola/img/imagenes/3.jpg' %}" alt="Imagen 2" class="gallery-image">
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <h3>Investigación en campo</h3>
-                                <div class="divider"></div>
-                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
-                                <button class="view-btn pulse">
-                                    <span>Ampliar</span>
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
-                            <div class="corner-decoration"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="gallery-item animate-slideUp delay-2">
-                    <div class="image-container">
-                        <img src="{% static 'hola/img/imagenes/4.jpg' %}" alt="Imagen 2" class="gallery-image">
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <h3>Investigación en campo</h3>
-                                <div class="divider"></div>
-                                <p>Nuestro equipo trabajando en el análisis de muestras</p>
-                                <button class="view-btn pulse">
-                                    <span>Ampliar</span>
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
-                            <div class="corner-decoration"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
+            {% endfor %}
         </div>
+    </div>
 
-        
+    <div class="gallery-pagination">
+        <!-- Los puntos se generarán con JS si lo implementás -->
+    </div>
+
+    <div class="gallery-controls">
+        <button id="prevBtn" class="control-btn float">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="nextBtn" class="control-btn float">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
+
+<!-- Modal para imágenes ampliadas -->
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img id="modalImage" class="modal-image">
+        <div id="modalCaption" class="modal-caption"></div>
     </div>
 </div>
-        <div class="gallery-pagination">
-            <!-- Los puntos se generarán con JS -->
-        </div>
 
-        <div class="gallery-controls">
-            <button id="prevBtn" class="control-btn float">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button id="nextBtn" class="control-btn float">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-    </section>
-
-    <!-- Modal para imágenes ampliadas -->
-    <div id="imageModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <img id="modalImage" class="modal-image">
-            <div id="modalCaption" class="modal-caption"></div>
-        </div>
-    </div>
-
-    <!-- Línea de Tiempo -->
+    <!-- Línea de Tiempo------------ -->
     <section id="linea-tiempo" class="timeline-section-wrapper">
         <div class="timeline-header animate-fadeIn">
             <h2 class="timeline-title"><span>Línea de Tiempo</span></h2><br>
