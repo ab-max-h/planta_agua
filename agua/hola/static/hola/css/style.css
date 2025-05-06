@@ -158,6 +158,8 @@ header:hover {
 
 .logo img {
     transition: transform 0.3s ease;
+    width:35%;
+    height: 25%;
 }
 
 .logo:hover img {
@@ -395,7 +397,7 @@ header:hover {
       overflow: hidden;
       box-shadow: 0 15px 30px rgba(0,0,0,0.2);
       z-index: 10;
-      background: #00B2A9 ;
+      background: #003B49 ;
       transition: all 0.5s ease;
   }
   
@@ -911,6 +913,7 @@ header:hover {
      =================================================== */
      /* Estilos generales de la sección avisos */
 .avisos {
+  margin: 80px 0;
   padding: 100px 20px;
   background: radial-gradient(circle at top left, #fff8e1, #ffe0b2);
   overflow: hidden;
@@ -926,7 +929,6 @@ header:hover {
   left: 0;
   right: 0;
   height: 6px;
-  background: linear-gradient(90deg, #2196F3, #FFC107, #4CAF50, #9C27B0);
   z-index: 1;
   animation: rainbow 8s linear infinite;
   background-size: 300% 100%;
