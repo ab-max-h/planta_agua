@@ -146,7 +146,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
-    background: linear-gradient(135deg, #1a3655 0%, #0d233a 100%);
+    background: #003B49;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     z-index: 1000;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
@@ -239,7 +239,7 @@ header:hover {
 }
 
 #loginButton.aqua-btn {
-  background: linear-gradient(135deg, #4CAFAA 0%, #2196F3 100%);
+  background: #007FA3;
   border: none;
   padding: 12px 35px;
   border-radius: 30px;
@@ -395,7 +395,7 @@ header:hover {
       overflow: hidden;
       box-shadow: 0 15px 30px rgba(0,0,0,0.2);
       z-index: 10;
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+      background: #00B2A9 ;
       transition: all 0.5s ease;
   }
   

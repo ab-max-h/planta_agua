@@ -21,7 +21,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Iconos y estilos -->
-    <link rel="stylesheet" href="{% static 'hola/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'hola/css/style.css' %}?v={{ now|date:'U' }}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
@@ -35,7 +36,7 @@
     <!-- Header -->
     <header>
         <div class="logo">
-            <img src="{% static 'hola/img/logo.png' %}" alt="Logo Agua Viva" width="100" height="50">
+            <img src="{% static 'hola/img/image.png' %}" alt="Logo Agua Viva" width="100" height="50">
         </div>
         <nav class="floating-nav">
             <div class="nav-container">
