@@ -1,22 +1,28 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+from django import forms
 from import_export.admin import ImportExportModelAdmin
-from import_export import resources
-from .models import Bitacora
-from . import  models
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Post
-from .models import Announcement
-from django.contrib import admin
-from .models import Evento
-from .models import Portada
-from django.utils.safestring import mark_safe
-from django.contrib import admin
-from django.utils.safestring import mark_safe  # ¡Importa esto!
-from .models import Portada
+from .models import Galeria, Portada, Evento, Post, Bitacora
+from .resources import BitacoraResource
 
-from django.contrib import admin
-from .models import Galeria
-from django.utils.safestring import mark_safe
+class BitacoraForm(forms.ModelForm):
+    class Meta:
+        model = Bitacora
+        fields = '__all__'
+        widgets = {
+            'fecha': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD'}
+            )
+        }
+
+@admin.register(Bitacora)
+class BitacoraAdmin(ImportExportModelAdmin):  # ✅ Cambio clave aquí
+    form = BitacoraForm
+    resource_class = BitacoraResource  # ✅ Se especifica el recurso
+    list_display = ('fecha', 'vol_g', 'vol_agregado_m3', 'v_total_m3')
+    date_hierarchy = 'fecha'
 
 @admin.register(Galeria)
 class GaleriaAdmin(admin.ModelAdmin):
@@ -25,49 +31,33 @@ class GaleriaAdmin(admin.ModelAdmin):
     readonly_fields = ['preview']
 
     def preview(self, obj):
-        if obj.tipo == 'imagen':
+        if obj.tipo == 'imagen' and obj.contenido:
             return mark_safe(f'<img src="{obj.contenido.url}" width="150" />')
-        else:
-            return "🎥 Video: " + obj.titulo
+        elif obj.tipo == 'video':
+            return f"🎥 Video: {obj.titulo}"
+        return "Sin vista previa"
     preview.short_description = "Vista Previa"
 
 @admin.register(Portada)
 class PortadaAdmin(admin.ModelAdmin):
-    list_display = ['imagen_previa', 'activa', 'fecha_creacion']  # Asegúrate de incluir los campos reales
+    list_display = ['imagen_previa', 'activa', 'fecha_creacion']
     readonly_fields = ['imagen_previa']
+    list_filter = ['activa']
 
-    # Define el método para la vista previa
     def imagen_previa(self, obj):
         if obj.imagen:
-            return mark_safe(f'<img src="{obj.imagen.url}" width="150" />')  # Usa mark_safe
+            return mark_safe(f'<img src="{obj.imagen.url}" width="150" />')
         return "Sin imagen"
-    imagen_previa.short_description = "Vista previa"  # Nombre de la columna
+    imagen_previa.short_description = "Vista previa"
 
 @admin.register(Evento)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'activo')  # Para ver qué eventos están activos
+    list_display = ('titulo', 'activo', 'enlace')
     list_filter = ('activo',)
+    search_fields = ('titulo',)
 
-
-
-
-class PostAdmin(SummernoteModelAdmin):  
-    summernote_fields = ('content',)  # Campo donde se aplicará Summernote
-
-admin.site.register(Post, PostAdmin)
-
-
-
-
-# Definir el recurso para importar y exportar
-class BitacoraResource(resources.ModelResource):
-    class Meta:
-        model = Bitacora
-
-# Registrar en el admin con Importación y Exportación habilitadas
-@admin.register(Bitacora)
-class BitacoraAdmin(ImportExportModelAdmin):  # Habilita importación/exportación
-    resource_class = BitacoraResource
-    list_display = ('numero_muestra', 'fecha_hora', 'nivel_agua', 'ph', 'temperatura', 'supervisor')
-    search_fields = ('numero_muestra', 'supervisor')
-    list_filter = ('fecha_hora', 'supervisor')
+@admin.register(Post)
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = ('content',)
+    list_display = ('title', 'created_at')
+    search_fields = ('title', 'content')

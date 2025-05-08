@@ -1,4 +1,40 @@
 from django.db import models
+from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+import datetime  # ✅ Importación necesaria para validar fechas correctamente
+from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
+class Bitacora(models.Model):
+    fecha = models.DateField(
+        primary_key=True,
+        verbose_name="Fecha",
+        unique=True,
+        null=False,
+        blank=False,
+        help_text="Formato: YYYY-MM-DD"
+    )
+    vol_g = models.FloatField(verbose_name="Vol. G.")
+    vol_agregado_m3 = models.FloatField(verbose_name="Vol. Agregado (m3)")
+    v_total_m3 = models.FloatField(verbose_name="V total m3")
+
+    def __str__(self):
+        return f"Registro del {self.fecha.strftime('%Y-%m-%d')}"
+
+    def clean(self):
+        if not self.fecha:
+            raise ValidationError(_("La fecha es obligatoria."))
+        
+        if self.fecha > timezone.now().date():
+            raise ValidationError(_("No se permiten fechas futuras."))
+
+    class Meta:
+        ordering = ['-fecha']
+        verbose_name = "Registro Diario de Bitácora"
+        verbose_name_plural = "Registros Diarios de Bitácora"
 
 
 class Galeria(models.Model):
@@ -8,11 +44,11 @@ class Galeria(models.Model):
     ]
 
     titulo = models.CharField(max_length=200)
-    contenido = models.FileField(upload_to='galeria/')  # Archivos subidos (imágenes o videos)
+    contenido = models.FileField(upload_to='galeria/')
     tipo = models.CharField(max_length=10, choices=TIPO_CONTENIDO)
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
     activo = models.BooleanField(default=True)
-    enlace_externo = models.URLField(blank=True, null=True)  # Para YouTube, Vimeo, etc.
+    enlace_externo = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.titulo
@@ -25,13 +61,13 @@ class Evento(models.Model):
     titulo = models.CharField(max_length=200)
     imagen = models.ImageField(upload_to='imagenespopup/')
     enlace = models.URLField(blank=True, null=True)
-    activo = models.BooleanField(default=True)  # Para activar/desactivar el popup
+    activo = models.BooleanField(default=True)
 
     def __str__(self):
         return self.titulo
 
 
-class Announcement(models.Model):  # Asegúrate de que este modelo exista
+class Announcement(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
 
@@ -47,29 +83,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-# Modelo para la bitácora de la planta de tratamiento de aguas residuales
-class Bitacora(models.Model):
-    fecha_hora = models.DateTimeField(auto_now_add=True)
-    numero_muestra = models.CharField(max_length=50)
-    nivel_agua = models.FloatField()
-    ph = models.FloatField()
-    toc = models.FloatField(help_text="Carbono Orgánico Total (mg/L)")
-    dqo = models.FloatField(help_text="Demanda Química de Oxígeno (mg/L)")
-    r = models.FloatField()
-    ssed = models.FloatField()
-    ud_ph = models.FloatField()
-    temperatura = models.FloatField(help_text="Temperatura en °C")
-    observaciones = models.TextField(blank=True, null=True)
-    supervisor = models.CharField(max_length=100)
 
-    def __str__(self):
-        return f"Muestra {self.numero_muestra} - {self.fecha_hora}"
-
-# models.py (corrección)
 class Portada(models.Model):
     imagen = models.ImageField(upload_to='portadas/')
     activa = models.BooleanField(default=True)
-    fecha_creacion = models.DateTimeField(auto_now_add=True)  # Nombre correcto
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Portada {self.fecha_creacion}"  # Usa fecha_creacion (con "n")
+        return f"Portada creada el {self.fecha_creacion.strftime('%Y-%m-%d')}"
