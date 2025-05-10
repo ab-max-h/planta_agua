@@ -2,11 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-import datetime  # ✅ Importación necesaria para validar fechas correctamente
-from django.db import models
-from django.core.exceptions import ValidationError
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 
 class Bitacora(models.Model):
     fecha = models.DateField(
@@ -25,11 +20,15 @@ class Bitacora(models.Model):
         return f"Registro del {self.fecha.strftime('%Y-%m-%d')}"
 
     def clean(self):
+        """Validaciones lógicas sin verificar formato"""
         if not self.fecha:
-            raise ValidationError(_("La fecha es obligatoria."))
-        
+            raise ValidationError("La fecha es obligatoria.")
         if self.fecha > timezone.now().date():
-            raise ValidationError(_("No se permiten fechas futuras."))
+            raise ValidationError("No se permiten fechas futuras.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-fecha']
@@ -52,9 +51,6 @@ class Galeria(models.Model):
 
     def __str__(self):
         return self.titulo
-
-    def es_video(self):
-        return self.tipo == 'video'
 
 
 class Evento(models.Model):
