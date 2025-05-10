@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitácora Ambiental</title>
+    <title>Bitácora </title>
     
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
@@ -153,13 +153,84 @@
             border: 1px solid #ced4da;
             background-color: white;
         }
+
+        /* Menú horizontal */
+        .horizontal-menu {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            color: white;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 60px;
+            z-index: 900;
+            overflow-x: auto;
+        }
+
+        .horizontal-menu-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .menu-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #4ecdc4;
+        }
+
+        .menu-item i {
+            font-size: 16px;
+        }
+
+        /* Scroll personalizado para el menú horizontal */
+        .horizontal-menu::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .horizontal-menu::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .horizontal-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .horizontal-menu::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
     </style>
 </head>
 <body>
     <!-- Barra superior con título y botones -->
     <div class="top-bar">
         <div class="top-title">
-            <i class="fas fa-book"></i> Bitácora Ambiental
+            <i class="fas fa-book"></i> Bitácora 
         </div>
         <div class="top-actions">
             <button class="top-btn admin-btn" onclick="window.location.href='{% url 'admin:index' %}'">
@@ -171,45 +242,66 @@
         </div>
     </div>
 
+    <!-- Menú horizontal -->
+    <div class="horizontal-menu">
+        <div class="horizontal-menu-container">
+            <div class="menu-item active" data-target="registro">
+                <i class="fas fa-plus-circle"></i> Nuevo Registro
+            </div>
+            <div class="menu-item" data-target="importar">
+                <i class="fas fa-file-import"></i> Importar Datos
+            </div>
+            <div class="menu-item" data-target="bitacora">
+                <i class="fas fa-book"></i> Registros
+            </div>
+            <div class="menu-item" data-target="graficos">
+                <i class="fas fa-chart-line"></i> Gráficos
+            </div>
+        </div>
+    </div>
+
     <!-- Contenido principal -->
     <div class="contenido-principal">
         <div class="container">
             <!-- Sección para añadir nuevos registros -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-plus-circle"></i> Añadir Registro</h2>
-                </div>
-                <div class="card-body">
-                    <form id="addForm" class="add-form">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fecha"><i class="far fa-calendar-alt"></i> Fecha</label>
-                                <input type="date" id="fecha" name="fecha" class="form-control" required>
+            <div id="registro" class="contenido-opcion activo">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-plus-circle"></i> Añadir Registro</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="addForm" class="add-form">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fecha"><i class="far fa-calendar-alt"></i> Fecha</label>
+                                    <input type="date" id="fecha" name="fecha" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vol_g"><i class="fas fa-water"></i> Vol. G.</label>
+                                    <input type="number" step="0.01" id="vol_g" name="vol_g" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="vol_g"><i class="fas fa-water"></i> Vol. G.</label>
-                                <input type="number" step="0.01" id="vol_g" name="vol_g" class="form-control" required>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="vol_agregado"><i class="fas fa-tint"></i> Vol. Agregado (m³)</label>
+                                    <input type="number" step="0.01" id="vol_agregado" name="vol_agregado" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="vol_total"><i class="fas fa-chart-bar"></i> V total (m³)</label>
+                                    <input type="number" step="0.01" id="vol_total" name="vol_total" class="form-control" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="vol_agregado"><i class="fas fa-tint"></i> Vol. Agregado (m³)</label>
-                                <input type="number" step="0.01" id="vol_agregado" name="vol_agregado" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="vol_total"><i class="fas fa-chart-bar"></i> V total (m³)</label>
-                                <input type="number" step="0.01" id="vol_total" name="vol_total" class="form-control" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-add">
-                            <i class="fas fa-save"></i> Guardar Registro
-                        </button>
-                    </form>
+                            <button type="submit" class="btn-add">
+                                <i class="fas fa-save"></i> Guardar Registro
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-             <div id="bitacora" class="contenido-opcion activo">
-            <div class="container">
+
+            <!-- Sección para importar datos -->
+            <div id="importar" class="contenido-opcion">
                 <div class="card">
                     <div class="card-header">
                         <h2><i class="fas fa-file-import"></i> Importar Datos</h2>
@@ -219,11 +311,12 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="archivo_excel">
+                                    <i class="fas fa-file-excel"></i> Seleccionar archivo Excel
                                 </label>
                                 <div class="file-upload-container" id="fileUploadContainer">
-                                    <i class="fas fa-file-excel"></i><input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx">
+                                    <input type="file" name="archivo_excel" id="archivo_excel" class="file-input" accept=".xlsx">
                                     <div class="file-upload-area">
-                                        <p class="file-info" id="fileInfo">Formato soportado: .xlsx</p>
+                                        <p class="file-info" id="fileInfo">Arrastra tu archivo aquí o haz clic para seleccionar</p>
                                     </div>
                                 </div>
                             </div>
@@ -233,114 +326,121 @@
                         </form>
                     </div>
                 </div>
-
-            <!-- Filtro por fechas -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-filter"></i> Filtrar por Fecha</h2>
-                </div>
-                <div class="card-body">
-                    <div class="date-filter">
-                        <label for="yearFilter">Año:</label>
-                        <select id="yearFilter" class="date-select">
-                            <option value="">Todos los años</option>
-                            {% for year in years %}
-                            <option value="{{ year }}">{{ year }}</option>
-                            {% endfor %}
-                        </select>
-                        
-                        <label for="monthFilter">Mes:</label>
-                        <select id="monthFilter" class="date-select">
-                            <option value="">Todos los meses</option>
-                            <option value="1">Enero</option>
-                            <option value="2">Febrero</option>
-                            <option value="3">Marzo</option>
-                            <option value="4">Abril</option>
-                            <option value="5">Mayo</option>
-                            <option value="6">Junio</option>
-                            <option value="7">Julio</option>
-                            <option value="8">Agosto</option>
-                            <option value="9">Septiembre</option>
-                            <option value="10">Octubre</option>
-                            <option value="11">Noviembre</option>
-                            <option value="12">Diciembre</option>
-                        </select>
-                        
-                        <button id="applyFilter" class="btn-refresh">
-                            <i class="fas fa-filter"></i> Aplicar Filtro
-                        </button>
-                    </div>
-                </div>
             </div>
 
-            <!-- Sección de tabla de datos -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-book"></i> Registro de Bitácora</h2>
-                    <div class="card-actions">
-                        <button class="btn-refresh" id="refreshData">
-                            <i class="fas fa-sync-alt"></i> Actualizar
-                        </button>
-                        <button class="btn-export" id="exportExcel">
-                            <i class="fas fa-file-export"></i> Exportar
-                        </button>
+            <!-- Sección de bitácora -->
+            <div id="bitacora" class="contenido-opcion">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-filter"></i> Filtrar por Fecha</h2>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive tabla-container">
-                        <table id="tablaBitacoras" class="display">
-                            <thead>
-                                <tr>
-                                    <th><i class="far fa-calendar-alt"></i> Fecha</th>
-                                    <th><i class="fas fa-water"></i> Vol. G.</th>
-                                    <th><i class="fas fa-tint"></i> Vol. Agregado (m³)</th>
-                                    <th><i class="fas fa-chart-bar"></i> V total (m³)</th>
-                                    <th><i class="fas fa-cog"></i> Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for registro in bitacoras %}
-                                <tr>
-                                    <td>{{ registro.fecha|date:"Y-m-d" }}</td>
-                                    <td>{{ registro.vol_g }}</td>
-                                    <td>{{ registro.vol_agregado_m3 }}</td>
-                                    <td>{{ registro.v_total_m3 }}</td>
-                                    <td>
-                                        <button class="btn-action btn-edit" data-id="{{ registro.id }}"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action btn-delete" data-id="{{ registro.id }}"><i class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="5" class="no-data">No hay registros en la bitácora.</td>
-                                </tr>
+                    <div class="card-body">
+                        <div class="date-filter">
+                            <label for="yearFilter">Año:</label>
+                            <select id="yearFilter" class="date-select">
+                                <option value="">Todos los años</option>
+                                {% for year in years %}
+                                <option value="{{ year }}">{{ year }}</option>
                                 {% endfor %}
-                            </tbody>
-                        </table>
+                            </select>
+                            
+                            <label for="monthFilter">Mes:</label>
+                            <select id="monthFilter" class="date-select">
+                                <option value="">Todos los meses</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                            
+                            <button id="applyFilter" class="btn-refresh">
+                                <i class="fas fa-filter"></i> Aplicar Filtro
+                            </button>
+                            <button id="resetFilter" class="btn-cancel">
+                                <i class="fas fa-times"></i> Limpiar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-book"></i> Registro de Bitácora</h2>
+                        <div class="card-actions">
+                            <button class="btn-refresh" id="refreshData">
+                                <i class="fas fa-sync-alt"></i> Actualizar
+                            </button>
+                            <button class="btn-export" id="exportExcel">
+                                <i class="fas fa-file-export"></i> Exportar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive tabla-container">
+                            <table id="tablaBitacoras" class="display">
+                                <thead>
+                                    <tr>
+                                        <th><i class="far fa-calendar-alt"></i> Fecha</th>
+                                        <th><i class="fas fa-water"></i> Vol. G.</th>
+                                        <th><i class="fas fa-tint"></i> Vol. Agregado (m³)</th>
+                                        <th><i class="fas fa-chart-bar"></i> V total (m³)</th>
+                                        <th><i class="fas fa-cog"></i> Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for registro in bitacoras %}
+                                    <tr>
+                                        <td>{{ registro.fecha|date:"Y-m-d" }}</td>
+                                        <td>{{ registro.vol_g }}</td>
+                                        <td>{{ registro.vol_agregado_m3 }}</td>
+                                        <td>{{ registro.v_total_m3 }}</td>
+                                        <td>
+                                            <button class="btn-action btn-edit" data-id="{{ registro.id }}"><i class="fas fa-edit"></i></button>
+                                            <button class="btn-action btn-delete" data-id="{{ registro.id }}"><i class="fas fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="no-data">No hay registros en la bitácora.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Sección de gráficos integrada -->
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-chart-line"></i> Visualización de Datos</h2>
-                    <div class="card-actions">
-                        <button id="actualizarGraficos" class="btn-refresh">
-                            <i class="fas fa-sync-alt"></i> Actualizar Gráficos
-                        </button>
+            <!-- Sección de gráficos -->
+            <div id="graficos" class="contenido-opcion">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-line"></i> Visualización de Datos</h2>
+                        <div class="card-actions">
+                            <button id="actualizarGraficos" class="btn-refresh">
+                                <i class="fas fa-sync-alt"></i> Actualizar Gráficos
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-grid">
-                        <div class="chart-container">
-                            <div id="grafico_volumen" class="chart"></div>
-                        </div>
-                        <div class="chart-container">
-                            <div id="grafico_comparativo" class="chart"></div>
-                        </div>
-                        <div class="chart-container">
-                            <div id="grafico_relacion" class="chart"></div>
+                    <div class="card-body">
+                        <div class="chart-grid">
+                            <div class="chart-container">
+                                <div id="grafico_volumen" class="chart"></div>
+                            </div>
+                            <div class="chart-container">
+                                <div id="grafico_comparativo" class="chart"></div>
+                            </div>
+                            <div class="chart-container">
+                                <div id="grafico_relacion" class="chart"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -359,6 +459,28 @@
     <!-- Script para funcionalidades -->
     <script>
     $(document).ready(function() {
+        // Manejo del menú horizontal
+        $('.menu-item').click(function() {
+            const target = $(this).data('target');
+            
+            // Actualizar menú activo
+            $('.menu-item').removeClass('active');
+            $(this).addClass('active');
+            
+            // Mostrar solo el contenido seleccionado
+            $('.contenido-opcion').removeClass('activo');
+            $(`#${target}`).addClass('activo');
+            
+            // Redimensionar gráficos si es necesario
+            if (target === 'graficos') {
+                setTimeout(() => {
+                    echarts.getInstanceByDom(document.getElementById('grafico_volumen'))?.resize();
+                    echarts.getInstanceByDom(document.getElementById('grafico_comparativo'))?.resize();
+                    echarts.getInstanceByDom(document.getElementById('grafico_relacion'))?.resize();
+                }, 300);
+            }
+        });
+
         // Inicializar DataTable
         const tabla = $('#tablaBitacoras').DataTable({
             "language": {
@@ -461,8 +583,12 @@
             });
         }
 
-        // Cargar gráficos inicialmente
-        cargarGraficas();
+        // Cargar gráficos cuando se accede a la pestaña
+        $('.menu-item[data-target="graficos"]').click(function() {
+            if (!echarts.getInstanceByDom(document.getElementById('grafico_volumen'))) {
+                cargarGraficas();
+            }
+        });
 
         // Botón para actualizar gráficos
         $('#actualizarGraficos').click(function() {
@@ -537,7 +663,23 @@
             }
             
             tabla.column(0).search(searchTerm, true, false).draw();
-            cargarGraficas();
+            
+            // Si estamos en la pestaña de gráficos, actualizarlos
+            if ($('#graficos').hasClass('activo')) {
+                cargarGraficas();
+            }
+        });
+
+        // Limpiar filtros
+        $('#resetFilter').click(function() {
+            $('#yearFilter').val('');
+            $('#monthFilter').val('');
+            tabla.column(0).search('').draw();
+            
+            // Si estamos en la pestaña de gráficos, actualizarlos
+            if ($('#graficos').hasClass('activo')) {
+                cargarGraficas();
+            }
         });
 
         // Función para mostrar notificaciones
@@ -567,6 +709,16 @@
                     showToast('Error de conexión', 'error');
                 }
             });
+        });
+
+        // Manejo de la subida de archivos
+        $('#archivo_excel').change(function() {
+            const fileName = $(this).val().split('\\').pop();
+            if (fileName) {
+                $('#fileInfo').html(`<i class="fas fa-file-excel"></i> ${fileName}`);
+            } else {
+                $('#fileInfo').text('Formato soportado: .xlsx');
+            }
         });
     });
     </script>
