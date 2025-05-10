@@ -11,7 +11,50 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 import os
 from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .models import Bitacora
+import json
+from django.shortcuts import render
+from .models import Bitacora
+from django.db.models.functions import ExtractYear, ExtractMonth
 
+def bitacora_view(request):
+    # Obtener todos los registros de bitácora
+    registros = Bitacora.objects.all().order_by('-fecha')
+    
+    # Obtener años únicos disponibles para el filtro
+    years = Bitacora.objects.annotate(
+        year=ExtractYear('fecha')
+    ).values_list('year', flat=True).distinct().order_by('-year')
+    
+    # Obtener meses únicos disponibles para el filtro
+    months = Bitacora.objects.annotate(
+        month=ExtractMonth('fecha')
+    ).values_list('month', flat=True).distinct().order_by('month')
+    
+    # Pasar los datos a la plantilla
+    context = {
+        'bitacoras': registros,
+        'years': years,
+        'months': months,
+    }
+    
+    return render(request, 'hola/datos.html', context)
+
+@require_POST
+def agregar_registro(request):
+    try:
+        data = json.loads(request.body)
+        Bitacora.objects.create(
+            fecha=data['fecha'],
+            vol_g=float(data['vol_g']),
+            vol_agregado_m3=float(data['vol_agregado']),
+            v_total_m3=float(data['vol_total'])
+        )
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
 def datos_bitacora(request):
     datos = list(Bitacora.objects.values('fecha', 'vol_g', 'vol_agregado_m3', 'v_total_m3'))
     return JsonResponse(datos, safe=False)

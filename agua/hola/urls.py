@@ -11,5 +11,6 @@ urlpatterns = [
     path("exportar-excel/", views.exportar_bitacora_xlsx, name="exportar_excel"),
     path("importar-excel/", views.importar_bitacora_xlsx, name="importar_excel"),
     path('api/datos-bitacora/', datos_bitacora, name='api-datos-bitacora'),
+    path('agregar-registro/', views.agregar_registro, name='agregar_registro'),
     
 ]
