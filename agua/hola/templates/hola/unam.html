@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     
     <!-- Iconos y estilos -->
-    <link rel="stylesheet" href="{% static 'hola/css/style.css' %}">
+     <link rel="stylesheet" href="{% static 'hola/css/style.css' %}?{% now 'U' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
@@ -544,7 +544,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{% static 'hola/js/login.js' %}"></script>
+     <script src="{% static 'hola/js/login.js' %}?{% now 'U' %}"></script>
     
     {% if evento %}
     <div id="popup" style="padding: 0; margin: 0; width: 100%; max-width:35%; box-sizing: border-box;">
