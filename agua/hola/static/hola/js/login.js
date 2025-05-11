@@ -587,38 +587,173 @@ function initAudioEvent() {
         }
     }, { once: true });
 }
-
-/* ========== MÓDULO DE NAVEGACIÓN ========== */
-function initNavEvents() {
-    const nav = document.querySelector('.floating-nav');
-    if (!nav) return;
-
-    const navItems = document.querySelectorAll('.nav-item');
+ /*nav*/
+ // JavaScript para el menú horizontal mejorado
+document.addEventListener('DOMContentLoaded', function() {
+    const menu = document.querySelector('.enhanced-horizontal-menu');
+    const menuTrack = document.querySelector('.menu-track');
+    const menuItems = document.querySelectorAll('.menu-item');
+    const leftIndicator = document.querySelector('.menu-scroll-indicator.left');
+    const rightIndicator = document.querySelector('.menu-scroll-indicator.right');
     
-    navItems.forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+    // Efecto de scroll suave
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            const target = this.getAttribute('data-target');
             
-            navItems.forEach(i => i.classList.remove('active'));
+            // Remover clase active de todos los items
+            menuItems.forEach(i => i.classList.remove('active'));
+            
+            // Añadir clase active al item clickeado
             this.classList.add('active');
+            
+            // Scroll a la sección correspondiente
+            document.getElementById(target).scrollIntoView({
+                behavior: 'smooth'
+            });
         });
     });
-
-    nav.addEventListener('mouseenter', () => {
-        nav.style.left = '0';
-        nav.style.opacity = '1';
-        nav.style.width = '200px';
+    
+    // Control de scroll horizontal
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
+    
+    menuTrack.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - menuTrack.offsetLeft;
+        scrollLeft = menuTrack.scrollLeft;
+        menuTrack.style.cursor = 'grabbing';
     });
-
-    nav.addEventListener('mouseleave', () => {
-        nav.style.left = '-50px';
-        nav.style.opacity = '0.7';
-        nav.style.width = '70px';
+    
+    menuTrack.addEventListener('mouseleave', () => {
+        isDragging = false;
+        menuTrack.style.cursor = 'grab';
     });
-}
+    
+    menuTrack.addEventListener('mouseup', () => {
+        isDragging = false;
+        menuTrack.style.cursor = 'grab';
+    });
+    
+    menuTrack.addEventListener('mousemove', (e) => {
+        if(!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - menuTrack.offsetLeft;
+        const walk = (x - startX) * 2;
+        menuTrack.scrollLeft = scrollLeft - walk;
+        updateScrollIndicators();
+    });
+    
+    // Indicadores de scroll
+    function updateScrollIndicators() {
+        const maxScroll = menuTrack.scrollWidth - menuTrack.clientWidth;
+        
+        if (menuTrack.scrollLeft <= 0) {
+            leftIndicator.style.opacity = '0';
+        } else {
+            leftIndicator.style.opacity = '1';
+        }
+        
+        if (menuTrack.scrollLeft >= maxScroll) {
+            rightIndicator.style.opacity = '0';
+        } else {
+            rightIndicator.style.opacity = '1';
+        }
+    }
+    
+    leftIndicator.addEventListener('click', () => {
+        menuTrack.scrollBy({
+            left: -200,
+            behavior: 'smooth'
+        });
+    });
+    
+    rightIndicator.addEventListener('click', () => {
+        menuTrack.scrollBy({
+            left: 200,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Actualizar indicadores al cargar y al redimensionar
+    window.addEventListener('resize', updateScrollIndicators);
+    updateScrollIndicators();
+    
+    // Efecto de onda al hacer clic
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple-effect';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        });
+    });
+    
+    // Activar item según sección visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                menuItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-target') === id) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    document.querySelectorAll('.dynamic-content').forEach(section => {
+        observer.observe(section);
+    });
+});
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar la primera sección por defecto
+            document.querySelector('.dynamic-content').classList.add('active');
+            document.querySelector('.menu-item').classList.add('active');
 
+            // Manejo del menú horizontal
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover clase active de todos los items
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Añadir clase active al item clickeado
+                    this.classList.add('active');
+                    
+                    // Ocultar todos los contenidos
+                    document.querySelectorAll('.dynamic-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Mostrar el contenido correspondiente
+                    const target = this.getAttribute('data-target');
+                    document.getElementById(target).classList.add('active');
+                    
+                    // Desplazamiento suave a la sección
+                    document.getElementById(target).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
 /* ========== MÓDULO HERO ========== */
 function initHeroEffects() {
     createParticles();
@@ -837,3 +972,62 @@ function toggleElement(element, toggleClass, displayType, timeout) {
         setTimeout(() => element.classList.add(toggleClass), 10);
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Acordeón del menú
+    const triggers = document.querySelectorAll('.menu-trigger');
+    
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const targetContent = document.getElementById(targetId);
+            
+            // Cerrar todos los contenidos primero
+            document.querySelectorAll('.accordion-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Desactivar todos los triggers
+            triggers.forEach(t => {
+                t.classList.remove('active');
+            });
+            
+            // Abrir el contenido seleccionado
+            if (targetContent) {
+                targetContent.classList.add('active');
+                this.classList.add('active');
+                
+                // Desplazamiento suave al contenido
+                setTimeout(() => {
+                    targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        });
+    });
+    
+    // Abrir la primera sección por defecto
+    if (triggers.length > 0) {
+        triggers[0].click();
+    }
+    
+    // Login form toggle
+    const loginButton = document.getElementById('loginButton');
+    const loginForm = document.getElementById('loginForm');
+    
+    if (loginButton && loginForm) {
+        loginButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            loginForm.style.display = loginForm.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        // Cerrar el formulario al hacer clic fuera
+        document.addEventListener('click', function() {
+            loginForm.style.display = 'none';
+        });
+        
+        // Evitar que el clic en el formulario lo cierre
+        loginForm.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+});
