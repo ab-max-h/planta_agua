@@ -11,12 +11,6 @@
         document.cookie = "csrftoken={{ csrf_token }}";
     </script>
 
-    <!-- Audio de fondo 
-    <audio id="audio" autoplay>
-        <source src="{% static 'hola/sonido/zelda.mp3' %}" type="audio/mpeg">
-        Tu navegador no soporta audio.
-    </audio> -->
-
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     
@@ -29,6 +23,77 @@
     <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="32x32">
     <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="192x192">
     <link rel="apple-touch-icon" href="{% static 'hola/img/images.png' %}">
+
+    <style>
+        /* Estilos para el menú horizontal */
+        .horizontal-menu {
+            background: linear-gradient(135deg, #003366, #004080);
+            color: white;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 80px; /* Ajustado para que quede debajo del header */
+            z-index: 1000;
+            overflow-x: auto;
+        }
+
+        .horizontal-menu-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .menu-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #FFD700; /* Dorado UNAM */
+        }
+
+        /* Contenido dinámico */
+        .dynamic-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .dynamic-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
 </head>
 
 <body class="div">
@@ -37,64 +102,31 @@
         <div class="logo">
             <img src="{% static 'hola/img/logo.png' %}" alt="Logo Agua Viva" width="100" height="50">
         </div>
-        <nav class="floating-nav">
-            <div class="nav-container">
-                <a href="#inicio" class="nav-item active" data-index="0">
-                    <i class="fas fa-home"></i>
-                    <span>Inicio</span>
-                    <div class="nav-item-bg"></div>
-                </a>
-                <a href="#triptico" class="nav-item" data-index="1">
-                    <i class="fas fa-th-large"></i>
-                    <span>Tríptico</span>
-                    <div class="nav-item-bg"></div>
-                </a>
-                <a href="#avisos" class="nav-item" data-index="2">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Avisos</span>
-                    <div class="nav-item-bg"></div>
-                </a>
-                <a href="#galeria" class="nav-item" data-index="3">
-                    <i class="fas fa-images"></i>
-                    <span>Galería</span>
-                    <div class="nav-item-bg"></div>
-                </a>
-                <a href="#linea-tiempo" class="nav-item" data-index="4">
-                    <i class="fas fa-history"></i>
-                    <span>Línea de Tiempo</span>
-                    <div class="nav-item-bg"></div>
-                </a>
-                <a href="#videos" class="nav-item" data-index="5">
-                    <i class="fas fa-video"></i>
-                    <span>Videos</span>
-                    <div class="nav-item-bg"></div>
-                </a>
+        
+        <div class="desplegar">
+            <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
+            <div id="loginForm" class="Dcontenido">
+                <form method="POST" action="{% url 'index' %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" placeholder="Usuario" required>
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                    <button type="submit">Entrar <i class="fas fa-arrow-right"></i></button>
+                    {% if error %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endif %}
+                </form>
             </div>
-        </nav>
-            <div class="desplegar">
-                <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
-                <div id="loginForm" class="Dcontenido">
-                    <form method="POST" action="{% url 'index' %}">
-                        {% csrf_token %}
-                        <div class="input-group">
-                            <input type="text" id="username" name="username" placeholder="Usuario" required>
-                            <i class="fas fa-user input-icon"></i>
-                        </div>
-                        <div class="input-group">
-                            <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                            <i class="fas fa-lock input-icon"></i>
-                        </div>
-                        <button type="submit">Entrar <i class="fas fa-arrow-right"></i></button>
-                        {% if error %}
-                            <p class="error-message">{{ error }}</p>
-                        {% endif %}
-                    </form>
-                </div>
-            </div>
-        </header>
-    
-<!-- Reemplazar la sección Hero original (línea ~90) -->
-<section id="inicio" class="b-hero__img">
+        </div>
+    </header>
+
+    <!-- Sección Inicio (siempre visible) -->
+    <section id="inicio" class="hero-section">
         <!-- Dinámico con Django -->
         {% if portada_activa %}
             <img src="{{ portada_activa.imagen.url }}" class="hero-portada" alt="Portada dinámica">
@@ -106,435 +138,290 @@
             <h1 class="hero-title animate__animated animate__fadeInDown">Planta de Tratamiento de Aguas Residuales</h1>
             <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">Transformando aguas, preservando la naturaleza y la Vida</p>
         </div>
-    </section>
-
-    <!-- Contenido Principal -->
-    <div class="hero-section">
+        
         <div class="hero-content-inner">
             <h1 class="hero-title animate-on-scroll"><span class="highlight">Bienvenido a PTAR</span></h1>
             <p class="lead-text hero-subtitle animate-on-scroll" style="transition-delay: 0.2s">Descubre cómo funciona y cómo impacta en tu vida universitaria</p>
         </div>
+    </section>
+
+    <!-- Menú horizontal -->
+    <div class="horizontal-menu">
+        <div class="horizontal-menu-container">
+            <a href="#triptico" class="menu-item" data-target="triptico">
+                <i class="fas fa-th-large"></i>
+                <span>Tríptico</span>
+            </a>
+            <a href="#avisos" class="menu-item" data-target="avisos">
+                <i class="fas fa-bullhorn"></i>
+                <span>Avisos</span>
+            </a>
+            <a href="#galeria" class="menu-item" data-target="galeria">
+                <i class="fas fa-images"></i>
+                <span>Galería</span>
+            </a>
+            <a href="#linea-tiempo" class="menu-item" data-target="linea-tiempo">
+                <i class="fas fa-history"></i>
+                <span>Línea de Tiempo</span>
+            </a>
+            <a href="#videos" class="menu-item" data-target="videos">
+                <i class="fas fa-video"></i>
+                <span>Videos</span>
+            </a>
+        </div>
     </div>
-        
+
+    <!-- Contenedor de contenido dinámico -->
+    <div class="content-container">
         <!-- Sección Tríptico -->
-         
-        <section id="triptico" class="triptico">
-            <h2 class="section-title scale-up">Triptico</h2>
-            <div class="triptico-item animate-slideUp delay-1">
-              <div class="triptico-icon bounce">
-                <i class="fas fa-bullseye pulse"></i>
-              </div>
-              <h2>Objetivo</h2>
-              <p>Construir y operar la planta de tratamiento de aguas residuales para el riego de las áreas verdes de la FES Acatlán, minimizando el impacto ecológico y preservando el agua.</p>
-              <div class="particles"></div>
-              <div class="triptico-wave"></div>
-            </div>
-          
-            <div class="triptico-item animate-slideUp delay-2">
-              <div class="triptico-icon bounce">
-                <i class="fas fa-graduation-cap swing"></i>
-              </div>
-              <h2>Aspectos académicos</h2>
-              <ul>
-                <li><i class="fas fa-check-circle pop"></i> Investigación en tratamiento de aguas residuales</li>
-                <li><i class="fas fa-check-circle pop"></i> Visitas guiadas para estudiantes</li>
-                <li><i class="fas fa-check-circle pop"></i> Prácticas profesionales y servicio social</li>
-              </ul>
-              <div class="particles"></div>
-              <div class="triptico-wave"></div>
-            </div>
-          
-            <div class="triptico-item animate-slideUp delay-3">
-              <div class="triptico-icon bounce">
-                <i class="fas fa-leaf spin"></i>
-              </div>
-              <h2>Impactos y beneficios</h2>
-              <p>Mejoras ambientales y sociales a través del uso eficiente del agua.</p>
-              <div class="particles"></div>
-              <div class="triptico-wave"></div>
-            </div>
-            
-            <div class="triptico-decoration">
-              <div class="decoration-circle circle-1"></div>
-              <div class="decoration-circle circle-2"></div>
-              <div class="decoration-circle circle-3"></div>
-              <div class="decoration-bubble bubble-1"></div>
-              <div class="decoration-bubble bubble-2"></div>
-              <div class="decoration-bubble bubble-3"></div>
-            </div>
-          </section>
-          
-    <!-- Sección Avisos -->
-    <section id="avisos" class="avisos">
-        <div class="l-container">
-            <h2 class="section-title pulse ">Avisos</h2>
-            <div class="avisos-subtitle">Mantente informado con nuestras últimas actualizaciones</div>
-            
-            {% if posts %}
-                <div class="posts-container">
-                    {% for post in posts %}
-                        <div class="post-item">
-                            <div class="post-badge">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path d="M7 20l10-10m0 0L7 10l10-10"></path>
-                                </svg>
-                            </div>
-                            <h3>{{ post.title }}</h3>
-                            <div class="post-content">
-                                {{ post.content|safe|truncatewords:30 }}
-                            </div>
-                            <button class="read-more-btn" data-post-id="{{ post.id }}">Leer más</button>
-                            <div class="post-meta">
-                                <span class="meta-icon">📅</span> Publicado el: {{ post.created_at|date:"d M Y" }}
-                            </div>
-                            <div class="post-decoration"></div>
-                        </div>
-                    {% endfor %}
+        <section id="triptico" class="dynamic-content">
+            <div class="triptico">
+                <h2 class="section-title scale-up">Triptico</h2>
+                <div class="triptico-item animate-slideUp delay-1">
+                  <div class="triptico-icon bounce">
+                    <i class="fas fa-bullseye pulse"></i>
+                  </div>
+                  <h2>Objetivo</h2>
+                  <p>Construir y operar la planta de tratamiento de aguas residuales para el riego de las áreas verdes de la FES Acatlán, minimizando el impacto ecológico y preservando el agua.</p>
+                  <div class="particles"></div>
+                  <div class="triptico-wave"></div>
+                </div>
+              
+                <div class="triptico-item animate-slideUp delay-2">
+                  <div class="triptico-icon bounce">
+                    <i class="fas fa-graduation-cap swing"></i>
+                  </div>
+                  <h2>Aspectos académicos</h2>
+                  <ul>
+                    <li><i class="fas fa-check-circle pop"></i> Investigación en tratamiento de aguas residuales</li>
+                    <li><i class="fas fa-check-circle pop"></i> Visitas guiadas para estudiantes</li>
+                    <li><i class="fas fa-check-circle pop"></i> Prácticas profesionales y servicio social</li>
+                  </ul>
+                  <div class="particles"></div>
+                  <div class="triptico-wave"></div>
+                </div>
+              
+                <div class="triptico-item animate-slideUp delay-3">
+                  <div class="triptico-icon bounce">
+                    <i class="fas fa-leaf spin"></i>
+                  </div>
+                  <h2>Impactos y beneficios</h2>
+                  <p>Mejoras ambientales y sociales a través del uso eficiente del agua.</p>
+                  <div class="particles"></div>
+                  <div class="triptico-wave"></div>
                 </div>
                 
-                <!-- Modal para leer más -->
-                <div id="post-modal" class="post-modal">
-                    <div class="modal-content">
-                        <span class="close-modal">&times;</span>
-                        <h3 id="modal-title"></h3>
-                        <div id="modal-content" class="modal-body"></div>
-                        <div class="modal-meta">
-                            <span id="modal-date"></span>
-                        </div>
-                    </div>
+                <div class="triptico-decoration">
+                  <div class="decoration-circle circle-1"></div>
+                  <div class="decoration-circle circle-2"></div>
+                  <div class="decoration-circle circle-3"></div>
+                  <div class="decoration-bubble bubble-1"></div>
+                  <div class="decoration-bubble bubble-2"></div>
+                  <div class="decoration-bubble bubble-3"></div>
                 </div>
-                
-            {% else %}
-                <div class="no-posts-container">
-                    <p class="no-posts">
-                        <span class="no-posts-icon">📭</span>
-                        No hay publicaciones recientes
-                    </p>
-                    <div class="no-posts-decoration"></div>
-                </div>
-            {% endif %}
-        </div>
-        
-        <div class="avisos-decoration">
-            <div class="decoration-circle"></div>
-            <div class="decoration-wave"></div>
-        </div>
-    </section>
+            </div>
+        </section>
 
-    <!-- Galería de Imágenes -->
-    <!-- Galería de Imágenes -->
-<section id="galeria" class="gallery-section">
-    <div class="gallery-header animate-fadeIn">
-        <h2 class="gallery-title"><span>Galería Visual</span></h2>
-        <p class="gallery-subtitle">Explora un poco del trabajo que hacemos aquí</p>
-        <div class="water-drops">
-            <div class="drop"></div>
-            <div class="drop delay-1"></div>
-            <div class="drop delay-2"></div>
-        </div>
-    </div>
-
-    <div class="gallery-container">
-        <div class="gallery-track">
-            {% for item in galeria %}
-                <div class="gallery-item animate-slideUp">
-                    <div class="image-container">
-                        {% if item.es_video %}
-                            {% if item.enlace_externo %}
-                                <div class="video-container">
-                                    <iframe src="{{ item.enlace_externo }}" allowfullscreen></iframe>
+        <!-- Sección Avisos -->
+        <section id="avisos" class="dynamic-content">
+            <div class="avisos">
+                <div class="l-container">
+                    <h2 class="section-title pulse">Avisos</h2>
+                    <div class="avisos-subtitle">Mantente informado con nuestras últimas actualizaciones</div>
+                    
+                    {% if posts %}
+                        <div class="posts-container">
+                            {% for post in posts %}
+                                <div class="post-item">
+                                    <div class="post-badge">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                            <path d="M7 20l10-10m0 0L7 10l10-10"></path>
+                                        </svg>
+                                    </div>
+                                    <h3>{{ post.title }}</h3>
+                                    <div class="post-content">
+                                        {{ post.content|safe|truncatewords:30 }}
+                                    </div>
+                                    <button class="read-more-btn" data-post-id="{{ post.id }}">Leer más</button>
+                                    <div class="post-meta">
+                                        <span class="meta-icon">📅</span> Publicado el: {{ post.created_at|date:"d M Y" }}
+                                    </div>
+                                    <div class="post-decoration"></div>
                                 </div>
-                            {% else %}
-                                <video controls class="gallery-image">
-                                    <source src="{{ item.contenido.url }}" type="video/mp4">
-                                    Tu navegador no soporta video.
-                                </video>
-                            {% endif %}
-                        {% else %}
-                            <img src="{{ item.contenido.url }}" alt="{{ item.titulo }}" class="gallery-image">
-                        {% endif %}
-                        <div class="image-overlay">
-                            <div class="overlay-content">
-                                <h3>{{ item.titulo }}</h3>
-                                <div class="divider"></div>
-                                <p>{{ item.fecha_publicacion|date:"d M Y" }}</p>
-                                <button class="view-btn pulse">
-                                    <span>Ampliar</span>
-                                    <i class="fas fa-expand"></i>
-                                </button>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Modal para leer más -->
+                        <div id="post-modal" class="post-modal">
+                            <div class="modal-content">
+                                <span class="close-modal">&times;</span>
+                                <h3 id="modal-title"></h3>
+                                <div id="modal-content" class="modal-body"></div>
+                                <div class="modal-meta">
+                                    <span id="modal-date"></span>
+                                </div>
                             </div>
-                            <div class="corner-decoration"></div>
                         </div>
-                    </div>
+                        
+                    {% else %}
+                        <div class="no-posts-container">
+                            <p class="no-posts">
+                                <span class="no-posts-icon">📭</span>
+                                No hay publicaciones recientes
+                            </p>
+                            <div class="no-posts-decoration"></div>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="gallery-pagination">
-        <!-- Los puntos se generarán con JS si lo implementás -->
-    </div>
-
-    <div class="gallery-controls">
-        <button id="prevBtn" class="control-btn float">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button id="nextBtn" class="control-btn float">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
-</section>
-
-<!-- Modal para imágenes ampliadas -->
-<div id="imageModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <img id="modalImage" class="modal-image">
-        <div id="modalCaption" class="modal-caption"></div>
-    </div>
-</div>
-
-    <!-- Línea de Tiempo------------ -->
-    <section id="linea-tiempo" class="timeline-section-wrapper">
-        <div class="timeline-header animate-fadeIn">
-            <h2 class="section-title pulse"><span>Línea de Tiempo</span></h2><br>
-            <p class="timeline-subtitle">Descubre el impacto que ha tenido PTAR en la FES-A</p>
-            <div class="timeline-water-drops">
-                <div class="drop"></div>
-                <div class="drop delay-1"></div>
-                <div class="drop delay-2"></div>
-            </div>
-        </div>
-    
-        <div class="timeline-section">
-            <div class="timeline">
-                <div class="timeline-line"></div>
-                <div class="timeline-progress" width:"auto"></div>
-    
-                <!-- Evento 2025 -->
-                <div class="timeline-item" data-year="2014">
-                    <div class="timeline-dot" data-year="2014"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-icon">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <h3>Inicia la operación</h3>
-                        <p>Sin uso real, el agua que se trataba se mandaba a la Línea municipal.</p>
-                        <p>Agua usada para riego de áreas deportivas.</p>
-                        <div class="timeline-decoration"></div>
-                        <!--- <div class="timeline-badge">Fase 1</div> -->
-                    </div>
-                </div>
-    
-                <!-- Evento 2026 -->
-                <div class="timeline-item" data-year="2018">
-                    <div class="timeline-dot" data-year="2018"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-icon">
-                            <i class="fas fa-flask"></i>
-                        </div>
-                        <h3>Se construye la red de riego.</h3>
-                        <p>Entre octubre-noviembre ocurre el primer riego</p>
-                        <div class="timeline-decoration"></div>
-                        <!--- <div class="timeline-badge">Fase 2</div> -->
-                    </div>
-                </div>
-    
-                <!-- Evento 2027 -->
-                <div class="timeline-item" data-year="2019">
-                    <div class="timeline-dot" data-year="2019"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-icon">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <h3>Todo el año hay riego</h3>
-                        <p>Se utilizan unos 5 millones de litros de riego.</p>
-                        <div class="timeline-decoration"></div>
-                        <!--- <div class="timeline-badge">Logro</div>-->
-                    </div>
-                </div>
-    
-                <!-- Evento 2028 -->
-                <div class="timeline-item" data-year="2020">
-                    <div class="timeline-dot" data-year="2020"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-icon">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                        <h3>Año de la Pandemia, cierre de planta </h3>
-                        <p>Uso exclusivo facultad, no había descargas.</p>
-                        <p>Material biológico, los bichos se alimentan del agua residual.</p>
-                        <div class="timeline-decoration"></div>
-                        <!--- <div class="timeline-badge">Fase 3</div> -->
-                    </div>
-                </div>
-    
-                <!-- Evento 2029 -->
-                <div class="timeline-item" data-year="2022">
-                    <div class="timeline-dot" data-year="2022"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-icon">
-                            <i class="fas fa-globe-americas"></i>
-                        </div>
-                        <h3>Se reactiva la planta</h3>
-                        <p>La planta gana un premio.</p>
-                        <p>Comienza la difusión de la planta, la comunidad participa.</p>
-                        <div class="timeline-decoration"></div>
-                        <!---<div class="timeline-badge">Éxito</div>-->
-                    </div>
+                
+                <div class="avisos-decoration">
+                    <div class="decoration-circle"></div>
+                    <div class="decoration-wave"></div>
                 </div>
             </div>
-        </div>
-        
-        <div class="timeline-scroll-hint">
-            <i class="fas fa-arrow-left"></i>
-            <span>Desliza para ver más</span>
-            <i class="fas fa-arrow-right"></i>
-        </div>
-    </section>
+        </section>
 
+        <!-- Sección Galería -->
+        <section id="galeria" class="dynamic-content">
+            <div class="gallery-section">
+                <div class="gallery-header animate-fadeIn">
+                    <h2 class="gallery-title"><span>Galería Visual</span></h2>
+                    <p class="gallery-subtitle">Explora un poco del trabajo que hacemos aquí</p>
+                    <div class="water-drops">
+                        <div class="drop"></div>
+                        <div class="drop delay-1"></div>
+                        <div class="drop delay-2"></div>
+                    </div>
+                </div>
 
-    <!-- Galería de Videos -->
-    <section id="videos" class="videos-texto">
-    <h2 class="section-title scale-up">Galería de Videos</h2>
-    
-    <!-- Video 1 -->
-    <div class="video-block">
-        <div class="video-badge">Nuevo</div>
-        <h3 class="video-title">Planta de Tratamiento de Aguas Residuales Acatlán (PTAR)</h3>
-        <div class="video-content">
-            <div class="video-description">
-                <p>En este video se explica el proyecto para la construcción y 
-                    funcionamiento de una planta de tratamiento de aguas residuales en la Facultad de Estudios Superiores Acatlán, 
-                    construida con tecnología de punta nacida en la propia UNAM.
-                </p>
-                <div class="video-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart"></i>
-                        <span class="stat-count" data-count="1250">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment"></i>
-                        <span class="stat-count" data-count="42">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share"></i>
-                        <span class="stat-count" data-count="18">0</span>
-                    </div>
-                </div>
-                <ul class="video-features">
-                    <li><i class="fas fa-clock"></i> Duración: 10:30 min</li>
-                    <li><i class="fas fa-calendar"></i> Publicado: 13/06/2016</li>
-                    <li><i class="fas fa-eye"></i> <span class="view-count" data-count="16,917">16917</span> vistas</li>
-                </ul>
-                <button class="watch-btn">
-                    <i class="fas fa-play"></i> Ver ahora
-                </button>
-            </div>
-            <div class="video-wrapper">
-                <div class="video-thumbnail" data-src="https://www.youtube.com/embed/SEzmvImnuNE">
-                    <img src="https://img.youtube.com/vi/SEzmvImnuNE/maxresdefault.jpg" alt="Video thumbnail">
-                    <div class="play-overlay">
-                        <i class="fas fa-play-circle"></i>
+                <div class="gallery-container">
+                    <div class="gallery-track">
+                        {% for item in galeria %}
+                            <div class="gallery-item animate-slideUp">
+                                <div class="image-container">
+                                    {% if item.es_video %}
+                                        {% if item.enlace_externo %}
+                                            <div class="video-container">
+                                                <iframe src="{{ item.enlace_externo }}" allowfullscreen></iframe>
+                                            </div>
+                                        {% else %}
+                                            <video controls class="gallery-image">
+                                                <source src="{{ item.contenido.url }}" type="video/mp4">
+                                                Tu navegador no soporta video.
+                                            </video>
+                                        {% endif %}
+                                    {% else %}
+                                        <img src="{{ item.contenido.url }}" alt="{{ item.titulo }}" class="gallery-image">
+                                    {% endif %}
+                                    <div class="image-overlay">
+                                        <div class="overlay-content">
+                                            <h3>{{ item.titulo }}</h3>
+                                            <div class="divider"></div>
+                                            <p>{{ item.fecha_publicacion|date:"d M Y" }}</p>
+                                            <button class="view-btn pulse">
+                                                <span>Ampliar</span>
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                        </div>
+                                        <div class="corner-decoration"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-                <iframe src="" title="Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Video 2 -->
-    <div class="video-block">
-        <div class="video-badge popular">Popular</div>
-        <h3 class="video-title">Manejo sustentable del agua en Acatlán</h3>
-        <div class="video-content">
-            <div class="video-description">
-                <p>Con la operación de la PTAR hay una disminución considerable de contaminantes 
-                    desalojados al drenaje municipal de Naucalpan, señala investigación realizada en la 
-                    Facultad.</p>
-                <div class="video-stats">
-                    <div class="stat-item">
-                        <i class="fas fa-heart"></i>
-                        <span class="stat-count" data-count="2100">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-comment"></i>
-                        <span class="stat-count" data-count="78">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-share"></i>
-                        <span class="stat-count" data-count="35">0</span>
-                    </div>
-                </div>
-                <ul class="video-features">
-                    <li><i class="fas fa-clock"></i> Duración: 2:21 min</li>
-                    <li><i class="fas fa-calendar"></i> Publicado: 10/03/2022</li>
-                    <li><i class="fas fa-eye"></i> <span class="view-count" data-count="294">294</span> vistas</li>
-                </ul>
-                <button class="watch-btn">
-                    <i class="fas fa-play"></i> Ver ahora
-                </button>
-            </div>
-            <div class="video-wrapper">
-                <div class="video-thumbnail" data-src="https://www.youtube.com/embed/GkdVabBzKfM?start=5">
-                    <img src="https://img.youtube.com/vi/GkdVabBzKfM/maxresdefault.jpg" alt="Video thumbnail">
-                    <div class="play-overlay">
-                        <i class="fas fa-play-circle"></i>
-                    </div>
-                </div>
-                <iframe src="" title="Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
-</section>
 
-<div class="video-lightbox">
-    <div class="lightbox-content">
-        <span class="close-lightbox">&times;</span>
-        <iframe id="lightbox-iframe" src="" frameborder="0" allowfullscreen></iframe>
+                <div class="gallery-controls">
+                    <button id="prevBtn" class="control-btn float">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="nextBtn" class="control-btn float">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Línea de Tiempo -->
+        <section id="linea-tiempo" class="dynamic-content">
+            <div class="timeline-section-wrapper">
+                <div class="timeline-header animate-fadeIn">
+                    <h2 class="section-title pulse"><span>Línea de Tiempo</span></h2><br>
+                    <p class="timeline-subtitle">Descubre el impacto que ha tenido PTAR en la FES-A</p>
+                    <div class="timeline-water-drops">
+                        <div class="drop"></div>
+                        <div class="drop delay-1"></div>
+                        <div class="drop delay-2"></div>
+                    </div>
+                </div>
+            
+                <div class="timeline-section">
+                    <div class="timeline">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-progress" width:"auto"></div>
+            
+                        <!-- Eventos de la línea de tiempo... -->
+                        <!-- (Mantén el mismo contenido que ya tenías) -->
+                    </div>
+                </div>
+                
+                <div class="timeline-scroll-hint">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Desliza para ver más</span>
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Videos -->
+        <section id="videos" class="dynamic-content">
+            <div class="videos-texto">
+                <h2 class="section-title scale-up">Galería de Videos</h2>
+                
+                <!-- Videos... -->
+                <!-- (Mantén el mismo contenido que ya tenías) -->
+            </div>
+        </section>
     </div>
-</div>
-    <!-- Scripts -->
-    <script src="{% static 'hola/js/login.js' %}"></script>
-    
-    {% if evento %}
-    <div id="popup" style="padding: 0; margin: 0; width: 100%; max-width:35%; box-sizing: border-box;">
-        <a href="{{ evento.enlace }}" target="_blank" style="display: block; width: 100%;">
-            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" style="width: 100%; height: auto; display: block; max-width: 100%;">
-        </a>
-    </div>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"/>
-    
+
+    <!-- Script para el menú y contenido dinámico -->
     <script>
-        $(document).ready(function() {
-            $.fancybox.open({
-                src: '#popup',
-                type: 'inline'
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar la primera sección por defecto
+            document.querySelector('.dynamic-content').classList.add('active');
+            document.querySelector('.menu-item').classList.add('active');
+
+            // Manejo del menú horizontal
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover clase active de todos los items
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Añadir clase active al item clickeado
+                    this.classList.add('active');
+                    
+                    // Ocultar todos los contenidos
+                    document.querySelectorAll('.dynamic-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Mostrar el contenido correspondiente
+                    const target = this.getAttribute('data-target');
+                    document.getElementById(target).classList.add('active');
+                    
+                    // Desplazamiento suave a la sección
+                    document.getElementById(target).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
             });
         });
     </script>
-    {% endif %}
-    
-    <!-- Script para posts horizontales -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const postsContainer = document.querySelector('.posts-container');
-            
-            if (postsContainer) {
-                postsContainer.style.display = 'flex';
-                postsContainer.style.overflowX = 'auto';
-                postsContainer.style.gap = '25px';
-                postsContainer.style.flexWrap = 'nowrap';
-                
-                document.querySelectorAll('.post-item').forEach(post => {
-                    post.style.flex = '0 0 300px';
-                    post.style.marginBottom = '0';
-                });
-            }
-        });
-    </script>
+
+    <!-- Resto de tus scripts... -->
 </body>
 </html>

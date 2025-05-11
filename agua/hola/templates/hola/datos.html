@@ -1,726 +1,233 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitácora </title>
+    <title>UNAM: Universidad de la Nación</title>
     
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <!-- CSRF Token -->
+    <script>
+        document.cookie = "csrftoken={{ csrf_token }}";
+    </script>
+
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Iconos y estilos -->
+    <link rel="stylesheet" href="{% static 'hola/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
-    <!-- jQuery (requerido por DataTables) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-    <!-- DataTables JS -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    
-    <!-- ECharts para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    
-    <!-- Tu archivo CSS personalizado -->
-    <link rel="stylesheet" href="{% static 'hola/css/style1.css' %}?v=7">
-    
+    <!-- Favicons -->
+    <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="32x32">
+    <link rel="icon" href="{% static 'hola/img/images.png' %}" sizes="192x192">
+    <link rel="apple-touch-icon" href="{% static 'hola/img/images.png' %}">
+
     <style>
-        /* Estilos para la barra superior */
-        .top-bar {
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* Reset de estilos para el menú */
+        .new-horizontal-menu, .new-horizontal-menu * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        .top-title {
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-        
-        .top-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .top-btn {
-            padding: 8px 15px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .admin-btn {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .admin-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        .logout-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-        
-        .logout-btn:hover {
-            background-color: #c82333;
-        }
-        
-        /* Estilos para el formulario de añadir datos */
-        .add-form {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #495057;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        
-        .form-control:focus {
-            border-color: #80bdff;
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
-        }
-        
-        .btn-add {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-add:hover {
-            background-color: #218838;
-        }
-        
-        /* Estilos para el filtro de fechas */
-        .date-filter {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .date-filter label {
-            font-weight: 500;
-            color: #495057;
-        }
-        
-        .date-select {
-            padding: 8px 15px;
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            background-color: white;
-        }
-
-        /* Menú horizontal */
-        .horizontal-menu {
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
-            color: white;
-            padding: 0 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Estilos para el menú horizontal */
+        .new-horizontal-menu {
+            background: linear-gradient(135deg, #003366, #004080);
             position: sticky;
-            top: 60px;
-            z-index: 900;
-            overflow-x: auto;
+            top: 80px; /* Ajustar según altura del header */
+            z-index: 1000;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
-
-        .horizontal-menu-container {
-            display: flex;
+        
+        .new-menu-container {
             max-width: 1200px;
             margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            padding: 0 20px;
         }
-
-        .menu-item {
+        
+        .new-menu-item {
             padding: 15px 20px;
-            cursor: pointer;
-            position: relative;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+            color: white;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            position: relative;
+            transition: all 0.3s ease;
         }
-
-        .menu-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        
+        .new-menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-
-        .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
+        
+        .new-menu-item.active {
+            background: rgba(255, 255, 255, 0.2);
         }
-
-        .menu-item.active::after {
+        
+        .new-menu-item.active::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 3px;
-            background: #4ecdc4;
+            background: #FFD700;
         }
-
-        .menu-item i {
+        
+        .new-menu-item i {
             font-size: 16px;
         }
-
-        /* Scroll personalizado para el menú horizontal */
-        .horizontal-menu::-webkit-scrollbar {
-            height: 6px;
+        
+        /* Scroll personalizado */
+        .new-menu-container::-webkit-scrollbar {
+            height: 5px;
         }
-
-        .horizontal-menu::-webkit-scrollbar-track {
+        
+        .new-menu-container::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.1);
         }
-
-        .horizontal-menu::-webkit-scrollbar-thumb {
+        
+        .new-menu-container::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.3);
             border-radius: 3px;
         }
-
-        .horizontal-menu::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
+        
+        /* Ajuste para el header */
+        header {
+            position: relative;
+            z-index: 1001;
         }
     </style>
 </head>
-<body>
-    <!-- Barra superior con título y botones -->
-    <div class="top-bar">
-        <div class="top-title">
-            <i class="fas fa-book"></i> Bitácora 
-        </div>
-        <div class="top-actions">
-            <button class="top-btn admin-btn" onclick="window.location.href='{% url 'admin:index' %}'">
-                <i class="fas fa-cog"></i> Administración
-            </button>
-            <button id="logoutButton" class="top-btn logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-            </button>
-        </div>
-    </div>
 
-    <!-- Menú horizontal -->
-    <div class="horizontal-menu">
-        <div class="horizontal-menu-container">
-            <div class="menu-item active" data-target="registro">
-                <i class="fas fa-plus-circle"></i> Nuevo Registro
-            </div>
-            <div class="menu-item" data-target="importar">
-                <i class="fas fa-file-import"></i> Importar Datos
-            </div>
-            <div class="menu-item" data-target="bitacora">
-                <i class="fas fa-book"></i> Registros
-            </div>
-            <div class="menu-item" data-target="graficos">
-                <i class="fas fa-chart-line"></i> Gráficos
+<body class="div">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="{% static 'hola/img/logo.png' %}" alt="Logo Agua Viva" width="100" height="50">
+        </div>
+        
+        <div class="desplegar">
+            <button id="loginButton" class="aqua-btn">Iniciar Sesión</button>
+            <div id="loginForm" class="Dcontenido">
+                <form method="POST" action="{% url 'index' %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" placeholder="Usuario" required>
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                    <button type="submit">Entrar <i class="fas fa-arrow-right"></i></button>
+                    {% if error %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endif %}
+                </form>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Contenido principal -->
-    <div class="contenido-principal">
-        <div class="container">
-            <!-- Sección para añadir nuevos registros -->
-            <div id="registro" class="contenido-opcion activo">
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-plus-circle"></i> Añadir Registro</h2>
-                    </div>
-                    <div class="card-body">
-                        <form id="addForm" class="add-form">
-                            {% csrf_token %}
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="fecha"><i class="far fa-calendar-alt"></i> Fecha</label>
-                                    <input type="date" id="fecha" name="fecha" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vol_g"><i class="fas fa-water"></i> Vol. G.</label>
-                                    <input type="number" step="0.01" id="vol_g" name="vol_g" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vol_agregado"><i class="fas fa-tint"></i> Vol. Agregado (m³)</label>
-                                    <input type="number" step="0.01" id="vol_agregado" name="vol_agregado" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vol_total"><i class="fas fa-chart-bar"></i> V total (m³)</label>
-                                    <input type="number" step="0.01" id="vol_total" name="vol_total" class="form-control" required>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn-add">
-                                <i class="fas fa-save"></i> Guardar Registro
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección para importar datos -->
-            <div id="importar" class="contenido-opcion">
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-file-import"></i> Importar Datos</h2>
-                    </div>
-                    <div class="card-body">
-                        <form action="{% url 'importar_excel' %}" method="post" enctype="multipart/form-data" class="upload-form">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="archivo_excel">
-                                    <i class="fas fa-file-excel"></i> Seleccionar archivo Excel
-                                </label>
-                                <div class="file-upload-container" id="fileUploadContainer">
-                                    <input type="file" name="archivo_excel" id="archivo_excel" class="file-input" accept=".xlsx">
-                                    <div class="file-upload-area">
-                                        <p class="file-info" id="fileInfo">Arrastra tu archivo aquí o haz clic para seleccionar</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn-submit">
-                                <i class="fas fa-upload"></i> Importar Datos
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección de bitácora -->
-            <div id="bitacora" class="contenido-opcion">
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-filter"></i> Filtrar por Fecha</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="date-filter">
-                            <label for="yearFilter">Año:</label>
-                            <select id="yearFilter" class="date-select">
-                                <option value="">Todos los años</option>
-                                {% for year in years %}
-                                <option value="{{ year }}">{{ year }}</option>
-                                {% endfor %}
-                            </select>
-                            
-                            <label for="monthFilter">Mes:</label>
-                            <select id="monthFilter" class="date-select">
-                                <option value="">Todos los meses</option>
-                                <option value="1">Enero</option>
-                                <option value="2">Febrero</option>
-                                <option value="3">Marzo</option>
-                                <option value="4">Abril</option>
-                                <option value="5">Mayo</option>
-                                <option value="6">Junio</option>
-                                <option value="7">Julio</option>
-                                <option value="8">Agosto</option>
-                                <option value="9">Septiembre</option>
-                                <option value="10">Octubre</option>
-                                <option value="11">Noviembre</option>
-                                <option value="12">Diciembre</option>
-                            </select>
-                            
-                            <button id="applyFilter" class="btn-refresh">
-                                <i class="fas fa-filter"></i> Aplicar Filtro
-                            </button>
-                            <button id="resetFilter" class="btn-cancel">
-                                <i class="fas fa-times"></i> Limpiar Filtros
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-book"></i> Registro de Bitácora</h2>
-                        <div class="card-actions">
-                            <button class="btn-refresh" id="refreshData">
-                                <i class="fas fa-sync-alt"></i> Actualizar
-                            </button>
-                            <button class="btn-export" id="exportExcel">
-                                <i class="fas fa-file-export"></i> Exportar
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive tabla-container">
-                            <table id="tablaBitacoras" class="display">
-                                <thead>
-                                    <tr>
-                                        <th><i class="far fa-calendar-alt"></i> Fecha</th>
-                                        <th><i class="fas fa-water"></i> Vol. G.</th>
-                                        <th><i class="fas fa-tint"></i> Vol. Agregado (m³)</th>
-                                        <th><i class="fas fa-chart-bar"></i> V total (m³)</th>
-                                        <th><i class="fas fa-cog"></i> Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for registro in bitacoras %}
-                                    <tr>
-                                        <td>{{ registro.fecha|date:"Y-m-d" }}</td>
-                                        <td>{{ registro.vol_g }}</td>
-                                        <td>{{ registro.vol_agregado_m3 }}</td>
-                                        <td>{{ registro.v_total_m3 }}</td>
-                                        <td>
-                                            <button class="btn-action btn-edit" data-id="{{ registro.id }}"><i class="fas fa-edit"></i></button>
-                                            <button class="btn-action btn-delete" data-id="{{ registro.id }}"><i class="fas fa-trash-alt"></i></button>
-                                        </td>
-                                    </tr>
-                                    {% empty %}
-                                    <tr>
-                                        <td colspan="5" class="no-data">No hay registros en la bitácora.</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección de gráficos -->
-            <div id="graficos" class="contenido-opcion">
-                <div class="card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-chart-line"></i> Visualización de Datos</h2>
-                        <div class="card-actions">
-                            <button id="actualizarGraficos" class="btn-refresh">
-                                <i class="fas fa-sync-alt"></i> Actualizar Gráficos
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-grid">
-                            <div class="chart-container">
-                                <div id="grafico_volumen" class="chart"></div>
-                            </div>
-                            <div class="chart-container">
-                                <div id="grafico_comparativo" class="chart"></div>
-                            </div>
-                            <div class="chart-container">
-                                <div id="grafico_relacion" class="chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Nuevo Menú horizontal -->
+    <div class="new-horizontal-menu">
+        <div class="new-menu-container">
+            <a href="#inicio" class="new-menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#triptico" class="new-menu-item">
+                <i class="fas fa-th-large"></i>
+                <span>Tríptico</span>
+            </a>
+            <a href="#avisos" class="new-menu-item">
+                <i class="fas fa-bullhorn"></i>
+                <span>Avisos</span>
+            </a>
+            <a href="#galeria" class="new-menu-item">
+                <i class="fas fa-images"></i>
+                <span>Galería</span>
+            </a>
+            <a href="#linea-tiempo" class="new-menu-item">
+                <i class="fas fa-history"></i>
+                <span>Línea de Tiempo</span>
+            </a>
+            <a href="#videos" class="new-menu-item">
+                <i class="fas fa-video"></i>
+                <span>Videos</span>
+            </a>
         </div>
     </div>
 
-    <!-- Notificación Toast -->
-    <div id="toast" class="toast">
-        <div class="toast-content">
-            <i class="fas fa-check-circle toast-icon"></i>
-            <div class="toast-message">Operación realizada con éxito</div>
-        </div>
-    </div>
+    <!-- Resto de tu contenido HTML permanece igual -->
+    <section id="inicio" class="b-hero__img">
+        <!-- ... resto de tu contenido ... -->
+    </section>
 
-    <!-- Script para funcionalidades -->
+    <!-- Script para el menú -->
     <script>
-    $(document).ready(function() {
-        // Manejo del menú horizontal
-        $('.menu-item').click(function() {
-            const target = $(this).data('target');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleccionar todos los elementos del menú
+            const menuItems = document.querySelectorAll('.new-menu-item');
             
-            // Actualizar menú activo
-            $('.menu-item').removeClass('active');
-            $(this).addClass('active');
-            
-            // Mostrar solo el contenido seleccionado
-            $('.contenido-opcion').removeClass('activo');
-            $(`#${target}`).addClass('activo');
-            
-            // Redimensionar gráficos si es necesario
-            if (target === 'graficos') {
-                setTimeout(() => {
-                    echarts.getInstanceByDom(document.getElementById('grafico_volumen'))?.resize();
-                    echarts.getInstanceByDom(document.getElementById('grafico_comparativo'))?.resize();
-                    echarts.getInstanceByDom(document.getElementById('grafico_relacion'))?.resize();
-                }, 300);
-            }
-        });
-
-        // Inicializar DataTable
-        const tabla = $('#tablaBitacoras').DataTable({
-            "language": {
-                "lengthMenu": "Mostrar _MENU_ registros por página",
-                "zeroRecords": "No se encontraron registros",
-                "info": "Mostrando página _PAGE_ de _PAGES_",
-                "infoEmpty": "No hay registros disponibles",
-                "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                "search": "Buscar:",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            },
-            "responsive": true,
-            "autoWidth": false,
-            "order": [[0, "desc"]]
-        });
-
-        // Función para cargar gráficos
-        function cargarGraficas() {
-            const datos = tabla.rows({search: 'applied'}).data().toArray();
-            
-            const fechas = datos.map(d => d[0]);
-            const volG = datos.map(d => parseFloat(d[1]) || 0);
-            const volAgregado = datos.map(d => parseFloat(d[2]) || 0);
-            const volTotal = datos.map(d => parseFloat(d[3]) || 0);
-
-            // 1. Gráfico de Volumen Total
-            const graficoVolumen = echarts.init(document.getElementById('grafico_volumen'));
-            graficoVolumen.setOption({
-                title: { text: 'Volumen Total (m³)', left: 'center' },
-                tooltip: { trigger: 'axis' },
-                xAxis: { 
-                    type: 'category', 
-                    data: fechas,
-                    axisLabel: { rotate: 45 }
-                },
-                yAxis: { type: 'value', name: 'm³' },
-                series: [{ 
-                    name: 'Volumen Total', 
-                    type: 'line', 
-                    data: volTotal,
-                    smooth: true,
-                    lineStyle: { width: 3 },
-                    itemStyle: { color: '#3498db' }
-                }]
-            });
-
-            // 2. Gráfico comparativo
-            const graficoComparativo = echarts.init(document.getElementById('grafico_comparativo'));
-            graficoComparativo.setOption({
-                title: { text: 'Comparación Volúmenes', left: 'center' },
-                tooltip: { trigger: 'axis' },
-                legend: { data: ['Vol. G.', 'Vol. Agregado'], bottom: 0 },
-                xAxis: { 
-                    type: 'category', 
-                    data: fechas,
-                    axisLabel: { rotate: 45 }
-                },
-                yAxis: { type: 'value', name: 'm³' },
-                series: [
-                    {
-                        name: 'Vol. G.',
-                        type: 'bar',
-                        data: volG,
-                        itemStyle: { color: '#2ecc71' }
-                    },
-                    {
-                        name: 'Vol. Agregado',
-                        type: 'bar',
-                        data: volAgregado,
-                        itemStyle: { color: '#e74c3c' }
+            // Función para actualizar el menú activo
+            function setActiveMenuItem() {
+                const scrollPosition = window.scrollY + 100;
+                
+                // Recorrer todas las secciones
+                document.querySelectorAll('section[id]').forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    const sectionId = section.getAttribute('id');
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        // Remover clase active de todos los items
+                        menuItems.forEach(item => item.classList.remove('active'));
+                        
+                        // Añadir clase active al item correspondiente
+                        document.querySelector(`.new-menu-item[href="#${sectionId}"]`).classList.add('active');
                     }
-                ]
-            });
-
-            // 3. Gráfico de relación
-            const graficoRelacion = echarts.init(document.getElementById('grafico_relacion'));
-            graficoRelacion.setOption({
-                title: { text: 'Relación Vol. Agregado vs Vol. Total', left: 'center' },
-                tooltip: { trigger: 'item' },
-                xAxis: { type: 'value', name: 'Vol. Agregado (m³)' },
-                yAxis: { type: 'value', name: 'Vol. Total (m³)' },
-                series: [{ 
-                    name: 'Relación', 
-                    type: 'scatter', 
-                    data: volAgregado.map((v, i) => [v, volTotal[i]]),
-                    symbolSize: 10,
-                    itemStyle: { color: '#9b59b6' }
-                }]
-            });
-
-            window.addEventListener('resize', function() {
-                graficoVolumen.resize();
-                graficoComparativo.resize();
-                graficoRelacion.resize();
-            });
-        }
-
-        // Cargar gráficos cuando se accede a la pestaña
-        $('.menu-item[data-target="graficos"]').click(function() {
-            if (!echarts.getInstanceByDom(document.getElementById('grafico_volumen'))) {
-                cargarGraficas();
+                });
             }
-        });
-
-        // Botón para actualizar gráficos
-        $('#actualizarGraficos').click(function() {
-            $(this).html('<i class="fas fa-spinner fa-spin"></i> Actualizando...');
-            setTimeout(() => {
-                cargarGraficas();
-                $(this).html('<i class="fas fa-sync-alt"></i> Actualizar Gráficos');
-                showToast('Gráficos actualizados');
-            }, 500);
-        });
-
-        // Botón de actualizar datos
-        $('#refreshData').click(function() {
-            $(this).html('<i class="fas fa-spinner fa-spin"></i> Actualizando...');
-            setTimeout(() => {
-                location.reload();
-            }, 500);
-        });
-
-        // Botón de exportar (simulado)
-        $('#exportExcel').click(function() {
-            $(this).html('<i class="fas fa-spinner fa-spin"></i> Exportando...');
-            setTimeout(() => {
-                $(this).html('<i class="fas fa-file-export"></i> Exportar');
-                showToast('Datos exportados correctamente');
-            }, 1000);
-        });
-
-        // Formulario para añadir nuevo registro
-        $('#addForm').submit(function(e) {
-            e.preventDefault();
             
-            const btn = $(this).find('button[type="submit"]');
-            btn.html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
+            // Escuchar eventos de scroll
+            window.addEventListener('scroll', setActiveMenuItem);
             
-            $.ajax({
-                url: "{% url 'agregar_registro' %}",
-                type: "POST",
-                data: $(this).serialize(),
-                success: function(response) {
-                    if (response.success) {
-                        $('#addForm')[0].reset();
-                        showToast('Registro añadido correctamente');
-                        setTimeout(() => location.reload(), 1000);
-                    } else {
-                        showToast(response.error || 'Error al guardar', 'error');
+            // Configurar scroll suave para los enlaces del menú
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80, // Ajuste para el header
+                            behavior: 'smooth'
+                        });
                     }
-                },
-                error: function() {
-                    showToast('Error de conexión', 'error');
-                },
-                complete: function() {
-                    btn.html('<i class="fas fa-save"></i> Guardar Registro');
-                }
+                });
             });
+            
+            // Ejecutar al cargar la página
+            setActiveMenuItem();
         });
-
-        // Filtrado por fecha
-        $('#applyFilter').click(function() {
-            const year = $('#yearFilter').val();
-            const month = $('#monthFilter').val();
-            
-            let searchTerm = '';
-            
-            if (year) {
-                searchTerm += '^'+year; // Busca al inicio del string (formato YYYY-MM-DD)
-            }
-            
-            if (month) {
-                const monthStr = month.padStart(2, '0');
-                searchTerm += (searchTerm ? '-' : '') + monthStr;
-            }
-            
-            tabla.column(0).search(searchTerm, true, false).draw();
-            
-            // Si estamos en la pestaña de gráficos, actualizarlos
-            if ($('#graficos').hasClass('activo')) {
-                cargarGraficas();
-            }
-        });
-
-        // Limpiar filtros
-        $('#resetFilter').click(function() {
-            $('#yearFilter').val('');
-            $('#monthFilter').val('');
-            tabla.column(0).search('').draw();
-            
-            // Si estamos en la pestaña de gráficos, actualizarlos
-            if ($('#graficos').hasClass('activo')) {
-                cargarGraficas();
-            }
-        });
-
-        // Función para mostrar notificaciones
-        function showToast(message, type = 'success') {
-            const toast = $('#toast');
-            toast.find('.toast-message').text(message);
-            toast.removeClass().addClass('toast show ' + type);
-            setTimeout(() => toast.removeClass('show'), 3000);
-        }
-
-        // Manejo del logout
-        $('#logoutButton').click(function() {
-            $.ajax({
-                url: "{% url 'logout' %}",
-                type: "POST",
-                data: {
-                    csrfmiddlewaretoken: "{{ csrf_token }}"
-                },
-                success: function(response) {
-                    if (response.success) {
-                        window.location.href = "{% url 'index' %}";
-                    } else {
-                        showToast('Error al cerrar sesión', 'error');
-                    }
-                },
-                error: function() {
-                    showToast('Error de conexión', 'error');
-                }
-            });
-        });
-
-        // Manejo de la subida de archivos
-        $('#archivo_excel').change(function() {
-            const fileName = $(this).val().split('\\').pop();
-            if (fileName) {
-                $('#fileInfo').html(`<i class="fas fa-file-excel"></i> ${fileName}`);
-            } else {
-                $('#fileInfo').text('Formato soportado: .xlsx');
-            }
-        });
-    });
     </script>
+
+    <!-- Resto de tus scripts -->
+    <script src="{% static 'hola/js/login.js' %}"></script>
+    
+    {% if evento %}
+    <!-- ... resto de tus scripts ... -->
+    {% endif %}
 </body>
 </html>
