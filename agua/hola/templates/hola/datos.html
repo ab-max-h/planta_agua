@@ -302,7 +302,7 @@
 
             <!-- Sección para importar datos -->
             <div id="importar" class="contenido-opcion">
-                <div class="card">
+                 <div class="card">
                     <div class="card-header">
                         <h2><i class="fas fa-file-import"></i> Importar Datos</h2>
                     </div>
@@ -311,12 +311,11 @@
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="archivo_excel">
-                                    <i class="fas fa-file-excel"></i> Seleccionar archivo Excel
                                 </label>
                                 <div class="file-upload-container" id="fileUploadContainer">
-                                    <input type="file" name="archivo_excel" id="archivo_excel" class="file-input" accept=".xlsx">
+                                    <i class="fas fa-file-excel"></i><input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx">
                                     <div class="file-upload-area">
-                                        <p class="file-info" id="fileInfo">Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                                        <p class="file-info" id="fileInfo">Formato soportado: .xlsx</p>
                                     </div>
                                 </div>
                             </div>
