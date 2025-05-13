@@ -286,41 +286,44 @@
                     </div>
 
                     <div class="gallery-container">
-                        <div class="gallery-track">
-                            {% for item in galeria %}
-                                <div class="gallery-item animate-slideUp">
-                                    <div class="image-container">
-                                        {% if item.es_video %}
-                                            {% if item.enlace_externo %}
-                                                <div class="video-container">
-                                                    <iframe src="{{ item.enlace_externo }}" allowfullscreen></iframe>
-                                                </div>
-                                            {% else %}
-                                                <video controls class="gallery-image">
-                                                    <source src="{{ item.contenido.url }}" type="video/mp4">
-                                                    Tu navegador no soporta video.
-                                                </video>
-                                            {% endif %}
-                                        {% else %}
-                                            <img src="{{ item.contenido.url }}" alt="{{ item.titulo }}" class="gallery-image">
-                                        {% endif %}
-                                        <div class="image-overlay">
-                                            <div class="overlay-content">
-                                                <h3>{{ item.titulo }}</h3>
-                                                <div class="divider"></div>
-                                                <p>{{ item.fecha_publicacion|date:"d M Y" }}</p>
-                                                <button class="view-btn pulse">
-                                                    <span>Ampliar</span>
-                                                    <i class="fas fa-expand"></i>
-                                                </button>
-                                            </div>
-                                            <div class="corner-decoration"></div>
-                                        </div>
+            <div class="gallery-track">
+                {% for item in galeria %}
+                    <div class="gallery-item animate-slideUp">
+                        <div class="image-container">
+                            {% if item.es_video %}
+                                {% if item.enlace_externo %}
+                                    <div class="video-container">
+                                        <iframe src="{{ item.enlace_externo }}" allowfullscreen></iframe>
                                     </div>
+                                {% else %}
+                                    <video class="gallery-video" preload="metadata">
+                                        <source src="{{ item.contenido.url }}" type="video/mp4">
+                                        Tu navegador no soporta video.
+                                    </video>
+                                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                                {% endif %}
+                            {% else %}
+                                <img src="{{ item.contenido.url }}" alt="{{ item.titulo }}" class="gallery-image">
+                            {% endif %}
+                            <div class="image-overlay">
+                                <div class="overlay-content">
+                                    <h3>{{ item.titulo }}</h3>
+                                    <div class="divider"></div>
+                                    <p>{{ item.fecha_publicacion|date:"d M Y" }}</p>
+                                    <button class="view-btn pulse">
+                                        <span>{% if item.es_video %}Reproducir{% else %}Ampliar{% endif %}</span>
+                                        <i class="fas {% if item.es_video %}fa-play{% else %}fa-expand{% endif %}"></i>
+                                    </button>
                                 </div>
-                            {% endfor %}
+                                <div class="corner-decoration"></div>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+                    <div class="gallery-pagination">
+            <!-- Los puntos se generarán con JS -->
+        </div>
 
                     <div class="gallery-controls">
                         <button id="prevBtn" class="control-btn float">
@@ -333,6 +336,22 @@
                 </div>
             </div>
         </section>
+        
+          <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modalMediaContainer"></div>
+            <div id="modalCaption" class="modal-caption"></div>
+        </div>
+    </div>
+<!-- Modal para imágenes ampliadas -->
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img id="modalImage" class="modal-image">
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
+</div>
 
         <!-- Sección Línea de Tiempo -->
         <section id="linea-tiempo-content" class="accordion-content">
