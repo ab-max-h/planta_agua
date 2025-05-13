@@ -259,7 +259,30 @@
             </div>
         </div>
     </div>
-
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+            $(document).ready(function() {
+                $("#logoutButton").click(function() {
+                    $.ajax({
+                        url: "{% url 'logout' %}",
+                        type: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}"
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                window.location.href = "{% url 'index' %}";  // Redirige al inicio
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert("Error al cerrar sesión. Intenta nuevamente.");
+                        }
+                    });
+                });
+            });
+            </script>
     <!-- Contenido principal -->
     <div class="contenido-principal">
         <div class="container">
