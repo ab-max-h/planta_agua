@@ -11,7 +11,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = []
 
-SECRET_KEY = os.enviro.get("SECRET_KEY", default="holahoadiosadios")
+SECRET_KEY = os.environ.get("SECRET_KEY", default="holahoadiosadios")
 DEBUG = "RENDER" not in os.environ
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
