@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'agua.urls'
+ROOT_URLCONF = 'agua.agua.urls'
 
 TEMPLATES = [
     {
@@ -60,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'agua.wsgi.application'
+WSGI_APPLICATION = 'agua.agua.wsgi.application'
 
 DATABASES = {
     'default': {
