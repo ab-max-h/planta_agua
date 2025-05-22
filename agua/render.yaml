@@ -2,13 +2,11 @@ services:
   - type: web
     name: planta-agua
     env: python
-    buildCommand: "./agua/build.sh"
-    startCommand: "gunicorn agua.agua.wsgi:application"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn agua.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: agua.settings
-  envVars:
-    - key: DJANGO_SETTINGS_MODULE
-      value: agua.agua.settings
-    - key: DEBUG
-      value: "FALSE"
+      - key: DATABASE_URL
+        value: <url-de-tu-base-datos>  # o usa SQLite si es un proyecto ligero
+
