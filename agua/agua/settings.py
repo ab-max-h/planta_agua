@@ -6,6 +6,8 @@ Django settings for agua project.
 import os
 from pathlib import Path
 
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = []
 
