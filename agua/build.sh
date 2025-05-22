@@ -4,5 +4,8 @@ set -o errexit
 
 pip install -r requirements.txt
 
-python agua/manage.py collectstatic --no-input
-python agua/manage.py migrate
+cd $(dirname "$0")
+
+python manage.py migrate
+
+python manage.oy collectstatic --no-input
