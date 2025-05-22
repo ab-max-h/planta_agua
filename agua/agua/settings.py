@@ -1,3 +1,4 @@
+import os
 """
 Django settings for agua project.
 """
@@ -6,10 +7,15 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = 'django-insecure-b)h_3dh10-vl#gd#!pkuzicr@dd)(%#%=xzh2$%yz=pbjhv%o9'
-DEBUG = True
 ALLOWED_HOSTS = []
+
+SECRET_KEY = os.enviro.get("SECRET_KEY", default="holahoadiosadios")
+DEBUG = "RENDER" not in os.environ
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 INSTALLED_APPS = [
     'hola',
@@ -24,6 +30,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.security.SecurityMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -92,6 +99,11 @@ SHORT_DATE_FORMAT = 'Y-m-d'
 DATE_FORMAT = 'Y-m-d'
 
 STATIC_URL = '/static/'
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'hola/static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
