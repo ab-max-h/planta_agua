@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: planta-agua
+    env: python
+    buildCommand: "./agua/build.sh"
+    startCommand: "gunicorn agua.agua.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: agua.settings
+
